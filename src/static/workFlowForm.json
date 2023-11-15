@@ -1,0 +1,843 @@
+{
+  "title": "Specimen Preparation Protocol Builder",
+  "help": [
+    {
+      "question": "What is this?",
+      "answer": "This is a prototype widget to facilitate the entry of specimen protocol information in the EMPIAR deposition system. We would like to test: a) how easy it is to use and what additional functionality is required to build protocols and b) if there are specimen preparation steps or information that we have missed or inadequately represented."
+    },
+    {
+      "question": "What do you want us to do with it?",
+      "answer": "We want you to try using the widget to specify a real specimen preparation protocol you have used in a study and to tell us whether there were any usability issues and how well the protocol steps could be captured."
+    }
+  ],
+  "behaviours": [],
+  "horizontalmenus": [
+    {
+      "name": "CHEMICAL FIXATION",
+      "key": "1",
+      "cardkey": "cf",
+      "color": "#03A9F4"
+    },
+    {
+      "name": "PLUNGE FREEZING",
+      "key": "2",
+      "cardkey": "pf",
+      "color": "#03A9F4"
+    },
+    {
+      "name": "HIGH PRESSURE FREEZING",
+      "key": "3",
+      "cardkey": "hpf",
+      "color": "#03A9F4"
+    },
+    {
+      "name": "STAINING",
+      "key": "4",
+      "cardkey": "sta",
+      "color": "#00BCD4"
+    },
+    {
+      "name": "DEHYDRATION",
+      "key": "5",
+      "cardkey": "deh",
+      "color": "#009688"
+    },
+    {
+      "name": "RINSING",
+      "key": "6",
+      "cardkey": "rin",
+      "color": "#4CAF50"
+    },
+    {
+      "name": "INFILTRATION",
+      "key": "7",
+      "cardkey": "inf",
+      "color": "#8BC34A"
+    },
+    {
+      "name": "INCUBATION",
+      "key": "8",
+      "cardkey": "inc",
+      "color": "#C0CA33"
+    },
+    {
+      "name": "OVEN CURING",
+      "key": "9",
+      "cardkey": "oc",
+      "color": "#2196F3"
+    },
+    {
+      "name": "UV POLYMERISATION",
+      "key": "10",
+      "cardkey": "uvp",
+      "color": "#2196F3"
+    },
+    {
+      "name": "FREEZE SUBSTITUTION",
+      "key": "11",
+      "cardkey": "fs",
+      "color": "#ff8c00 "
+    }
+  ],
+  "horizontalsubmenus": {
+    "1": {
+      "name": "Chemical",
+      "key": "1",
+      "color": "#03A9F4"
+    },
+    "2": {
+      "name": "Plunge Freezing",
+      "key": "7",
+      "color": "#03A9F4"
+    },
+    "3": {
+      "name": "High Pressure Freezing",
+      "key": "8",
+      "color": "#03A9F4"
+    },
+    "4": {
+      "name": "Freeze Substitution",
+      "key": "9",
+      "color": "#3F51B5"
+    },
+    "5": {
+      "name": "Dehydration",
+      "key": "3",
+      "color": "#3F51B5"
+    },
+    "6": {
+      "name": "Oven Curing",
+      "key": "10",
+      "color": "#3F51B5"
+    },
+    "7": {
+      "name": "UV Polymerisation",
+      "key": "9",
+      "color": "#3F51B5"
+    }
+  },
+  "cards": {
+    "1": {
+      "name": "FIXATION",
+      "info": "Parameters describing fixation",
+      "controls": {
+        "onetoonecontrols": [
+          "ph",
+          "temperaturewithunit",
+          "durationwithunit",
+          "repeats",
+          "notes",
+          "safety"
+        ],
+        "onetomanycontrols": [
+          {
+            "label": "MEDIUM",
+            "name": "medium",
+            "controls": ["medium", "solvent", "concentrationwithunit"]
+          }
+        ]
+      }
+    },
+    "2": {
+      "name": "STAINING",
+      "info": "Parameters describing staining procedure",
+      "controls": {
+        "onetoonecontrols": [
+          "ph",
+          "temperaturewithunit",
+          "durationwithunit",
+          "notes",
+          "safety"
+        ],
+        "onetomanycontrols": [
+          {
+            "label": "MEDIUM",
+            "name": "medium",
+            "controls": ["medium", "solvent", "concentrationwithunit"]
+          }
+        ]
+      }
+    },
+    "3": {
+      "name": "DEHYDRATION",
+      "info": "Parameters describing dehydration procedure usually preceding resin embedding. We describe this as Medium 1 (usually buffer or water) being replaced by Medium 2 (usually some alcohol) with stepwise increasing concentrations.",
+      "controls": {
+        "onetoonecontrols": [
+          "medium1",
+          "medium2",
+          "instrument",
+          "temperaturewithunit",
+          "notes",
+          "safety"
+        ],
+        "onetomanycontrols": [
+          {
+            "label": "REAGENT",
+            "name": "medium",
+            "controls": ["count", "concentrationwithunit", "durationwithunit"]
+          }
+        ]
+      }
+    },
+    "4": {
+      "name": "RINSING",
+      "info": "Parameters describing washing procedure.",
+      "controls": {
+        "onetoonecontrols": [
+          "ph",
+          "temperaturewithunit",
+          "durationwithunit",
+          "repeats",
+          "notes",
+          "safety"
+        ],
+        "onetomanycontrols": [
+          {
+            "label": "MEDIUM CONCENTRATION",
+            "name": "medium",
+            "controls": ["medium", "solvent", "concentrationwithunit"]
+          }
+        ]
+      }
+    },
+    "5": {
+      "name": "INFILTRATION",
+      "info": "Infiltration procedure which usually involves initial medium(usually an alcohol) being replaced by final medium(usually a plastic resin) in a series of steps.",
+      "controls": {
+        "onetoonecontrols": [
+          "instrument",
+          "instrumentwatttage",
+          "instrumentramp",
+          "instrumentspeed",
+          "medium1",
+          "notes",
+          "safety"
+        ],
+        "onetomanycontrols": [
+          {
+            "label": "FINAL MEDIUM",
+            "name": "medium",
+            "controls": ["medium", "solvent", "weightwithunit"]
+          },
+          {
+            "label": "INFILTRATION PROCEDURE",
+            "name": "infiltration_procedure",
+            "controls": [
+              "count",
+              "concentrationwithunit",
+              "durationwithunit",
+              "starttemperaturewithunit",
+              "endtemperaturewithunit"
+            ]
+          }
+        ]
+      }
+    },
+    "6": {
+      "name": "INCUBATION",
+      "info": "Parameters describing incubation procedure to harden resin to plastic",
+      "controls": {
+        "onetoonecontrols": [
+          "temperaturewithunit",
+          "durationwithunit",
+          "concentrationwithunit",
+          "notes",
+          "safety"
+        ],
+        "onetomanycontrols": [
+          {
+            "label": "MEDIUM",
+            "name": "medium",
+            "controls": ["medium", "solvent", "concentrationwithunit"]
+          }
+        ]
+      }
+    },
+    "7": {
+      "name": "PLUNGE FREEZING",
+      "info": "The process of the sample being plunged into a cryogen like liquid ethane or propane (or amixture) to freeze it rapidly.",
+      "controls": {
+        "onetoonecontrols": [
+          "instrument",
+          "instrumentwatttage",
+          "instrumentramp",
+          "instrumentspeed",
+          "chamberhumitdity",
+          "chambertemperaturewithunit",
+          "cryogentemperaturewithunit",
+          "notes",
+          "safety"
+        ],
+        "onetomanycontrols": [
+          {
+            "label": "CRYOGEN COMPOSITION",
+            "name": "cryogen_composition",
+            "controls": ["material", "proportion"]
+          }
+        ]
+      }
+    },
+    "8": {
+      "name": "HIGH PRESSURE FREEZING",
+      "info": "The process of the sample being plunged into a cryogen like liquid ethane or propane (or amixture) to freeze it rapidly",
+      "controls": {
+        "onetoonecontrols": [
+          "pressurewithunit",
+          "durationwithunit",
+          "borediameter",
+          "boredepth",
+          "instrument",
+          "instrumentwatttage",
+          "instrumentramp",
+          "instrumentspeed",
+          "notes",
+          "safety"
+        ],
+        "onetomanycontrols": [
+          {
+            "label": "FILL MEDIUM",
+            "name": "medium",
+            "controls": ["medium", "solvent", "concentrationwithunit"]
+          },
+          {
+            "label": "COATING MEDIUM",
+            "name": "medium",
+            "controls": ["medium", "solvent", "concentrationwithunit"]
+          }
+        ]
+      }
+    },
+    "9": {
+      "name": "FREEZE SUBSTITUTION",
+      "info": "Low temperature fixation and substitution of water in sample with gradual warm up procedure",
+      "controls": {
+        "onetoonecontrols": [
+          "instrument",
+          "instrumentwatttage",
+          "instrumentramp",
+          "instrumentspeed",
+          "notes",
+          "safety"
+        ],
+        "onetomanycontrols": [
+          {
+            "label": "FIXATION MEDIUM",
+            "name": "medium",
+            "controls": ["medium", "solvent", "concentrationwithunit"]
+          },
+          {
+            "label": "WARMING PROCEDURE",
+            "name": "warming_procedure",
+            "controls": [
+              "temperatureramp",
+              "starttemperaturewithunit",
+              "endtemperaturewithunit",
+              "durationwithunit"
+            ]
+          }
+        ]
+      }
+    },
+    "10": {
+      "name": "UV POLYMERISATION",
+      "info": "A resin embedded sample is exposed to UV light to induce polymerisation so that the sample is trapped in solid plastic",
+      "controls": {
+        "onetoonecontrols": [
+          "instrument",
+          "instrumentwatttage",
+          "instrumentramp",
+          "instrumentspeed",
+          "notes",
+          "safety"
+        ],
+        "onetomanycontrols": [
+          {
+            "label": "WARMING PROCEDURE",
+            "name": "warming_procedure",
+            "controls": [
+              "starttemperaturewithunit",
+              "endtemperaturewithunit",
+              "durationwithunit"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "controlsinfo": {
+    "ph": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "pH",
+      "name": "ph",
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number",
+        "data-parsley-max": 14,
+        "data-parsley-min": 0
+      }
+    },
+    "temperaturewithunit": {
+      "type": "inputandselect",
+      "size": "medium",
+      "contenttype": "text",
+      "inputlabel": "Temperature",
+      "selectlabel": "Temperature Unit",
+      "inputname": "value",
+      "selectname": "units",
+      "name": "temperature",
+      "options": ["C", "K", "NA"],
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number",
+        "data-parsley-temperature": ""
+      }
+    },
+    "starttemperaturewithunit": {
+      "type": "inputandselect",
+      "size": "medium",
+      "contenttype": "text",
+      "inputlabel": "Start Temperature",
+      "selectlabel": "Start Temperature Unit",
+      "inputname": "value",
+      "selectname": "units",
+      "name": "start_temperature",
+      "options": ["C", "K", "NA"],
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number",
+        "data-parsley-temperature": ""
+      }
+    },
+    "endtemperaturewithunit": {
+      "type": "inputandselect",
+      "size": "medium",
+      "contenttype": "text",
+      "inputlabel": "End Temperature",
+      "selectlabel": "End Temperature Unit",
+      "inputname": "value",
+      "selectname": "units",
+      "name": "end_temperature",
+      "options": ["C", "K", "NA"],
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number",
+        "data-parsley-temperature": ""
+      }
+    },
+    "chambertemperaturewithunit": {
+      "type": "inputandselect",
+      "size": "medium",
+      "contenttype": "text",
+      "inputlabel": "Chamber Temperature",
+      "selectlabel": "Chamber Temperature Unit",
+      "inputname": "value",
+      "selectname": "units",
+      "name": "chamber_temperature",
+      "options": ["C", "K", "NA"],
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number",
+        "data-parsley-temperature": ""
+      }
+    },
+    "cryogentemperaturewithunit": {
+      "type": "inputandselect",
+      "size": "medium",
+      "contenttype": "text",
+      "inputlabel": "Cryogen Temperature",
+      "selectlabel": "Cryogen Temperature Unit",
+      "inputname": "value",
+      "selectname": "units",
+      "name": "cryogen_temperature",
+      "options": ["C", "K", "NA"],
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number",
+        "data-parsley-temperature": ""
+      }
+    },
+    "durationwithunit": {
+      "type": "inputandselect",
+      "size": "medium",
+      "contenttype": "text",
+      "inputlabel": "Duration",
+      "selectlabel": "Duration Unit",
+      "inputname": "value",
+      "selectname": "units",
+      "name": "duration",
+      "options": ["MIN", "HR", "NA"],
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number",
+        "min": 1
+      }
+    },
+    "concentrationwithunit": {
+      "type": "inputandselect",
+      "size": "medium",
+      "contenttype": "text",
+      "inputlabel": "Final Concentration",
+      "selectlabel": "Concentration Unit",
+      "inputname": "value",
+      "selectname": "units",
+      "name": "concentration",
+      "options": ["%", "%W/V", "M", "mg/ml", "NA"],
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number",
+        "data-parsley-concentration": ""
+      }
+    },
+    "weightwithunit": {
+      "type": "inputandselect",
+      "size": "medium",
+      "contenttype": "text",
+      "inputlabel": "Weight",
+      "selectlabel": "Weight Unit",
+      "inputname": "value",
+      "selectname": "units",
+      "name": "weight",
+      "options": ["mg", "g", "NA"],
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number",
+        "data-parsley-concentration": ""
+      }
+    },
+    "pressurewithunit": {
+      "type": "inputandselect",
+      "size": "medium",
+      "contenttype": "text",
+      "inputlabel": "Pressure",
+      "selectlabel": "Pressure Unit",
+      "inputname": "value",
+      "selectname": "units",
+      "name": "pressure",
+      "options": ["bar", "atm", "NA"],
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number"
+      }
+    },
+    "medium": {
+      "type": "select",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Chemical",
+      "name": "chemical",
+      "default": "Acetone",
+      "options": [
+        "Acetone",
+        "Acrolein",
+        "Araldite 502",
+        "Aspartic acid",
+        "BDMA",
+        "Calcium Chloride",
+        "DDSA",
+        "DER 736",
+        "Dimethylaminoethanol (DMAE)",
+        "DMP-30",
+        "Durcupan",
+        "EDTA",
+        "EGTA",
+        "Embed 812",
+        "Epon",
+        "Epon-Araldite",
+        "ERL 4221",
+        "ERL 4206",
+        "Ethanol",
+        "Glutaraldehyde",
+        "HEPES",
+        "Lead Acetate",
+        "Lead Aspartate",
+        "Lead Citrate",
+        "Lead Nitrate",
+        "Lowicryl HM20",
+        "Lowicryl HM23",
+        "Lowicryl K11M",
+        "Lowicryl K4M",
+        "LR Gold",
+        "LR White",
+        "Magnesium Chloride",
+        "Magnesium Sulphate",
+        "Malachite Green",
+        "NMA",
+        "Osmium Tetroxide",
+        "Paraformaldehyde",
+        "PIPES",
+        "PolyBed",
+        "Potassium Chloride",
+        "Potassium ferricyanide",
+        "Potassium ferrocyanide",
+        "Potassium permanganate",
+        "Potassium Phosphate",
+        "Propylene oxide",
+        "Resin",
+        "Ruthenium Red",
+        "Sodium cacodylate",
+        "Sodium Chloride",
+        "Sodium Phosphate (dibasic)",
+        "Sodium Phosphate (monobasic)",
+        "Spurrs",
+        "Sucrose",
+        "Tannic acid",
+        "Thiocarbohydrazide",
+        "Uranyl Acetate",
+        "NA"
+      ]
+    },
+    "solvent": {
+      "type": "select",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Solvent",
+      "name": "solvent",
+      "default": "Acetone",
+      "options": [
+        "Acetone",
+        "Ethanol",
+        "NA",
+        "Water",
+        "Double Distilled Water",
+        "Deionized water",
+        "NA"
+      ]
+    },
+    "medium1": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Medium 1",
+      "name": "medium1",
+      "validation": {
+        "required": ""
+      }
+    },
+    "resinreference": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Resin Reference",
+      "name": "resinreference",
+      "validation": {
+        "required": ""
+      }
+    },
+    "medium2": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Medium 2",
+      "name": "medium2",
+      "validation": {
+        "required": ""
+      }
+    },
+    "mouldseparatingagent": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Mould Separating Agent",
+      "name": "mould_separating_agent",
+      "validation": {
+        "required": ""
+      }
+    },
+    "details": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Details",
+      "name": "details",
+      "validation": {
+        "required": ""
+      }
+    },
+    "borediameter": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Bore/Planchette Diameter (in mm)",
+      "name": "bore_diameter",
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number"
+      }
+    },
+    "boredepth": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Bore Depth (in um)",
+      "name": "bore_depth",
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number"
+      }
+    },
+    "chamberhumitdity": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Chamber Humitdity (in %)",
+      "name": "chamber_humitdity",
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number",
+        "data-parsley-min": 0,
+        "data-parsley-max": 100
+      }
+    },
+    "proportion": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Proportion(in %)",
+      "name": "proportion",
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number",
+        "data-parsley-min": 0,
+        "data-parsley-max": 100
+      }
+    },
+    "material": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Material",
+      "name": "material",
+      "validation": {
+        "required": ""
+      }
+    },
+    "instrument": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Instrument",
+      "name": "instrument",
+      "validation": {
+        "required": ""
+      }
+    },
+    "count": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "number",
+      "label": "Count",
+      "name": "count",
+      "validation": {
+        "required": "",
+        "data-parsley-type": "number",
+        "min": 1
+      }
+    },
+    "repeats": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "number",
+      "label": "Repeats",
+      "name": "repeats",
+      "validation": {
+        "data-parsley-type": "number",
+        "min": 1
+      }
+    },
+    "typedropdown": {
+      "type": "select",
+      "size": "medium",
+      "label": "Type",
+      "name": "type",
+      "default": "Positive",
+      "options": ["Positive", "Negative", "NA"]
+    },
+    "freezinginstrument": {
+      "type": "select",
+      "size": "medium",
+      "label": "Instrument",
+      "name": "instrument",
+      "default": "Bal - Tec HPM 010",
+      "options": [
+        "Bal - Tec HPM 010",
+        "Leica EM-PACT2",
+        "Wohlwend HPF COmpact 01",
+        "NA"
+      ]
+    },
+    "substitutioninstrument": {
+      "type": "select",
+      "size": "medium",
+      "label": "Instrument",
+      "name": "instrument",
+      "default": "Leica EM AFS2",
+      "options": [
+        "Leica EM AFS2",
+        "Leica EM-AFS",
+        "Reichert - Jung KF 80",
+        "RMC Boeckler FS - 8500",
+        "NA"
+      ]
+    },
+    "instrumentwatttage": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Instrument Wattage",
+      "name": "instrumentwatttage",
+      "validation": {
+        "required": ""
+      }
+    },
+    "instrumentspeed": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Instrument Speed",
+      "name": "instrumentspeed",
+      "validation": {
+        "required": ""
+      }
+    },
+    "instrumentramp": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Instrument Ramp",
+      "name": "instrumentramp",
+      "validation": {
+        "required": ""
+      }
+    },
+    "temperatureramp": {
+      "type": "input",
+      "size": "medium",
+      "contenttype": "text",
+      "label": "Temperature Ramp        (in K/Hr)",
+      "name": "temperatureramp",
+      "validation": {
+        "required": ""
+      }
+    },
+    "notes": {
+      "type": "textarea",
+      "size": "medium",
+      "label": "Notes",
+      "name": "notes",
+      "validation": {
+        "required": ""
+      }
+    },
+    "safety": {
+      "type": "textarea",
+      "size": "medium",
+      "label": "Safety Notes",
+      "name": "safety",
+      "validation": {
+        "required": ""
+      }
+    }
+  }
+}
