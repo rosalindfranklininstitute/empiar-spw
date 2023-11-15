@@ -54,7 +54,7 @@ export default function Widget() {
           </List>
           <Divider />
           <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
+            {['Help', 'FAQ'].map((text, index) => (
               <ListItem key={text} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
