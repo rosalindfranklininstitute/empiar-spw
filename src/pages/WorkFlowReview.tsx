@@ -45,9 +45,7 @@ function WorkFlowReview(props: SamplePrepWidgetProps) {
     if (props.metaData) {
         metaDataToLoad = props.metaData;
     }
-    console.log("I am here");
     const [metaData, setMetaData] = useState<any>(metaDataToLoad)
-    // const [formData, setFormData] = useState<any>()
     const [listReference, setListReference] = useState<ListItemReferenceProps[]>([]);
     const [toggleValue, setToggleValue] = useState<number>(0);
     const memoizedUpdateMetaData = useCallback(handleUpdateMetaData, [props.metaData]);
@@ -64,8 +62,6 @@ function WorkFlowReview(props: SamplePrepWidgetProps) {
                     });
                     if (correctedListReference.length > 0) {
                         isInitialLoad = false;
-                        console.log(correctedListReference);
-                        // setMetaData(metaData)
                         setListReference(correctedListReference);
                     }
                     else{
@@ -139,10 +135,8 @@ function WorkFlowReview(props: SamplePrepWidgetProps) {
                 reorgWorkFlowData.push(formData[key]);
             }
         }
-        console.log("Submitted Data:");
-        console.log(workFlowCollectedData);
-        let newFormData = {}
-        newFormData = workFlowCollectedData;
+        // let newFormData = {}
+        // newFormData = workFlowCollectedData;
         // setFormData(newFormData);
         // const requestOptions = {
         //     method: 'POST',

@@ -40,8 +40,6 @@ function Scroller() {
     ({ getItemById }: scrollVisibilityApiType) => {
       const itemSelected = isItemSelected(itemId);
 
-      console.log(getItemById(itemId));
-
       setSelected((currentSelected: string[]) =>
         itemSelected
           ? currentSelected.filter((el) => el !== itemId)

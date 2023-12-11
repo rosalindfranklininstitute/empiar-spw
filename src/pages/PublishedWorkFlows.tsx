@@ -278,8 +278,6 @@ export default function PublishedWorkFlows() {
 
   const navigate = useNavigate();
   const { state } = useLocation();
-  console.log('stststst');
-  console.log(state);
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>

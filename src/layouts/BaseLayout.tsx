@@ -84,7 +84,7 @@ export default function BaseLayout() {
           </List>
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }} style={{padding: '100px 10px'}}>
         <Outlet></Outlet>
       </Box>
     </Box>

@@ -979,7 +979,6 @@ export default function FetchLocalEntryData(directory: string, entryid: any) {
     //     .then(data => (entryData=data))
     //     .catch(error => console.error('Error fetching JSON:', error));
     // // }
-    // alert("I'm at local fetcher")
     if (directory == "published") {
         entryData = publishedJson[entryid];
     }

@@ -103,8 +103,6 @@ function Builder(props: SamplePrepWidgetProps) {
 
   function handleUpdateWidgetData(stepId: string | number, stepData: any) {
     formData[stepId] = stepData;
-    console.log(formData);
-    console.log(metaData);
   }
 
   function handleUpdateMetaData(collectedMetaData: any) {
@@ -127,9 +125,6 @@ function Builder(props: SamplePrepWidgetProps) {
       }
     }
     workFlowCollectedData["data"] = reorgWorkFlowData;
-    console.log("Submitted Data:");
-    console.log(workFlowCollectedData);
-    console.log(metaData);
   }
 
   function fetchWorkFlowTitle(){

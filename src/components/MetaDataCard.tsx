@@ -18,8 +18,6 @@ function WorkFlowMetaData(props: WorkFlowMetadataProps) {
 
   const log = (type: string) => console.log.bind(console, type);
   const onSubmit = (data: any) => {
-    console.log("Data");
-    console.log(console.log(data.formData));
     props.updateMetaData(data.formData);
   }
   return (
