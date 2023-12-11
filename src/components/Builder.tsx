@@ -5,7 +5,7 @@ import { SortableList } from "./SortableList";
 import WorkFlowBuilderPh from "../static/components/WorkFlowBuilderPh";
 import { ListItemReferenceProps } from '../utils/WidgetDataUtility';
 import { LoadWidgetReferenceList } from '../utils/WidgetUtility';
-import WorkFlowMetaData from "./WorkFlowMetaData";
+import WorkFlowMetaData from "./MetaDataCard";
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import CssBaseline from '@mui/material/CssBaseline';

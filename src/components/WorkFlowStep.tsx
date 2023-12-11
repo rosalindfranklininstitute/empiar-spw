@@ -15,19 +15,13 @@ function WorkFlowStep(props: WorkFlowStepProps) {
 
   return (
     <div>
-      <Button onClick={() => handleClick(stepKey, name)}
+      <Button variant="contained" onClick={() => handleClick(stepKey, name)}
         style={{
           height: "3rem",
           borderRadius: 10,
-          backgroundColor: "lightgrey",
-          color: color,
-          fontStyle: "bold",
-          padding: "18px 36px",
-          fontSize: "18px",
           marginLeft: "15px",
         }}
         sx={{ whiteSpace: "nowrap" }}
-        variant="contained"
       >
         {name}
       </Button>

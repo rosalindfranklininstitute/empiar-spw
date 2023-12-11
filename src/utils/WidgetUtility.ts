@@ -1,35 +1,23 @@
 import { ListItemReferenceProps } from '../utils/WidgetDataUtility';
 
-export async function fetchBio() {
-    let arr: Array<ListItemReferenceProps> = [];
-    return new Promise(resolve => {
-        arr.push({
-            id: "cf0",
-            orderNumber: 1,
-            stepTitle: "Chemical Fixation",
-            stepKey: "cf",
-        });
-        resolve(arr);
-    })
-}
 
 export async function LoadWidgetReferenceList(widgetData: any): Promise<any> {
     let correctedListReference: Array<ListItemReferenceProps> = [];
-    if ("data" in widgetData) {
-        widgetData["data"].map((workflowStepData: any, index: number) => {
+    if (widgetData) {
+        widgetData.map((workflowStepData: any, index: number) => {
 
             if (
                 "method" in workflowStepData &&
-                "orderNumber" in workflowStepData
+                "ordernumber" in workflowStepData
             ) {
                 const stepKey: string = stepKeyToTitleConverter(workflowStepData["method"]);
                 if (stepKey !== "") {
 
                     let correctedListReferenceItem: ListItemReferenceProps = {
-                        id: stepKey + workflowStepData["orderNumber"],
+                        id: stepKey + workflowStepData["orderNnumber"],
                         stepKey: stepKey,
                         stepTitle: workflowStepData["method"],
-                        orderNumber: workflowStepData["orderNumber"],
+                        orderNumber: workflowStepData["ordernumber"],
                         stepData: workflowStepData
                     }
                     correctedListReference.push(correctedListReferenceItem);

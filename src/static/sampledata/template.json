@@ -1,0 +1,34 @@
+{
+    "templateentries": [
+        {
+            "id": 1,
+            "entryid":"t1",
+            "title": "Title 1",
+            "imagingMethod": "Imaging Method 1",
+            "authorName": "Sriram",
+            "authorEmail": "Sriram@test.com",
+            "studyDescription": "study aa",
+            "biologicalEntity": "AA"
+        },
+        {
+            "id": 2,
+            "entryid":"t2",
+            "title": "Title 2",
+            "imagingMethod": "Imaging Method 2",
+            "authorName": "Rob",
+            "authorEmail": "Sriram@test.com",
+            "studyDescription": "study ac",
+            "biologicalEntity": "AC"
+        },
+        {
+            "id": 3,
+            "entryid":"t3",
+            "title": "Title 3",
+            "imagingMethod": "Imaging Method 3",
+            "authorName": "Bob",
+            "authorEmail": "Sriram@test.com",
+            "studyDescription": "study ab",
+            "biologicalEntity": "AB"
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "publishedentries": [
+        {
+            "id": 1,
+            "entryid":"SPW-10001",
+            "title": "Title 1",
+            "imagingMethod": "Imaging Method 1",
+            "authorName": "Sriram",
+            "authorEmail": "Sriram@test.com",
+            "publishedDate": "2023-01-02"
+        },
+        {
+            "id": 2,
+            "entryid":"SPW-10002",
+            "title": "Title 2",
+            "imagingMethod": "Imaging Method 2",
+            "authorName": "Rob",
+            "authorEmail": "Sriram@test.com",
+            "publishedDate": "2023-10-02"
+        },
+        {
+            "id": 3,
+            "entryid":"SPW-10003",
+            "title": "Title 3",
+            "imagingMethod": "Imaging Method 3",
+            "authorName": "Bob",
+            "authorEmail": "Sriram@test.com",
+            "publishedDate": "2023-02-02"
+        }
+    ]
+}

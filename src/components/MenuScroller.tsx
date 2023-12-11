@@ -18,6 +18,12 @@ function MenuScroller(props: MenuScrollerProps) {
 
 
   return (
+    <div style={{
+      padding: "1em 0em",
+      width: "100%",
+      background: "white",
+      boxSizing: "border-box" // <--- this line
+    }}>
     <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
       {stepMenus.map((menu, index) => (
         <WorkFlowStep
@@ -29,6 +35,7 @@ function MenuScroller(props: MenuScrollerProps) {
         ></WorkFlowStep>
       ))}
     </ScrollMenu>
+    </div>
   );
 }
 

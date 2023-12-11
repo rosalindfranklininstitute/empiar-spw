@@ -16,6 +16,7 @@ const temperatureUnits: string[] = ["K", "C"];
 const durationUnits: string[] = ["Min", "Hr"];
 const concentrationUnits: string[] = ["%", "%W/V", "M", "mg/ml", "NA"];
 const pressureUnits: string[] = ["bar", "atm"];
+const weightUnits: string[] = ["mg", "g"];
 const reagentList: string[] = [
   "Acetone",
   "Acrolein",
@@ -191,8 +192,6 @@ const cfSchema: RJSFSchema = {
   },
 };
 
-
-
 const cfUiSchema: UiSchema = {
   notes: {
     "ui:widget": "textarea",
@@ -204,7 +203,6 @@ const cfUiSchema: UiSchema = {
     items: {
       "ui:options": { label: false },
       reagentdetail: {
-        // properties: {
         reagent: {
           "ui:widget": (props: WidgetProps) => {
             return (
@@ -245,9 +243,6 @@ const cfUiSchema: UiSchema = {
         },
         // },
       },
-    },
-    ph: {
-      sx: { input: { color: "red", bgcolor: "green" } },
     },
   },
 };
@@ -376,7 +371,7 @@ const hpfSchema: RJSFSchema = {
       items: {
         type: "object",
         properties: {
-          reagentdetail: {
+          fillmediumdetail: {
             title: "Reagent Item",
             type: "object",
             properties: {
@@ -407,12 +402,12 @@ const hpfSchema: RJSFSchema = {
       },
     },
     coatingmedium: {
-      title: "Fill Medium",
+      title: "Coating Medium",
       type: "array",
       items: {
         type: "object",
         properties: {
-          reagentdetail: {
+          coatingmediumdetail: {
             title: "Reagent Item",
             type: "object",
             properties: {
@@ -452,18 +447,22 @@ const hpfUiSchema: UiSchema = {
   safetynotes: {
     "ui:widget": "textarea",
   },
-  reagentlist: {
+  fillmedium: {
     items: {
       "ui:options": { label: false },
-      fillmedium: {
+      fillmediumdetail: {
         reagent: {
           "ui:widget": (props: WidgetProps) => {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-reagent"
                 options={reagentList}
                 sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Reagent" />
                 )}
@@ -476,9 +475,13 @@ const hpfUiSchema: UiSchema = {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-solvent"
                 options={reagentList}
                 sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Solvent" />
                 )}
@@ -488,15 +491,24 @@ const hpfUiSchema: UiSchema = {
         },
         // },
       },
-      coatingmedium: {
+    },
+  },
+  coatingmedium: {
+    items: {
+      "ui:options": { label: false },
+      coatingmediumdetail: {
         reagent: {
           "ui:widget": (props: WidgetProps) => {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-reagent"
                 options={reagentList}
                 sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Reagent" />
                 )}
@@ -509,9 +521,13 @@ const hpfUiSchema: UiSchema = {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-solvent"
                 options={reagentList}
                 sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Solvent" />
                 )}
@@ -528,11 +544,17 @@ const hpfUiSchema: UiSchema = {
 const stSchema: RJSFSchema = {
   type: "object",
   properties: {
-    pressure: {
+    ph:
+      { type: "number", title: "pH" },
+    temperature: {
       type: "object",
       properties: {
-        pressure: { type: "number", title: "Pressure" },
-        pressureunit: { type: "string", enum: pressureUnits },
+        temperature: { type: "number", title: "Temperature" },
+        temperatureunit: {
+          type: "string",
+          enum: temperatureUnits,
+          title: "Temperature Unit",
+        },
       },
     },
     duration: {
@@ -546,73 +568,12 @@ const stSchema: RJSFSchema = {
         },
       },
     },
-    boredetials: {
-      type: "object",
-      title: "Bore Details",
-      properties: {
-        borediameter: {
-          type: "number",
-          title: "Bore Diameter",
-          description: "Bore/ Planchetter Diameter (in mm)",
-        },
-        boredepth: {
-          type: "number",
-          title: "Bore Depth",
-          description: "Bore depth (in um)",
-        },
-      },
-    },
-    instrumentdetails: {
-      title: "Instrument Details",
-      type: "object",
-      properties: {
-        instrument: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
-        instrumentramp: { type: "number", title: "Instrument Ramp" },
-        instrumentspeed: { type: "number", title: "Instrument Speed" },
-      },
-    },
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
-    isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    fillmedium: {
-      title: "Fill Medium",
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          reagentdetail: {
-            title: "Reagent Item",
-            type: "object",
-            properties: {
-              reagent: {
-                type: "string",
-              },
-              solvent: {
-                type: "string",
-              },
-            },
-          },
-          concentrationdetails: {
-            title: "Final Concentration",
-            type: "object",
-            properties: {
-              concentration: {
-                type: "string",
-                title: "Concentration",
-              },
-              concentrationunits: {
-                type: "string",
-                title: "Concentration Units",
-                enum: concentrationUnits,
-              },
-            },
-          },
-        },
-      },
-    },
-    coatingmedium: {
-      title: "Fill Medium",
+    instrument: { type: "string", title: "Instrument" },
+    instrumentwattage: { type: "number", title: "Instrument Wattage" },
+    reagentlist: {
+      title: "Reagent List",
       type: "array",
       items: {
         type: "object",
@@ -660,15 +621,19 @@ const stUiSchema: UiSchema = {
   reagentlist: {
     items: {
       "ui:options": { label: false },
-      fillmedium: {
+      reagentdetail: {
         reagent: {
           "ui:widget": (props: WidgetProps) => {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-reagent"
                 options={reagentList}
                 sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Reagent" />
                 )}
@@ -681,9 +646,13 @@ const stUiSchema: UiSchema = {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-solvent"
                 options={reagentList}
                 sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Solvent" />
                 )}
@@ -691,40 +660,6 @@ const stUiSchema: UiSchema = {
             );
           },
         },
-        // },
-      },
-      coatingmedium: {
-        reagent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Reagent" />
-                )}
-              />
-            );
-          },
-        },
-        solvent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Solvent" />
-                )}
-              />
-            );
-          },
-        },
-        // },
       },
     },
   },
@@ -733,71 +668,31 @@ const stUiSchema: UiSchema = {
 const dhSchema: RJSFSchema = {
   type: "object",
   properties: {
-    pressure: {
+    reagent1: { type: "string", title: "Reagent 1" },
+    reagent2: { type: "string", title: "Reagent 2" },
+    instrument: { type: "string", title: "Instrument" },
+    instrumentwattage: { type: "number", title: "Instrument Wattage" },
+    temperature: {
       type: "object",
       properties: {
-        pressure: { type: "number", title: "Pressure" },
-        pressureunit: { type: "string", enum: pressureUnits },
-      },
-    },
-    duration: {
-      type: "object",
-      properties: {
-        duration: { type: "number", title: "Duration" },
-        durationunit: {
+        temperature: { type: "number", title: "Temperature" },
+        temperatureunit: {
           type: "string",
-          enum: durationUnits,
-          title: "Duration Unit",
+          enum: temperatureUnits,
+          title: "Temperature Unit",
         },
       },
     },
-    boredetials: {
-      type: "object",
-      title: "Bore Details",
-      properties: {
-        borediameter: {
-          type: "number",
-          title: "Bore Diameter",
-          description: "Bore/ Planchetter Diameter (in mm)",
-        },
-        boredepth: {
-          type: "number",
-          title: "Bore Depth",
-          description: "Bore depth (in um)",
-        },
-      },
-    },
-    instrumentdetails: {
-      title: "Instrument Details",
-      type: "object",
-      properties: {
-        instrument: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
-        instrumentramp: { type: "number", title: "Instrument Ramp" },
-        instrumentspeed: { type: "number", title: "Instrument Speed" },
-      },
-    },
+    isundervaccum: { type: "boolean", title: "Under Vaccum" },
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
-    isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    fillmedium: {
-      title: "Fill Medium",
+    reagentconcentration: {
+      title: "Reagent Concentration",
       type: "array",
       items: {
         type: "object",
         properties: {
-          reagentdetail: {
-            title: "Reagent Item",
-            type: "object",
-            properties: {
-              reagent: {
-                type: "string",
-              },
-              solvent: {
-                type: "string",
-              },
-            },
-          },
+          repeats: { type: "number", title: "Count" },
           concentrationdetails: {
             title: "Final Concentration",
             type: "object",
@@ -813,45 +708,20 @@ const dhSchema: RJSFSchema = {
               },
             },
           },
-        },
-      },
-    },
-    coatingmedium: {
-      title: "Fill Medium",
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          reagentdetail: {
-            title: "Reagent Item",
+          duration: {
             type: "object",
             properties: {
-              reagent: {
+              duration: { type: "number", title: "Duration" },
+              durationunit: {
                 type: "string",
-              },
-              solvent: {
-                type: "string",
+                enum: durationUnits,
+                title: "Duration Unit",
               },
             },
           },
-          concentrationdetails: {
-            title: "Final Concentration",
-            type: "object",
-            properties: {
-              concentration: {
-                type: "string",
-                title: "Concentration",
-              },
-              concentrationunits: {
-                type: "string",
-                title: "Concentration Units",
-                enum: concentrationUnits,
-              },
-            },
-          },
-        },
-      },
-    },
+        }
+      }
+    }
   },
 };
 
@@ -862,87 +732,57 @@ const dhUiSchema: UiSchema = {
   safetynotes: {
     "ui:widget": "textarea",
   },
-  reagentlist: {
-    items: {
-      "ui:options": { label: false },
-      fillmedium: {
-        reagent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Reagent" />
-                )}
-              />
-            );
-          },
-        },
-        solvent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Solvent" />
-                )}
-              />
-            );
-          },
-        },
-        // },
-      },
-      coatingmedium: {
-        reagent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Reagent" />
-                )}
-              />
-            );
-          },
-        },
-        solvent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Solvent" />
-                )}
-              />
-            );
-          },
-        },
-        // },
+  reagent1: {
+    "ui:widget": (props: WidgetProps) => {
+        return (
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={reagentList}
+            sx={{ width: 300 }}
+            renderInput={(params) => (
+              <TextField {...params} label="Reagent 1" />
+            )}
+          />
+        );
       },
     },
+  reagent2: {
+    "ui:widget": (props: WidgetProps) => {
+      return (
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={reagentList}
+          sx={{ width: 300 }}
+          renderInput={(params) => (
+            <TextField {...params} label="Reagent 2" />
+          )}
+        />
+      );
+    },
   },
+  reagentconcentration:{
+    items:{
+      "ui:options": { label: false },
+    }
+  }
 };
 
 const riSchema: RJSFSchema = {
   type: "object",
   properties: {
-    pressure: {
+    ph:
+      { type: "number", title: "pH" },
+    temperature: {
       type: "object",
       properties: {
-        pressure: { type: "number", title: "Pressure" },
-        pressureunit: { type: "string", enum: pressureUnits },
+        temperature: { type: "number", title: "Temperature" },
+        temperatureunit: {
+          type: "string",
+          enum: temperatureUnits,
+          title: "Temperature Unit",
+        },
       },
     },
     duration: {
@@ -956,73 +796,20 @@ const riSchema: RJSFSchema = {
         },
       },
     },
-    boredetials: {
-      type: "object",
-      title: "Bore Details",
-      properties: {
-        borediameter: {
-          type: "number",
-          title: "Bore Diameter",
-          description: "Bore/ Planchetter Diameter (in mm)",
-        },
-        boredepth: {
-          type: "number",
-          title: "Bore Depth",
-          description: "Bore depth (in um)",
-        },
-      },
-    },
-    instrumentdetails: {
-      title: "Instrument Details",
-      type: "object",
-      properties: {
-        instrument: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
-        instrumentramp: { type: "number", title: "Instrument Ramp" },
-        instrumentspeed: { type: "number", title: "Instrument Speed" },
-      },
-    },
+    repeats: { type: "number", title: "Repeats" },
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
-    isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    fillmedium: {
-      title: "Fill Medium",
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          reagentdetail: {
-            title: "Reagent Item",
-            type: "object",
-            properties: {
-              reagent: {
-                type: "string",
-              },
-              solvent: {
-                type: "string",
-              },
-            },
-          },
-          concentrationdetails: {
-            title: "Final Concentration",
-            type: "object",
-            properties: {
-              concentration: {
-                type: "string",
-                title: "Concentration",
-              },
-              concentrationunits: {
-                type: "string",
-                title: "Concentration Units",
-                enum: concentrationUnits,
-              },
-            },
-          },
-        },
+    instrument: {
+      type: "object",
+      properties: {
+        instrumentname: { type: "string", title: "Instrument" },
+        instrumentwattage: { type: "string", title: "Instrument Wattage" },
       },
     },
-    coatingmedium: {
-      title: "Fill Medium",
+    isundervaccum: { type: "boolean", title: "Under Vaccum" },
+    instrumentwattage: { type: "string", title: "Instrument Wattage" },
+    reagentlist: {
+      title: "Reagent List",
       type: "array",
       items: {
         type: "object",
@@ -1070,15 +857,19 @@ const riUiSchema: UiSchema = {
   reagentlist: {
     items: {
       "ui:options": { label: false },
-      fillmedium: {
+      reagentdetail: {
         reagent: {
           "ui:widget": (props: WidgetProps) => {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-reagent"
                 options={reagentList}
                 sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Reagent" />
                 )}
@@ -1091,9 +882,13 @@ const riUiSchema: UiSchema = {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-solvent"
                 options={reagentList}
                 sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Solvent" />
                 )}
@@ -1103,39 +898,9 @@ const riUiSchema: UiSchema = {
         },
         // },
       },
-      coatingmedium: {
-        reagent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Reagent" />
-                )}
-              />
-            );
-          },
-        },
-        solvent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Solvent" />
-                )}
-              />
-            );
-          },
-        },
-        // },
-      },
+    },
+    ph: {
+      sx: { input: { color: "red", bgcolor: "green" } },
     },
   },
 };
@@ -1143,40 +908,6 @@ const riUiSchema: UiSchema = {
 const ifSchema: RJSFSchema = {
   type: "object",
   properties: {
-    pressure: {
-      type: "object",
-      properties: {
-        pressure: { type: "number", title: "Pressure" },
-        pressureunit: { type: "string", enum: pressureUnits },
-      },
-    },
-    duration: {
-      type: "object",
-      properties: {
-        duration: { type: "number", title: "Duration" },
-        durationunit: {
-          type: "string",
-          enum: durationUnits,
-          title: "Duration Unit",
-        },
-      },
-    },
-    boredetials: {
-      type: "object",
-      title: "Bore Details",
-      properties: {
-        borediameter: {
-          type: "number",
-          title: "Bore Diameter",
-          description: "Bore/ Planchetter Diameter (in mm)",
-        },
-        boredepth: {
-          type: "number",
-          title: "Bore Depth",
-          description: "Bore depth (in um)",
-        },
-      },
-    },
     instrumentdetails: {
       title: "Instrument Details",
       type: "object",
@@ -1190,8 +921,8 @@ const ifSchema: RJSFSchema = {
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
     isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    fillmedium: {
-      title: "Fill Medium",
+    reagentlist: {
+      title: "Reagent List",
       type: "array",
       items: {
         type: "object",
@@ -1208,42 +939,31 @@ const ifSchema: RJSFSchema = {
               },
             },
           },
-          concentrationdetails: {
-            title: "Final Concentration",
+          weightdetails: {
+            title: "Weight",
             type: "object",
             properties: {
-              concentration: {
+              weight: {
                 type: "string",
-                title: "Concentration",
+                title: "Weight",
               },
-              concentrationunits: {
+              weightunits: {
                 type: "string",
-                title: "Concentration Units",
-                enum: concentrationUnits,
+                enum: weightUnits,
+                title: "Weight Units",
               },
             },
           },
         },
       },
     },
-    coatingmedium: {
-      title: "Fill Medium",
+    infiltrationlist: {
+      title: "Infiltration Procedure",
       type: "array",
       items: {
         type: "object",
         properties: {
-          reagentdetail: {
-            title: "Reagent Item",
-            type: "object",
-            properties: {
-              reagent: {
-                type: "string",
-              },
-              solvent: {
-                type: "string",
-              },
-            },
-          },
+          count: { type: "number", title: "Count" },
           concentrationdetails: {
             title: "Final Concentration",
             type: "object",
@@ -1256,6 +976,41 @@ const ifSchema: RJSFSchema = {
                 type: "string",
                 title: "Concentration Units",
                 enum: concentrationUnits,
+              },
+            },
+          },
+          duration: {
+            type: "object",
+            properties: {
+              duration: { type: "number", title: "Duration" },
+              durationunit: {
+                type: "string",
+                enum: durationUnits,
+                title: "Duration Unit",
+              },
+            },
+          },
+          starttemperature: {
+            title: "Start Temperature",
+            type: "object",
+            properties: {
+              starttemperature: { type: "number", title: "Start Temperature" },
+              temperatureunit: {
+                type: "string",
+                enum: temperatureUnits,
+                title: "Temperature Unit",
+              },
+            },
+          },
+          endtemperature: {
+            title: "End Temperature",
+            type: "object",
+            properties: {
+              starttemperature: { type: "number", title: "End Temperature" },
+              temperatureunit: {
+                type: "string",
+                enum: temperatureUnits,
+                title: "Temperature Unit",
               },
             },
           },
@@ -1275,15 +1030,19 @@ const ifUiSchema: UiSchema = {
   reagentlist: {
     items: {
       "ui:options": { label: false },
-      fillmedium: {
+      reagentdetail: {
         reagent: {
           "ui:widget": (props: WidgetProps) => {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-reagent"
                 options={reagentList}
                 sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Reagent" />
                 )}
@@ -1296,42 +1055,13 @@ const ifUiSchema: UiSchema = {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-solvent"
                 options={reagentList}
                 sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Solvent" />
-                )}
-              />
-            );
-          },
-        },
-        // },
-      },
-      coatingmedium: {
-        reagent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Reagent" />
-                )}
-              />
-            );
-          },
-        },
-        solvent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Solvent" />
                 )}
@@ -1343,16 +1073,27 @@ const ifUiSchema: UiSchema = {
       },
     },
   },
+  infiltrationlist: {
+    items: {
+      "ui:options": { label: false },
+    },
+  },
 };
 
 const icSchema: RJSFSchema = {
   type: "object",
   properties: {
-    pressure: {
+    ph:
+      { type: "number", title: "pH" },
+    temperature: {
       type: "object",
       properties: {
-        pressure: { type: "number", title: "Pressure" },
-        pressureunit: { type: "string", enum: pressureUnits },
+        temperature: { type: "number", title: "Temperature" },
+        temperatureunit: {
+          type: "string",
+          enum: temperatureUnits,
+          title: "Temperature Unit",
+        },
       },
     },
     duration: {
@@ -1366,73 +1107,20 @@ const icSchema: RJSFSchema = {
         },
       },
     },
-    boredetials: {
-      type: "object",
-      title: "Bore Details",
-      properties: {
-        borediameter: {
-          type: "number",
-          title: "Bore Diameter",
-          description: "Bore/ Planchetter Diameter (in mm)",
-        },
-        boredepth: {
-          type: "number",
-          title: "Bore Depth",
-          description: "Bore depth (in um)",
-        },
-      },
-    },
-    instrumentdetails: {
-      title: "Instrument Details",
-      type: "object",
-      properties: {
-        instrument: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
-        instrumentramp: { type: "number", title: "Instrument Ramp" },
-        instrumentspeed: { type: "number", title: "Instrument Speed" },
-      },
-    },
+    repeats: { type: "number", title: "Repeats" },
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
-    isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    fillmedium: {
-      title: "Fill Medium",
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          reagentdetail: {
-            title: "Reagent Item",
-            type: "object",
-            properties: {
-              reagent: {
-                type: "string",
-              },
-              solvent: {
-                type: "string",
-              },
-            },
-          },
-          concentrationdetails: {
-            title: "Final Concentration",
-            type: "object",
-            properties: {
-              concentration: {
-                type: "string",
-                title: "Concentration",
-              },
-              concentrationunits: {
-                type: "string",
-                title: "Concentration Units",
-                enum: concentrationUnits,
-              },
-            },
-          },
-        },
+    instrument: {
+      type: "object",
+      properties: {
+        instrumentname: { type: "string", title: "Instrument" },
+        instrumentwattage: { type: "string", title: "Instrument Wattage" },
       },
     },
-    coatingmedium: {
-      title: "Fill Medium",
+    isundervaccum: { type: "boolean", title: "Under Vaccum" },
+    instrumentwattage: { type: "string", title: "Instrument Wattage" },
+    reagentlist: {
+      title: "Reagent List",
       type: "array",
       items: {
         type: "object",
@@ -1480,15 +1168,19 @@ const icUiSchema: UiSchema = {
   reagentlist: {
     items: {
       "ui:options": { label: false },
-      fillmedium: {
+      reagentdetail: {
         reagent: {
           "ui:widget": (props: WidgetProps) => {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-reagent"
                 options={reagentList}
                 sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Reagent" />
                 )}
@@ -1501,42 +1193,13 @@ const icUiSchema: UiSchema = {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-solvent"
                 options={reagentList}
                 sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Solvent" />
-                )}
-              />
-            );
-          },
-        },
-        // },
-      },
-      coatingmedium: {
-        reagent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Reagent" />
-                )}
-              />
-            );
-          },
-        },
-        solvent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Solvent" />
                 )}
@@ -1553,40 +1216,6 @@ const icUiSchema: UiSchema = {
 const ocSchema: RJSFSchema = {
   type: "object",
   properties: {
-    pressure: {
-      type: "object",
-      properties: {
-        pressure: { type: "number", title: "Pressure" },
-        pressureunit: { type: "string", enum: pressureUnits },
-      },
-    },
-    duration: {
-      type: "object",
-      properties: {
-        duration: { type: "number", title: "Duration" },
-        durationunit: {
-          type: "string",
-          enum: durationUnits,
-          title: "Duration Unit",
-        },
-      },
-    },
-    boredetials: {
-      type: "object",
-      title: "Bore Details",
-      properties: {
-        borediameter: {
-          type: "number",
-          title: "Bore Diameter",
-          description: "Bore/ Planchetter Diameter (in mm)",
-        },
-        boredepth: {
-          type: "number",
-          title: "Bore Depth",
-          description: "Bore depth (in um)",
-        },
-      },
-    },
     instrumentdetails: {
       title: "Instrument Details",
       type: "object",
@@ -1599,73 +1228,45 @@ const ocSchema: RJSFSchema = {
     },
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
-    isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    fillmedium: {
-      title: "Fill Medium",
+    warmingprocedure: {
+      title: "Warming Procedure List",
       type: "array",
       items: {
         type: "object",
         properties: {
-          reagentdetail: {
-            title: "Reagent Item",
+          temperature: { type: "number", title: "Temperature Ramp (in K/Hr)" },
+          starttemperature: {
+            title: "Start Temperature",
             type: "object",
             properties: {
-              reagent: {
+              starttemperature: { type: "number", title: "Start Temperature" },
+              temperatureunit: {
                 type: "string",
-              },
-              solvent: {
-                type: "string",
+                enum: temperatureUnits,
+                title: "Temperature Unit",
               },
             },
           },
-          concentrationdetails: {
-            title: "Final Concentration",
+          endtemperature: {
+            title: "End Temperature",
             type: "object",
             properties: {
-              concentration: {
+              starttemperature: { type: "number", title: "End Temperature" },
+              temperatureunit: {
                 type: "string",
-                title: "Concentration",
-              },
-              concentrationunits: {
-                type: "string",
-                title: "Concentration Units",
-                enum: concentrationUnits,
+                enum: temperatureUnits,
+                title: "Temperature Unit",
               },
             },
           },
-        },
-      },
-    },
-    coatingmedium: {
-      title: "Fill Medium",
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          reagentdetail: {
-            title: "Reagent Item",
+          duration: {
             type: "object",
             properties: {
-              reagent: {
+              duration: { type: "number", title: "Duration" },
+              durationunit: {
                 type: "string",
-              },
-              solvent: {
-                type: "string",
-              },
-            },
-          },
-          concentrationdetails: {
-            title: "Final Concentration",
-            type: "object",
-            properties: {
-              concentration: {
-                type: "string",
-                title: "Concentration",
-              },
-              concentrationunits: {
-                type: "string",
-                title: "Concentration Units",
-                enum: concentrationUnits,
+                enum: durationUnits,
+                title: "Duration Unit",
               },
             },
           },
@@ -1682,75 +1283,9 @@ const ocUiSchema: UiSchema = {
   safetynotes: {
     "ui:widget": "textarea",
   },
-  reagentlist: {
+  warmingprocedure: {
     items: {
       "ui:options": { label: false },
-      fillmedium: {
-        reagent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Reagent" />
-                )}
-              />
-            );
-          },
-        },
-        solvent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Solvent" />
-                )}
-              />
-            );
-          },
-        },
-        // },
-      },
-      coatingmedium: {
-        reagent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Reagent" />
-                )}
-              />
-            );
-          },
-        },
-        solvent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Solvent" />
-                )}
-              />
-            );
-          },
-        },
-        // },
-      },
     },
   },
 };
@@ -1758,40 +1293,6 @@ const ocUiSchema: UiSchema = {
 const uvpSchema: RJSFSchema = {
   type: "object",
   properties: {
-    pressure: {
-      type: "object",
-      properties: {
-        pressure: { type: "number", title: "Pressure" },
-        pressureunit: { type: "string", enum: pressureUnits },
-      },
-    },
-    duration: {
-      type: "object",
-      properties: {
-        duration: { type: "number", title: "Duration" },
-        durationunit: {
-          type: "string",
-          enum: durationUnits,
-          title: "Duration Unit",
-        },
-      },
-    },
-    boredetials: {
-      type: "object",
-      title: "Bore Details",
-      properties: {
-        borediameter: {
-          type: "number",
-          title: "Bore Diameter",
-          description: "Bore/ Planchetter Diameter (in mm)",
-        },
-        boredepth: {
-          type: "number",
-          title: "Bore Depth",
-          description: "Bore depth (in um)",
-        },
-      },
-    },
     instrumentdetails: {
       title: "Instrument Details",
       type: "object",
@@ -1805,8 +1306,8 @@ const uvpSchema: RJSFSchema = {
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
     isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    fillmedium: {
-      title: "Fill Medium",
+    fixationmedium: {
+      title: "Fixation Medium List",
       type: "array",
       items: {
         type: "object",
@@ -1841,36 +1342,45 @@ const uvpSchema: RJSFSchema = {
         },
       },
     },
-    coatingmedium: {
-      title: "Fill Medium",
+    warmingprocedure: {
+      title: "Warming Procedure List",
       type: "array",
       items: {
         type: "object",
         properties: {
-          reagentdetail: {
-            title: "Reagent Item",
+          temperature: { type: "number", title: "Temperature Ramp (in K/Hr)" },
+          starttemperature: {
+            title: "Start Temperature",
             type: "object",
             properties: {
-              reagent: {
+              starttemperature: { type: "number", title: "Start Temperature" },
+              temperatureunit: {
                 type: "string",
-              },
-              solvent: {
-                type: "string",
+                enum: temperatureUnits,
+                title: "Temperature Unit",
               },
             },
           },
-          concentrationdetails: {
-            title: "Final Concentration",
+          endtemperature: {
+            title: "End Temperature",
             type: "object",
             properties: {
-              concentration: {
+              starttemperature: { type: "number", title: "End Temperature" },
+              temperatureunit: {
                 type: "string",
-                title: "Concentration",
+                enum: temperatureUnits,
+                title: "Temperature Unit",
               },
-              concentrationunits: {
+            },
+          },
+          duration: {
+            type: "object",
+            properties: {
+              duration: { type: "number", title: "Duration" },
+              durationunit: {
                 type: "string",
-                title: "Concentration Units",
-                enum: concentrationUnits,
+                enum: durationUnits,
+                title: "Duration Unit",
               },
             },
           },
@@ -1887,18 +1397,22 @@ const uvpUiSchema: UiSchema = {
   safetynotes: {
     "ui:widget": "textarea",
   },
-  reagentlist: {
+  fixationmedium: {
     items: {
       "ui:options": { label: false },
-      fillmedium: {
+      reagentdetail: {
         reagent: {
           "ui:widget": (props: WidgetProps) => {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-reagent"
                 options={reagentList}
                 sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Reagent" />
                 )}
@@ -1911,42 +1425,13 @@ const uvpUiSchema: UiSchema = {
             return (
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="combo-box-cf-solvent"
                 options={reagentList}
                 sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Solvent" />
-                )}
-              />
-            );
-          },
-        },
-        // },
-      },
-      coatingmedium: {
-        reagent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Reagent" />
-                )}
-              />
-            );
-          },
-        },
-        solvent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
+                value={props.value}
+                onInputChange={(event, newInputValue) => {
+                  props.onChange(newInputValue);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} label="Solvent" />
                 )}
@@ -1958,125 +1443,101 @@ const uvpUiSchema: UiSchema = {
       },
     },
   },
+  warmingprocedure: {
+    items: {
+      "ui:options": { label: false },
+    },
+  },
 };
 
 const fsSchema: RJSFSchema = {
-  type: "object",
-  properties: {
-    pressure: {
+  instrumentdetails: {
+    title: "Instrument Details",
+    type: "object",
+    properties: {
+      instrument: { type: "string", title: "Instrument" },
+      instrumentwattage: { type: "number", title: "Instrument Wattage" },
+      instrumentramp: { type: "number", title: "Instrument Ramp" },
+      instrumentspeed: { type: "number", title: "Instrument Speed" },
+    },
+  },
+  notes: { type: "string", title: "Notes" },
+  safetynotes: { type: "string", title: "Safety Notes" },
+  fixationmedium: {
+    title: "Fixation Medium List",
+    type: "array",
+    items: {
       type: "object",
       properties: {
-        pressure: { type: "number", title: "Pressure" },
-        pressureunit: { type: "string", enum: pressureUnits },
-      },
-    },
-    duration: {
-      type: "object",
-      properties: {
-        duration: { type: "number", title: "Duration" },
-        durationunit: {
-          type: "string",
-          enum: durationUnits,
-          title: "Duration Unit",
-        },
-      },
-    },
-    boredetials: {
-      type: "object",
-      title: "Bore Details",
-      properties: {
-        borediameter: {
-          type: "number",
-          title: "Bore Diameter",
-          description: "Bore/ Planchetter Diameter (in mm)",
-        },
-        boredepth: {
-          type: "number",
-          title: "Bore Depth",
-          description: "Bore depth (in um)",
-        },
-      },
-    },
-    instrumentdetails: {
-      title: "Instrument Details",
-      type: "object",
-      properties: {
-        instrument: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
-        instrumentramp: { type: "number", title: "Instrument Ramp" },
-        instrumentspeed: { type: "number", title: "Instrument Speed" },
-      },
-    },
-    notes: { type: "string", title: "Notes" },
-    safetynotes: { type: "string", title: "Safety Notes" },
-    isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    fillmedium: {
-      title: "Fill Medium",
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          reagentdetail: {
-            title: "Reagent Item",
-            type: "object",
-            properties: {
-              reagent: {
-                type: "string",
-              },
-              solvent: {
-                type: "string",
-              },
+        reagentdetail: {
+          title: "Reagent Item",
+          type: "object",
+          properties: {
+            reagent: {
+              type: "string",
+            },
+            solvent: {
+              type: "string",
             },
           },
-          concentrationdetails: {
-            title: "Final Concentration",
-            type: "object",
-            properties: {
-              concentration: {
-                type: "string",
-                title: "Concentration",
-              },
-              concentrationunits: {
-                type: "string",
-                title: "Concentration Units",
-                enum: concentrationUnits,
-              },
+        },
+        concentrationdetails: {
+          title: "Final Concentration",
+          type: "object",
+          properties: {
+            concentration: {
+              type: "string",
+              title: "Concentration",
+            },
+            concentrationunits: {
+              type: "string",
+              title: "Concentration Units",
+              enum: concentrationUnits,
             },
           },
         },
       },
     },
-    coatingmedium: {
-      title: "Fill Medium",
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          reagentdetail: {
-            title: "Reagent Item",
-            type: "object",
-            properties: {
-              reagent: {
-                type: "string",
-              },
-              solvent: {
-                type: "string",
-              },
+  },
+  warmingprocedure: {
+    title: "Warming Procedure List",
+    type: "array",
+    items: {
+      type: "object",
+      properties: {
+        temperature: { type: "number", title: "Temperature Ramp (in K/Hr)" },
+        starttemperature: {
+          title: "Start Temperature",
+          type: "object",
+          properties: {
+            starttemperature: { type: "number", title: "Start Temperature" },
+            temperatureunit: {
+              type: "string",
+              enum: temperatureUnits,
+              title: "Temperature Unit",
             },
           },
-          concentrationdetails: {
-            title: "Final Concentration",
-            type: "object",
-            properties: {
-              concentration: {
-                type: "string",
-                title: "Concentration",
-              },
-              concentrationunits: {
-                type: "string",
-                title: "Concentration Units",
-                enum: concentrationUnits,
-              },
+        },
+        endtemperature: {
+          title: "End Temperature",
+          type: "object",
+          properties: {
+            starttemperature: { type: "number", title: "End Temperature" },
+            temperatureunit: {
+              type: "string",
+              enum: temperatureUnits,
+              title: "Temperature Unit",
+            },
+          },
+        },
+        duration: {
+          type: "object",
+          properties: {
+            duration: { type: "number", title: "Duration" },
+            durationunit: {
+              type: "string",
+              enum: durationUnits,
+              title: "Duration Unit",
             },
           },
         },
@@ -2092,7 +1553,7 @@ const fsUiSchema: UiSchema = {
   safetynotes: {
     "ui:widget": "textarea",
   },
-  reagentlist: {
+  fixationmedium: {
     items: {
       "ui:options": { label: false },
       fillmedium: {
@@ -2128,39 +1589,11 @@ const fsUiSchema: UiSchema = {
         },
         // },
       },
-      coatingmedium: {
-        reagent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Reagent" />
-                )}
-              />
-            );
-          },
-        },
-        solvent: {
-          "ui:widget": (props: WidgetProps) => {
-            return (
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={reagentList}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Solvent" />
-                )}
-              />
-            );
-          },
-        },
-        // },
-      },
+    },
+  },
+  warmingprocedure: {
+    items: {
+      "ui:options": { label: false },
     },
   },
 };
@@ -2226,12 +1659,12 @@ export const stepMenus = [
     "stepkey": "uvp",
     "color": "#2196F3"
   },
-  {
-    "name": "Freeze Substitution",
-    "key": "11",
-    "stepkey": "fs",
-    "color": "#ff8c00 "
-  }
+  // {
+  //   "name": "Freeze Substitution",
+  //   "key": "11",
+  //   "stepkey": "fs",
+  //   "color": "#ff8c00 "
+  // }
 ];
 
 export const stepDictObject = {

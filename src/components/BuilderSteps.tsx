@@ -2,9 +2,9 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
-import HomeIcon from '@mui/icons-material/Home';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
-import GrainIcon from '@mui/icons-material/Grain';
+import DataArrayIcon from '@mui/icons-material/DataArray';
+import BuildCircleIcon from '@mui/icons-material/BuildCircle';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 
 interface BuilderStepsProps {
     onSelectionChange: (selectedKey: number) => void;
@@ -21,7 +21,7 @@ interface BuilderStepsProps {
           color="inherit"
           onClick={() => props.onSelectionChange(0)}
         >
-          <HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" />
+          <DataArrayIcon sx={{ mr: 0.5 }} fontSize="inherit" />
           Meta Data
         </Link>
         <Link
@@ -30,16 +30,18 @@ interface BuilderStepsProps {
           color="inherit"
           onClick={() => props.onSelectionChange(1)}
         >
-          <WhatshotIcon sx={{ mr: 0.5 }} fontSize="inherit" />
+          <BuildCircleIcon sx={{ mr: 0.5 }} fontSize="inherit" />
           Workflow Steps
         </Link>
-        <Typography
+        <Link
+          underline="hover"
           sx={{ display: 'flex', alignItems: 'center' }}
-          color="text.primary"
+          color="inherit"
+          onClick={() => props.onSelectionChange(1)}
         >
-          <GrainIcon sx={{ mr: 0.5 }} fontSize="inherit" />
+          <SaveAltIcon sx={{ mr: 0.5 }} fontSize="inherit" />
           Review & Submit
-        </Typography>
+        </Link>
       </Breadcrumbs>
     </div>
   );

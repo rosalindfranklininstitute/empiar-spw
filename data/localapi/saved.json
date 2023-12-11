@@ -1,0 +1,31 @@
+{
+    "savedentries": [
+        {
+            "id": 1,
+            "entryid":"s1",
+            "title": "Title 1",
+            "imagingMethod": "Imaging Method 1",
+            "authorName": "Sriram",
+            "authorEmail": "Sriram@test.com",
+            "savedDate": "2023-01-02"
+        },
+        {
+            "id": 1,
+            "entryid":"s2",
+            "title": "Title 2",
+            "imagingMethod": "Imaging Method 2",
+            "authorName": "Rob",
+            "authorEmail": "Sriram@test.com",
+            "savedDate": "2023-10-02"
+        },
+        {
+            "id": 3,
+            "entryid":"s3",
+            "title": "Title 3",
+            "imagingMethod": "Imaging Method 3",
+            "authorName": "Bob",
+            "authorEmail": "Sriram@test.com",
+            "savedDate": "2023-02-02"
+        }
+    ]
+}

@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "name": "aa",
+    "imagingmethod": "TEM tomography",
+    "studydescription": "aa",
+    "biologicalentity": "aa"
+  },
+  "data": [
+    {
+      "reagentlist": [
+        {
+          "reagentdetail": {
+            "reagent": "Acetone",
+            "solvent": "Acrolein"
+          },
+          "concentrationdetails": {
+            "concentration": "19",
+            "concentrationunits": "%"
+          }
+        },
+        {
+          "reagentdetail": {
+            "reagent": "Acrolein",
+            "solvent": "Araldite 502"
+          },
+          "concentrationdetails": {
+            "concentration": "20",
+            "concentrationunits": "mg/ml"
+          }
+        }
+      ],
+      "ph": 1,
+      "temperature": {
+        "temperature": 11,
+        "temperatureunit": "C"
+      },
+      "duration": {
+        "duration": 12,
+        "durationunit": "Hr"
+      },
+      "repeats": 13,
+      "notes": "14",
+      "safetynotes": "15",
+      "instrument": {
+        "instrumentname": "16",
+        "instrumentwattage": "17"
+      },
+      "isundervaccum": true,
+      "instrumentwattage": "18",
+      "ordernumber": 1,
+      "method": "Chemical Fixation"
+    },
+    {
+      "reagentlist": [
+        {
+          "material": "29",
+          "proportion": 30
+        },
+        {
+          "material": "31",
+          "proportion": 32
+        }
+      ],
+      "instrumentdetails": {
+        "instrument": "2",
+        "instrumentwattage": 21,
+        "instrumentramp": 22,
+        "instrumentspeed": 23
+      },
+      "chamberhumidity": 24,
+      "chambertemperature": {
+        "temperature": 25,
+        "temperatureunit": "C"
+      },
+      "cryogentemperature": {
+        "temperature": 26,
+        "temperatureunit": "K"
+      },
+      "notes": "27",
+      "safetynotes": "28",
+      "isundervaccum": true,
+      "ordernumber": 2,
+      "method": "Plunge Freezing"
+    }
+  ]
+}

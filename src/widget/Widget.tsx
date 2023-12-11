@@ -1,76 +1,42 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import Builder from '../components/Builder';
-
-
-const drawerWidth = 240;
+import { Route, RouterProvider, Routes, createBrowserRouter, createRoutesFromElements, useNavigate } from 'react-router-dom';
+import PublishedWorkFlows from '../pages/PublishedWorkFlows';
+import SavedWorkFlows from '../pages/SavedWorkFlows';
+import TemplateWorkFlows from '../pages/TemplateWorkFlows';
+import Home from '../pages/Home';
+import ViewWorkFlow from '../pages/ViewWorkFlow';
+import BaseLayout from '../layouts/BaseLayout';
+import BuildLayout from '../layouts/BuildLayout';
+import WorkFlowMetaData, {MetaDataLoader} from  '../pages/WorkFlowMetaData';
+import WorkFlowSteps from '../pages/WorkFlowSteps';
+import { RoutError } from '../pages/RouteError';
+import { WorkFlowError } from '../pages/WorkFlowError';
+import ReviewWorkFlow from '../pages/ReviewWorkFlow';
+import Help from '../pages/Help';
+import Faq from '../pages/Faq';
 
 export default function Widget() {
-  let formData: any = {};
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<BaseLayout />}>
+        <Route index element={<Home />} />
+        <Route path="/published" element={<PublishedWorkFlows />} />
+        <Route path="/saved" element={<SavedWorkFlows />} />
+        <Route path="/template" element={<TemplateWorkFlows />} />
+        <Route path="/view/:workFlowType/:workFlowId" element={<ViewWorkFlow />} />
+        <Route path="build" element={<BuildLayout />} errorElement={<WorkFlowError /> }>
+          <Route path="new" element={<WorkFlowMetaData />} />
+          <Route path="metadata/:workflowtype/:workflowid" element={<WorkFlowMetaData />} loader={MetaDataLoader} />
+          <Route path="workflow" element={<WorkFlowSteps />} />
+          <Route path="review" element={<ReviewWorkFlow />} />
+        </Route>
+        <Route path="/help" element={<Help />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path='*' element={<RoutError />} />
+      </Route>
+    )
+  )
+
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Sample Preparation Widget
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-        }}
-      >
-        <Toolbar />
-        <Box sx={{ overflow: 'auto' }}>
-          <List>
-            {['Publised Entries', 'Template Entries', 'Saved Entries', 'Build A Workflow'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {['Help', 'FAQ'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Toolbar />
-        <Builder submitUrl='' jsonSchemaUrl='url'></Builder>
-        </Box>
-    </Box>
+    <RouterProvider router={router} /> 
   );
 }
