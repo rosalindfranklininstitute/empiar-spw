@@ -13,6 +13,8 @@ import React from "react";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Snackbar from '@mui/material/Snackbar';
+import Stack from "@mui/material/Stack";
+
 
 
 interface WorkFlowCardProps {
@@ -25,14 +27,14 @@ interface WorkFlowCardProps {
   handleCardCollapse: () => void;
   updateStepData: (stepData: any) => void;
   onRemove: (stepKey: string | number) => void;
-  onCopyStep: (stepKey:string, stepTitle:string, stepData:any) => void;
+  onCopyStep: (stepKey: string, stepTitle: string, stepData: any) => void;
 }
 
 export default function WorkFlowCard(props: WorkFlowCardProps) {
   let schema: RJSFSchema =
-  stepDictObject[props.stepKey as keyof typeof stepDictObject]["schema"];
+    stepDictObject[props.stepKey as keyof typeof stepDictObject]["schema"];
   let uiSchema: UiSchema =
-  stepDictObject[props.stepKey as keyof typeof stepDictObject]["uischema"];
+    stepDictObject[props.stepKey as keyof typeof stepDictObject]["uischema"];
 
   const [open, setOpen] = React.useState(false);
 
@@ -67,7 +69,7 @@ export default function WorkFlowCard(props: WorkFlowCardProps) {
 
   const log = (type: string) => console.log.bind(console, type);
   const onSubmit = (data: any) => {
-    let cardData:any = {};
+    let cardData: any = {};
     cardData = data.formData;
     cardData.ordernumber = props.orderNumber;
     cardData.method = props.stepTitle;
@@ -87,8 +89,10 @@ export default function WorkFlowCard(props: WorkFlowCardProps) {
           uiSchema={uiSchema}
           formData={props.data}
         ></Form>
-        <Button variant="contained" onClick={() => props.onCopyStep(props.stepKey, props.stepTitle, props.data)}>Copy</Button>
-        <Button variant="contained" onClick={() => props.onRemove(props.id)}>Delete</Button>
+        <Stack direction="row" spacing={2} alignContent="center">
+          <Button variant="contained" onClick={() => props.onCopyStep(props.stepKey, props.stepTitle, props.data)}>Copy</Button>
+          <Button variant="contained" onClick={() => props.onRemove(props.id)}>Delete</Button>
+        </Stack>
       </div>
       <Snackbar
         open={open}

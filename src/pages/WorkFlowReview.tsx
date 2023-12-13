@@ -135,21 +135,6 @@ function WorkFlowReview(props: SamplePrepWidgetProps) {
                 reorgWorkFlowData.push(formData[key]);
             }
         }
-        // let newFormData = {}
-        // newFormData = workFlowCollectedData;
-        // setFormData(newFormData);
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(workFlowCollectedData)
-        // };
-
-        // fetch("http://127.0.0.1:8001/empiar/api/spw/entry/published/", requestOptions)
-        // .then(response => response.json())
-        //     // 4. Setting *dogImage* to the image url that we received from the response above
-        // .then(data => console.log(data))
-        
-
     }
 
     function fetchWorkFlowTitle() {
