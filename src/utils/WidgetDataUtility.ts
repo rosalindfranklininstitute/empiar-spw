@@ -11,29 +11,29 @@ export type PublisedWorkFLowItem = {
   id: number,
   entryid: string,
   title:string,
-  imagingMethod: string,
-  authorName: string,
-  authorEmail: string,
-  publishedDate: string
+  imagingmethod: string,
+  authorname: string,
+  authoremail: string,
+  publisheddate: string
 }
 
 export type SavedWorkFLowItem = {
   id: number,
   entryid: string,
   title:string,
-  imagingMethod: string,
-  authorName: string,
-  authorEmail: string,
-  savedDate: string
+  imagingmethod: string,
+  authorname: string,
+  authoremail: string,
+  saveddate: string
 }
 
-export type TemplateWorkFLowItem = {
+export type TemplateWorkFlowItem = {
   id: number,
   entryid: string,
   title:string,
-  imagingMethod: string,
-  authorName: string,
-  authorEmail: string,
-  studyDescription: string,
-  biologicalEntity: string
+  imagingmethod: string,
+  authorname: string,
+  authoremail: string,
+  studydescription: string,
+  biologicalentity: string
 }

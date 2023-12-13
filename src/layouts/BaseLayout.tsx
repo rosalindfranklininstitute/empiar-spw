@@ -67,7 +67,7 @@ export default function BaseLayout() {
           <Divider />
           <List>
             {[
-              { 'text': 'Help', 'link': 'help', 'icon': <PrivacyTipIcon /> },
+              // { 'text': 'Help', 'link': 'help', 'icon': <PrivacyTipIcon /> },
               { 'text': 'FAQ', 'link': 'faq', 'icon': <HelpIcon /> },
             ].map((item, index) => (
               <ListItem key={item.text} disablePadding>

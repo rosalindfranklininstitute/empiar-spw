@@ -20,11 +20,9 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { SavedWorkFLowItem } from '../utils/WidgetDataUtility';
 import savedData from '../static/sampledata/saved.json';
-import { useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-
-const rows: SavedWorkFLowItem[] = savedData.savedentries;
 
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -84,19 +82,19 @@ const headCells: readonly HeadCell[] = [
     label: 'Title',
   },
   {
-    id: 'imagingMethod',
+    id: 'imagingmethod',
     numeric: true,
     disablePadding: false,
     label: 'Imaging Method',
   },
   {
-    id: 'authorName',
+    id: 'authorname',
     numeric: true,
     disablePadding: false,
     label: 'Author',
   },
   {
-    id: 'savedDate',
+    id: 'saveddate',
     numeric: true,
     disablePadding: false,
     label: 'Saved Date',
@@ -203,8 +201,12 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 export default function SavedWorkFlows() {
+  const savedJsonData: any = useLoaderData();
+  const rows: SavedWorkFLowItem[] = [];
+  Object.assign(rows, savedJsonData)
+  
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof SavedWorkFLowItem>('savedDate');
+  const [orderBy, setOrderBy] = React.useState<keyof SavedWorkFLowItem>('saveddate');
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -316,9 +318,9 @@ export default function SavedWorkFlows() {
                       </div>
                     </TableCell>
                     <TableCell align="right">{row.title}</TableCell>
-                    <TableCell align="right">{row.imagingMethod}</TableCell>
-                    <TableCell align="right">{row.authorName} ( {row.authorEmail} )</TableCell>
-                    <TableCell align="right">{row.savedDate}</TableCell>
+                    <TableCell align="right">{row.imagingmethod}</TableCell>
+                    <TableCell align="right">{row.authorname} ( {row.authoremail} )</TableCell>
+                    <TableCell align="right">{row.saveddate}</TableCell>
                     <TableCell align="right">
                       <Stack direction="column" spacing={2}>
                         <Button variant="outlined" onClick={() => navigate('../view/saved/'+row.entryid)}>View</Button>

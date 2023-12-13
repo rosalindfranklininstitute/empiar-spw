@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import Stack from "@mui/material/Stack";
 
 import "../widget/Widget.css";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import WorkflowVisualisationCard from "../components/WorkFlowVisualisationCard";
 import FetchLocalEntryData from "../schema/LocalDataFetcher";
 import Accordion from '@mui/material/Accordion';
@@ -15,66 +15,97 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import html2canvas from 'html2canvas';
+import { exportImage, exportToJson, saveWfData, submitWfData } from '../utils/WidgetUtility';
+import { Collapse } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import { useState } from 'react';
+import configData from "../static/config.json";
 
 
 
 function ReviewWorkFlow() {
     const { state } = useLocation();
+    const [openSuccess, setOpenSuccess] = useState<boolean>(false)
+    const [message, setMessage] = useState<string>("")
     const workFlowData = state.data;
+    const navigate = useNavigate();
 
-    async function downloadImage() {
-        const element = document.getElementById('workflow-vis')
-        if (element) {
-            let canvas = await html2canvas(element),
-                data = canvas.toDataURL('image/jpg'),
-                link = document.createElement('a');
+    const downloadJson = () => {
+        exportToJson(workFlowData, workFlowData.id);
+    }
 
-            link.href = data;
-            link.download = 'downloaded-image.jpg';
+    const downloadImage = () => {
+        exportImage('workflow-vis', workFlowData.entryid);
+    }
 
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+    const saveData = () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(workFlowData)
+        };
+        if (configData.ENV == "LOC") {
+            setMessage("Test SPW entry saved as a draft succesfuly with DOI: TEST DOI");
+            setOpenSuccess(!openSuccess);
+        }
+        else{
+        fetch('http://127.0.0.1:8001/empiar/api/api/spw/entry/saved/', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if(data["code"] == 1){
+                setMessage(data["spwid"] + " created succesfuly");
+                setOpenSuccess(!openSuccess);
+                }
+                else{
+                    setMessage(data["spwid"] + "SPW submission failed with error message:" + data["message"]);
+                    setOpenSuccess(!openSuccess);
+                }
+            });
         }
     }
 
-    function downloadJson(data: any, fileName: string, fileType: string) {
-        const blob = new Blob([data], { type: fileType })
-        // Create an anchor element and dispatch a click event on it
-        // to trigger a download
-        const a = document.createElement('a')
-        a.download = fileName
-        a.href = window.URL.createObjectURL(blob)
-        const clickEvt = new MouseEvent('click', {
-            view: window,
-            bubbles: true,
-            cancelable: true,
-        })
-        a.dispatchEvent(clickEvt)
-        a.remove()
+    const submitWfData = async () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(workFlowData)
+        };
+        if (configData.ENV == "LOC") {
+            setMessage("Test SPW entry created succesfuly with DOI: TEST DOI");
+            setOpenSuccess(!openSuccess);
+        }
+        else{
+        fetch(configData.DEV.SPW_ENTRY + 'published/', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if(data["code"] == 1){
+                setMessage(data["spwid"] + " created succesfuly with DOI:" + data["message"]);
+                setOpenSuccess(!openSuccess);
+                }
+                else{
+                    setMessage(data["spwid"] + "SPW submission failed with error message:" + data["message"]);
+                    setOpenSuccess(!openSuccess);
+                }
+            });
+        }
     }
 
-    const exportToJson = () => {
-        // e.preventDefault();
-        downloadJson(
-            JSON.stringify(workFlowData),
-            'users.json',
-            'text/json',
-        )
+    function navigateBack() {
+        navigate("../workflow", { state: { metadata: workFlowData.metadata, data: workFlowData.data } });
     }
 
-    function saveWorkFlow() {
-
-    }
-
-    function submitWorkFlow() {
-
-    }
     return (
         <>
             <CssBaseline />
             <Container maxWidth="md">
+                <Stack direction='column' spacing={2}>
+                <Collapse in={openSuccess}>
+                    <Alert severity="success">
+                        <AlertTitle>Success</AlertTitle>
+                        {message}
+                    </Alert>
+                </Collapse>
                 {Object.keys(workFlowData).length &&
                     <Box sx={{ flexGrow: 1 }}>
                         <Grid container spacing={2}>
@@ -83,6 +114,7 @@ function ReviewWorkFlow() {
                             </Grid>
                             <Grid item xs={4}>
                                 <Stack direction="column" spacing={2}>
+                                    <Button variant="contained" onClick={navigateBack}>Go back</Button>
                                     <Accordion>
                                         <AccordionSummary
                                             expandIcon={<ExpandMoreIcon />}
@@ -96,7 +128,7 @@ function ReviewWorkFlow() {
                                                 <Button variant="contained" onClick={downloadImage}>
                                                     Download Image
                                                 </Button>
-                                                <Button variant="contained" onClick={exportToJson}>
+                                                <Button variant="contained" onClick={downloadJson}>
                                                     Download JSON
                                                 </Button>
                                             </Stack>
@@ -112,10 +144,10 @@ function ReviewWorkFlow() {
                                         </AccordionSummary>
                                         <AccordionDetails>
                                             <Stack direction="column" spacing={2}>
-                                                <Button variant="contained" onClick={() => saveWorkFlow}>
+                                                <Button variant="contained" onClick={saveData}>
                                                     Save Workflow
                                                 </Button>
-                                                <Button variant="contained" onClick={() => submitWorkFlow}>
+                                                <Button variant="contained" onClick={submitWfData}>
                                                     Submit Workflow
                                                 </Button>
                                             </Stack>
@@ -126,6 +158,7 @@ function ReviewWorkFlow() {
                         </Grid>
                     </Box>
                 }
+                </Stack>
             </Container>
         </>
     )

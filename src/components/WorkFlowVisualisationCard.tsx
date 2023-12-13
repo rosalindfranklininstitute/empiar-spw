@@ -67,6 +67,16 @@ export default function WorkFlowVisualisationCard(props: WorkFlowVisualisationCa
     return (
       <Stack spacing={0}>
         <HeaderSection>
+          {(props.stepData.entryid) &&
+            <Stack direction="row" spacing={0} sx={{
+              bgcolor: '#F3F6F9',
+              color: '#1976d2',
+              border:'1px solid #1976d2',
+              padding: '10px'
+            }}>
+              <h2>{props.stepData.entryid}</h2>
+            </Stack>
+          }
           <Stack direction="row" spacing={0}>
             <Title>{props.stepData.metadata.name}</Title>
           </Stack>
@@ -76,6 +86,9 @@ export default function WorkFlowVisualisationCard(props: WorkFlowVisualisationCa
             <Chip label={props.stepData.metadata.imagingmethod} />
             <Chip label={props.stepData.metadata.biologicalentity} />
             <Chip label={props.stepData.metadata.studydescription} />
+            {(props.stepData.doi) &&
+              <Chip label={props.stepData.doi} />
+            }
           </Stack>
         </CardData>
         {/* <CardData>{divCont}</CardData> */}

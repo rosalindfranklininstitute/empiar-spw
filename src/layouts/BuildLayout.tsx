@@ -35,7 +35,7 @@ export default function BuildLayout() {
 
     return (
         <>
-            <Container fixed style={{padding: '100px 10px'}}>
+            <Container fixed style={{padding: '10px'}}>
                 <Box component="main" >
                     <Outlet />
                 </Box>

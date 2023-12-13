@@ -6,12 +6,9 @@ import { ListItemReferenceProps } from '../utils/WidgetDataUtility';
 import { LoadWidgetReferenceList } from '../utils/WidgetUtility';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-
-
 import "../widget/Widget.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import BasicCardHeader from "../components/BasicCardHeader";
 
 interface SamplePrepWidgetProps {
     workFlowData?: any;
@@ -27,12 +24,6 @@ const MetaDataPaper = styled(Paper)(({ theme }) => ({
 }));
 
 let formData: any = {}
-
-// export const WorkFlowDataLoader = async (params: any) => {
-//     const workFlowDataToLoad = await import('../static/sampledata/' + params.params.workflowtype + 'jsons/' + params.params.workflowid + '.json')
-//     // let correctedListReference = await LoadWidgetReferenceList();
-//     return workFlowDataToLoad.data;
-// }
 
 function WorkFlowSteps(props: SamplePrepWidgetProps) {
     const [listReference, setListReference] = useState<ListItemReferenceProps[]>([]);
@@ -52,8 +43,6 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
                         formData[data.id] = data.stepData;
                     });
                     if (correctedListReference.length > 0) {
-                        isInitialLoad = false;
-                        console.log(correctedListReference);
                         setListReference(correctedListReference);
                     }
                     else {
@@ -67,8 +56,7 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
         return () => {
             isInitialLoad = false;
         };
-    }, []);
-
+    }, [workFlowStepsData]);
 
     function handleAddMenuClick(stepKey: string, stepTitle: string, stepData?: any) {
         let listReferenceLength = 0;
@@ -119,7 +107,7 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
                 reorgWorkFlowData.push(formData[key]);
             }
         }
-        navigate("../review/", {state : {data: workFlowCollectedData}});
+        navigate("../review/", { state: { data: workFlowCollectedData } });
         // setFormData(newFormData);
         // const requestOptions = {
         //     method: 'POST',
@@ -147,11 +135,8 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
     return (
         <>
             <div>
+                <BasicCardHeader title={fetchWorkFlowTitle()} width="75%" />
                 <MetaDataPaper square>
-                    <Typography variant="h6" align="left" sx={{ my: 2 }}>
-                        {fetchWorkFlowTitle()}
-                    </Typography>
-                    <Divider />
                     <MenuScroller onMenuClick={handleAddMenuClick}></MenuScroller>
 
                     {listReference && listReference.length >= 1 ? (

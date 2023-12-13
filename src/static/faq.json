@@ -1,0 +1,16 @@
+{
+    "help": [
+        {
+            "question": "What is this?",
+            "answer": "This is a prototype widget to facilitate the entry of specimen protocol information in the EMPIAR deposition system. We would like to test: a) how easy it is to use and what additional functionality is required to build protocols and b) if there are specimen preparation steps or information that we have missed or inadequately represented."
+        },
+        {
+            "question": "What do you want us to do with it?",
+            "answer": "We want you to try using the widget to specify a real specimen preparation protocol you have used in a study and to tell us whether there were any usability issues and how well the protocol steps could be captured"
+        },
+        {
+            "question": "How do I use it?",
+            "answer": "Click on the Start button below to start building new or to load an existing protocol. In the start section of the protocol you can either click on any of the methods from the add buttons on the top horizontal scroll section to start a new protocol or click on Sample or Saved to load an existing protocol data. The newly added method blocks can be expandedminimized. Once the protocol has been completed, press the Save to save, press Download to export the protocol data in a JSON format and press Download Image to export the protocol data as an image."
+        }
+    ]
+}

@@ -4,7 +4,17 @@ import { Form } from "@rjsf/mui";
 import "../static/css/WorkFlowCard.css";
 import { metaDataObject } from "../schema/WorkFlowStepSchemas";
 import React from "react";
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import BasicCardHeader from "./BasicCardHeader";
 
+const MetaDataPaper = styled(Paper)(({ theme }) => ({
+  width: '75%',
+  height: '75%',
+  padding: theme.spacing(2),
+  ...theme.typography.body2,
+  textAlign: 'center',
+}));
 
 interface WorkFlowMetadataProps {
   id: number | string,
@@ -22,15 +32,17 @@ function WorkFlowMetaData(props: WorkFlowMetadataProps) {
   }
   return (
     <>
-      <Form
-        schema={schema}
-        validator={validator}
-        onChange={log("changed")}
-        onSubmit={onSubmit}
-        onError={log("errors")}
-        uiSchema={uiSchema}
-        formData={props.data}
-      ></Form>
+    <BasicCardHeader title="SPW - Metadata" width="75%"/>
+      <MetaDataPaper square>
+        <Form
+          schema={schema}
+          validator={validator}
+          onSubmit={onSubmit}
+          onError={log("errors")}
+          uiSchema={uiSchema}
+          formData={props.data}
+        ></Form>
+      </MetaDataPaper>
     </>
   );
 }

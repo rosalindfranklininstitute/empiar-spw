@@ -18,14 +18,10 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { TemplateWorkFLowItem } from '../utils/WidgetDataUtility';
-import templateData from '../static/sampledata/template.json';
-import { useNavigate } from "react-router-dom";
+import { TemplateWorkFlowItem } from '../utils/WidgetDataUtility';
+import { useLoaderData, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-
-const rows: TemplateWorkFLowItem[] = templateData.templateentries;
-
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -65,7 +61,7 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof TemplateWorkFLowItem;
+  id: keyof TemplateWorkFlowItem;
   label: string;
   numeric: boolean;
 }
@@ -84,25 +80,25 @@ const headCells: readonly HeadCell[] = [
     label: 'Title',
   },
   {
-    id: 'imagingMethod',
+    id: 'imagingmethod',
     numeric: true,
     disablePadding: false,
     label: 'Imaging Method',
   },
   {
-    id: 'authorName',
+    id: 'authorname',
     numeric: true,
     disablePadding: false,
     label: 'Author',
   },
   {
-    id: 'biologicalEntity',
+    id: 'biologicalentity',
     numeric: true,
     disablePadding: false,
     label: 'Biological Identity',
   },
   {
-    id: 'studyDescription',
+    id: 'studydescription',
     numeric: true,
     disablePadding: false,
     label: 'Study  Description',
@@ -111,7 +107,7 @@ const headCells: readonly HeadCell[] = [
 
 interface EnhancedTableProps {
   numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof TemplateWorkFLowItem) => void;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof TemplateWorkFlowItem) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
@@ -122,7 +118,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
     props;
   const createSortHandler =
-    (property: keyof TemplateWorkFLowItem) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof TemplateWorkFlowItem) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
@@ -208,9 +204,13 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     </Toolbar>
   );
 }
-export default function TemplateWorkFlows() {
+function TemplateWorkFlows() {
+  const templateJsonData: any = useLoaderData();
+  const rows: TemplateWorkFlowItem[] = [];
+  Object.assign(rows, templateJsonData)
+  
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof TemplateWorkFLowItem>('id');
+  const [orderBy, setOrderBy] = React.useState<keyof TemplateWorkFlowItem>('id');
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -218,7 +218,7 @@ export default function TemplateWorkFlows() {
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof TemplateWorkFLowItem,
+    property: keyof TemplateWorkFlowItem,
   ) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -321,10 +321,10 @@ export default function TemplateWorkFlows() {
                       </div>
                     </TableCell>
                     <TableCell align="right">{row.title}</TableCell>
-                    <TableCell align="right">{row.imagingMethod}</TableCell>
-                    <TableCell align="right">{row.authorName} ( {row.authorEmail} )</TableCell>
-                    <TableCell align="right">{row.biologicalEntity }</TableCell>
-                    <TableCell align="right">{row.studyDescription }</TableCell>
+                    <TableCell align="right">{row.imagingmethod}</TableCell>
+                    <TableCell align="right">{row.authorname} ( {row.authoremail} )</TableCell>
+                    <TableCell align="right">{row.biologicalentity }</TableCell>
+                    <TableCell align="right">{row.studydescription }</TableCell>
                     <TableCell align="right">
                       <Stack direction="column" spacing={2}>
                         <Button variant="outlined" onClick={() => navigate('../view/template/'+row.entryid)}>View</Button>
@@ -359,3 +359,5 @@ export default function TemplateWorkFlows() {
     </Box>
   );
 }
+
+export default TemplateWorkFlows;

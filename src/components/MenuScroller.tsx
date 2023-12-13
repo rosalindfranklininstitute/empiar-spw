@@ -6,6 +6,9 @@ import WorkFlowStep from "./WorkFlowStep";
 import { stepMenus } from "../schema/WorkFlowStepSchemas";
 import Stack from "@mui/material/Stack";
 import { profile } from "console";
+import Button from '@mui/material/Button';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 export interface MenuScrollerProps {
   onMenuClick: (stepKey: string, stepTitle: string) => void;
@@ -24,17 +27,17 @@ function MenuScroller(props: MenuScrollerProps) {
       background: "white",
       boxSizing: "border-box" // <--- this line
     }}>
-    <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
-      {stepMenus.map((menu, index) => (
-        <WorkFlowStep
-          key={menu.stepkey}
-          name={menu.name}
-          stepKey={menu.stepkey}
-          color={menu.color}
-          onMenuClick={props.onMenuClick}
-        ></WorkFlowStep>
-      ))}
-    </ScrollMenu>
+      <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
+        {stepMenus.map((menu, index) => (
+          <WorkFlowStep
+            key={menu.stepkey}
+            name={menu.name}
+            stepKey={menu.stepkey}
+            color={menu.color}
+            onMenuClick={props.onMenuClick}
+          ></WorkFlowStep>
+        ))}
+      </ScrollMenu>
     </div>
   );
 }
@@ -72,9 +75,9 @@ function LeftArrow() {
     React.useContext(VisibilityContext);
 
   return (
-    <Arrow disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
-      Left
-    </Arrow>
+    <Button size="small" disabled={isFirstItemVisible} onClick={() => scrollPrev()} variant="outlined">
+      <ArrowLeftIcon />
+    </Button>
   );
 }
 
@@ -82,9 +85,9 @@ function RightArrow() {
   const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext);
 
   return (
-    <Arrow disabled={isLastItemVisible} onClick={() => scrollNext()}>
-      Right
-    </Arrow>
+    <Button size="small" disabled={isLastItemVisible} onClick={() => scrollNext()} variant="outlined">
+      <ArrowRightIcon />
+    </Button>
   );
 }
 

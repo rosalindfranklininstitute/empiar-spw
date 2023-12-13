@@ -3,57 +3,87 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 
 import "../widget/Widget.css";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import WorkflowVisualisationCard from "../components/WorkFlowVisualisationCard";
 import FetchLocalEntryData from "../schema/LocalDataFetcher";
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Stack from "@mui/material/Stack";
+import { exportImage, exportToJson, saveWfData, submitWfData } from "../utils/WidgetUtility";
 
-interface ViewWorkFlowType{
-    workFlowDataToLoad?:any
+
+interface ViewWorkFlowType {
+    workFlowDataToLoad?: any
 }
 
-function ViewWorkFlow(props:ViewWorkFlowType) {
-    const [workFlowData, setWorkFlowData] = useState<any>({})
-    const { workFlowType, workFlowId } = useParams();
+function ViewWorkFlow(props: ViewWorkFlowType) {
+    let entryData: any = useLoaderData();
 
-    if(props.workFlowDataToLoad){
+    const [workFlowData, setWorkFlowData] = useState<any>(entryData)
+    const navigate = useNavigate();
+
+    if (props.workFlowDataToLoad) {
         setWorkFlowData(props.workFlowDataToLoad)
     }
 
-    useEffect(() => {
-        let isInitialLoad = true;
-        const fetchWorkFlowData = async (workFlowType:any, workFlowId:any) => {
-            fetch("http://127.0.0.1:8001/empiar/api/spw/entry/" + workFlowType + "/" + workFlowId + "/")
-            .then(response => response.json())
-                // 4. Setting *dogImage* to the image url that we received from the response above
-            .then(data => setWorkFlowData(data))
-        }
+    const downloadJson = () => {
+        exportToJson(workFlowData, workFlowData.entryid);
+    }
 
-        const fetchLocalWorkFlowData = async (workFlowType:any, workFlowId:any) => {
-            const workflowData = await import('../static/sampledata/' + workFlowType + 'jsons/' + workFlowId + '.json');
-            if (isInitialLoad == true) {
-                isInitialLoad = false;
-                setWorkFlowData(workflowData.default);
-            }
-        }
-        if (isInitialLoad) {
-            if (process.env.NODE_ENV == "development") {
-                fetchLocalWorkFlowData(workFlowType, workFlowId)
-            }
-            else {
-                fetchWorkFlowData(workFlowType, workFlowId);
-            }
-        }
-        return () => {
-            isInitialLoad = false;
-        };
-    }, [workFlowType, workFlowId]);
+    const downloadImage = () => {
+        exportImage('workflow-vis', workFlowData.entryid);
+    }
+
+    const saveData = () =>{
+        saveWfData(workFlowData);
+    }
+
+    const submitData = () =>{
+        submitWfData(workFlowData);
+    }
 
     return (
         <>
             <CssBaseline />
-            <Container maxWidth="sm">
+            <Container maxWidth="md">
                 {Object.keys(workFlowData).length &&
-                    <WorkflowVisualisationCard stepData={workFlowData}></WorkflowVisualisationCard>
+                    <Box sx={{ flexGrow: 1 }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={9}>
+                                <WorkflowVisualisationCard stepData={workFlowData}></WorkflowVisualisationCard>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Stack direction="column" spacing={2}>
+                                <Button variant="contained" onClick={() => navigate(-1)}>Go back</Button>
+                                <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel1a-content"
+                                            id="panel1a-header"
+                                        >
+                                            <Typography>Export Options:</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Stack direction="column" spacing={2}>
+                                                <Button variant="contained" onClick={downloadImage}>
+                                                    Download Image
+                                                </Button>
+                                                <Button variant="contained" onClick={downloadJson}>
+                                                    Download JSON
+                                                </Button>
+                                            </Stack>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                </Stack>
+                            </Grid>
+                        </Grid>
+                    </Box>
                 }
             </Container>
         </>

@@ -1,0 +1,15 @@
+{
+    "ENV": "DEV",
+    "DEV": {
+        "SPW_ENTRIES_PUBLISHED": "http://127.0.0.1:8001/empiar/api/spw/entries/published/",
+        "SPW_ENTRIES_SAVED": "http://127.0.0.1:8001/empiar/api/spw/entries/saved/",
+        "SPW_ENTRIES_TEMPLATE": "http://127.0.0.1:8001/empiar/api/spw/entries/template/",
+        "SPW_ENTRY": "http://127.0.0.1:8001/empiar/api/spw/entry/"
+    },
+    "LOC": {
+        "SPW_EMP_ENTRIES_PUBLISHED": "../static/sampledata/published.json",
+        "SPW_EMP_ENTRIES_SAVED": "../static/sampledata/saved.json",
+        "SPW_EMP_ENTRIES_TEMPLATE": "../static/sampledata/template.json",
+        "SPW_EMP_ENTRY": "../static/sampledata/"
+    }
+}

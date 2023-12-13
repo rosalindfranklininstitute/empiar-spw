@@ -9,6 +9,11 @@ import { ObjectType } from "typescript";
 import { PropsWithChildren } from "react";
 import { FormProps } from "@rjsf/core";
 import Button from '@mui/material/Button';
+import React from "react";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Snackbar from '@mui/material/Snackbar';
+
 
 interface WorkFlowCardProps {
   id: number | string,
@@ -29,7 +34,36 @@ export default function WorkFlowCard(props: WorkFlowCardProps) {
   let uiSchema: UiSchema =
   stepDictObject[props.stepKey as keyof typeof stepDictObject]["uischema"];
 
+  const [open, setOpen] = React.useState(false);
 
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const setSnackBarContent = () => {
+    return props.stepTitle + " card is saved succesfuly";
+  };
+
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const log = (type: string) => console.log.bind(console, type);
   const onSubmit = (data: any) => {
@@ -39,6 +73,7 @@ export default function WorkFlowCard(props: WorkFlowCardProps) {
     cardData.method = props.stepTitle;
     props.updateStepData(cardData)
     props.handleCardCollapse();
+    handleClick();
   }
   return (
     <>
@@ -55,49 +90,13 @@ export default function WorkFlowCard(props: WorkFlowCardProps) {
         <Button variant="contained" onClick={() => props.onCopyStep(props.stepKey, props.stepTitle, props.data)}>Copy</Button>
         <Button variant="contained" onClick={() => props.onRemove(props.id)}>Delete</Button>
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={setSnackBarContent()}
+        action={action}
+      />
     </>
   );
-}
-
-const formLoadDatas: any = {
-  "reagentlist": [
-      {
-          "reagentdetail": {
-              "reagent": "Acetone",
-              "solvent": "Calcium Chloride"
-          },
-          "concentrationdetails": {
-              "concentration": "1010",
-              "concentrationunits": "%"
-          }
-      },
-      {
-          "reagentdetail": {
-              "reagent": "Acetone",
-              "solvent": "Acetone"
-          },
-          "concentrationdetails": {
-              "concentration": "1111",
-              "concentrationunits": "%W/V"
-          }
-      }
-  ],
-  "ph": 11,
-  "temperature": {
-      "temperature": 22,
-      "temperatureunit": "K"
-  },
-  "duration": {
-      "duration": 33,
-      "durationunit": "Min"
-  },
-  "repeats": 44,
-  "notes": "55",
-  "safetynotes": "66",
-  "instrument": {
-      "instrumentname": "77",
-      "instrumentwattage": "88"
-  },
-  "isundervaccum": true,
-  "instrumentwattage": "99"
 }
