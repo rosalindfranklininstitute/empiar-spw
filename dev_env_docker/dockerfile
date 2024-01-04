@@ -1,0 +1,22 @@
+FROM ubuntu:20.04
+ENV TZ=Europe/London
+WORKDIR /home/empiar-spw
+
+# updates and installs
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get update && apt-get upgrade && apt-get install -y python3.9 python3.9-dev curl
+
+# node and react setup
+RUN apt install -y nodejs npm
+RUN curl -sL https://deb.nodesource.com/setup_20.x -o /tmp/nodesource_setup.sh
+RUN bash /tmp/nodesource_setup.sh
+RUN apt install -y nodejs
+
+#COPY empiar-spw/ /home/empiar-spw/
+COPY launch.sh /home/
+
+# expose port 3000 so it can be bound.
+EXPOSE 3000
+
+# start up app as program running
+CMD ["/home/launch.sh"] 
