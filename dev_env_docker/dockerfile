@@ -12,7 +12,7 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x -o /tmp/nodesource_setup.sh
 RUN bash /tmp/nodesource_setup.sh
 RUN apt install -y nodejs
 
-#COPY empiar-spw/ /home/empiar-spw/
+# copy simple deployment shell script 
 COPY launch.sh /home/
 
 # expose port 3000 so it can be bound.
