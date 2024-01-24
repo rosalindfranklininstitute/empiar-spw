@@ -5,9 +5,10 @@ This dockerfile is designed to create a docker image locally which has all of th
 1. Make sure you have docker installed and the docker engine is running. 
 2. Open up a terminal window
 3. Navigate to the 'dev_env_docker' folder in the location you've cloned the repo.
+4. run the command `sed -i -e 's/\r$//' launch.sh`
 4. run the command `docker build -t empiar-spw-dev .`
 5. wait for the build to complete.
-6. run the command `docker run -v {path_to_repo}:/home/empiar-spw -p 3000:3000 empiar-spw-dev` replacing `path_to_repo` with the absolute location of the empiar-spw repo clone.
+6. run the command `docker run -v {absolute_path_to_repo}:/home/empiar-spw -p 3000:3000 empiar-spw-dev` replacing `{absolute_path_to_repo}` with the absolute location of the empiar-spw repo clone.
 7. Wait for the deployment to complete.
 8. open up a web browser and in the address bar run `localhost:3000`
 
