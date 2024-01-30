@@ -4,7 +4,7 @@ WORKDIR /home/empiar-spw
 
 # updates and installs
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN apt-get update && apt-get upgrade && apt-get install -y python3.9 python3.9-dev curl
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y python3.9 python3.9-dev curl
 
 # node and react setup
 RUN apt install -y nodejs npm
@@ -14,7 +14,7 @@ RUN apt install -y nodejs
 
 # copy simple deployment shell script 
 COPY launch.sh /home/
-
+RUN chmod +x /home/launch.sh
 # expose port 3000 so it can be bound.
 EXPOSE 3000
 
