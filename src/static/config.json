@@ -1,5 +1,5 @@
 {
-    "ENV": "LOC",
+    "ENV": "DEV",
     "DEV": {
         "SPW_ENTRIES_PUBLISHED": "http://127.0.0.1:8001/empiar/api/spw/entries/published/",
         "SPW_ENTRIES_SAVED": "http://127.0.0.1:8001/empiar/api/spw/entries/saved/",
