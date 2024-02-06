@@ -2,6 +2,7 @@
   "name": "empiar-spw",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@cahil/utils": "^2.3.2",
     "@dnd-kit/sortable": "^7.0.2",
@@ -20,9 +21,12 @@
     "@types/react-beautiful-dnd": "^13.1.4",
     "@types/react-dom": "^18.2.6",
     "axios": "^1.6.2",
+    "concurrently": "^8.2.2",
+    "express": "^4.18.2",
     "fs-web": "^1.0.1",
     "html-to-image": "^1.11.11",
     "html2canvas": "^1.4.1",
+    "nodemon": "^3.0.3",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
@@ -34,7 +38,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start:frontend": "react-scripts start",
+    "start:backend": "ts-node-esm server/index.ts",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
