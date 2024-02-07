@@ -114,7 +114,7 @@ function stepKeyToTitleConverter(searchValue: string, isKeyRequired: boolean = t
     return convertedValue;
 }
 
-export async function exportImage(elementId: string, fileName:string) {
+export async function exportImage(elementId: string, fileName: string) {
     const element = document.getElementById(elementId)
     if (element) {
         let canvas = await html2canvas(element),
@@ -167,9 +167,9 @@ export const PublishedListDataLoader = async (params: any) => {
     try {
         let publishedWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            const path = configData.LOC.SPW_EMP_ENTRIES_PUBLISHED
-            const publisedJsonData = await import('../static/sampledata/published.json');
-            publishedWorkFlowDetails = publisedJsonData.publishedentries;
+            await fetch(configData.LOC.SPW_EMP_ENTRIES_PUBLISHED)
+                .then(response => response.json())
+                .then(data => { publishedWorkFlowDetails = data; })
         }
         else {
             await fetch(configData.DEV.SPW_ENTRIES_PUBLISHED)
@@ -186,8 +186,9 @@ export const SavedListDataLoader = async (params: any) => {
     try {
         let savedWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            let savedJsonData = await import('../static/sampledata/saved.json')
-            savedWorkFlowDetails = savedJsonData.savedentries
+            await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED)
+                .then(response => response.json())
+                .then(data => { savedWorkFlowDetails = data; })
         }
         else {
             await fetch(configData.DEV.SPW_ENTRIES_SAVED)
@@ -204,8 +205,9 @@ export const TemplateListDataLoader = async (params: any) => {
     try {
         let templateWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            const templateJsonData = await import('../static/sampledata/template.json');
-            templateWorkFlowDetails = templateJsonData.templateentries;
+            await fetch(configData.LOC.SPW_EMP_ENTRIES_TEMPLATE)
+                .then(response => response.json())
+                .then(data => { templateWorkFlowDetails = data; })
         }
         else {
             await fetch(configData.DEV.SPW_ENTRIES_TEMPLATE)
@@ -253,7 +255,7 @@ export const MetaDataLoader = async (params: any) => {
     }
 }
 
-export const submitData = async (workFlowData:any) => {
+export const submitData = async (workFlowData: any) => {
     let result: any = {}
     const requestOptions = {
         method: 'POST',
