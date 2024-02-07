@@ -8,7 +8,7 @@
     },
     "LOC": {
         "SPW_EMP_ENTRIES_PUBLISHED": "http://localhost:5000/publishedlist/",
-        "SPW_EMP_ENTRIES_SAVED": "http://localhost:5000/saveddlist/",
+        "SPW_EMP_ENTRIES_SAVED": "http://localhost:5000/savedlist/",
         "SPW_EMP_ENTRIES_TEMPLATE": "http://localhost:5000/templatelist/",
         "SPW_EMP_ENTRY": "http://localhost:5000/"
     }

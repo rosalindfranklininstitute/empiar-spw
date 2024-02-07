@@ -7,10 +7,6 @@ import * as templateController from '../src/localapi/controllers/templateControl
 
 
 dotenv.config();
-
-console.log('*************');
-console.log(process.env.MONGO_DB_URI);
-
 const app: Express = express();
 const port = process.env.PORT || 5000;
 app.use(express.json());
@@ -25,6 +21,7 @@ app.get("/Saved/:id", savedController.getSaved);
 app.post("/Saved", savedController.addSaved);
 app.put("/Saved/:id", savedController.updateSaved);
 app.delete("/Saved/:id", savedController.deleteSaved);
+app.get("/SavedList", savedController.savedList);
 
 // Published SPW
 app.get("/Published", publishedController.allPublished);
@@ -35,6 +32,7 @@ app.post("/Published", publishedController.addPublished);
 // Tempalte SPW
 app.get("/Template", templateController.allTemplate);
 app.get("/Template/:id", templateController.getTemplate);
+app.get("/TemplateList", templateController.templateList);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
