@@ -14,7 +14,7 @@ async function getItemsList() {
 }
 
 async function getItem(id: any) {
-    const Item = await Saved.findOne({ 'user.email': id });
+    const Item = await Saved.findOne({ _id: id });
     return Item;
 }
 

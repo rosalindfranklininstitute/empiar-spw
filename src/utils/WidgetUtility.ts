@@ -224,8 +224,9 @@ export const ViewWorkFlowDataLoader = async (params: any) => {
     try {
         let publishedWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            const publisedJsonData = await import('../static/sampledata/' + params.params.workflowtype + 'jsons/' + params.params.workflowid + '.json')
-            publishedWorkFlowDetails = publisedJsonData;
+            await fetch(configData.LOC.SPW_EMP_ENTRY + params.params.workflowtype + "/" + params.params.workflowid + "/")
+                .then(response => response.json())
+                .then(data => { publishedWorkFlowDetails = data; })
         }
         else {
             await fetch(configData.DEV.SPW_ENTRY + params.params.workflowtype + "/" + params.params.workflowid + "/")
@@ -242,7 +243,9 @@ export const MetaDataLoader = async (params: any) => {
     try {
         let workFlowData: any = {}
         if (configData.ENV == "LOC") {
-            workFlowData = await import('../static/sampledata/' + params.params.workflowtype + 'jsons/' + params.params.workflowid + '.json')
+            await fetch(configData.LOC.SPW_EMP_ENTRY + params.params.workflowtype + "/" + params.params.workflowid + "/")
+            .then(response => response.json())
+            .then(data => { workFlowData = data; })
         }
         else {
             await fetch(configData.DEV.SPW_ENTRY + params.params.workflowtype + "/" + params.params.workflowid + "/")
