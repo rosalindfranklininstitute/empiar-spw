@@ -50,7 +50,7 @@ export default function BaseLayout() {
               { 'text': 'Published Entries', 'link': 'published', 'icon': <PublicIcon /> },
               { 'text': 'Template Entries', 'link': 'template', 'icon': <DriveFolderUploadIcon /> },
               { 'text': 'Saved Entries', 'link': 'saved', 'icon': <GradeIcon /> },
-              { 'text': 'Build A Workflow', 'link': 'build/new', 'icon': <BuildIcon /> },
+              { 'text': 'Build A Workflow', 'link': 'build/metadata/new', 'icon': <BuildIcon /> },
             ].map((item, index) => (
               <ListItem disablePadding key={item.text}>
                 <MenuLink href={item.link}>

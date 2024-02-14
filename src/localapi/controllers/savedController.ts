@@ -20,18 +20,19 @@ async function getItem(id: any) {
 
 async function deleteItem(id: any) {
     await Saved.findByIdAndDelete({ _id: id });
-    return "Successfully Deleted Item";
+    return {"code": 1, "message": "Successfully Deleted Item"};
 }
 
 async function updateItem(id: any, reqBody: any) {
     await Saved.findByIdAndUpdate(id, reqBody);
-    return "Successfully Updated Item";
+    return {"code": 1 , "message": "Successfully Updated Item"}
 }
 
 async function addItem(reqBody: any) {
+    reqBody["entryid"] = Math.floor(Math.random()*90000) + 10000;
     var newItem = new Saved(reqBody);
     await newItem.save();
-    return newItem;
+    return {"code": 1, "entryid": newItem.entryid, "entry": newItem};
 }
 
 export let allSaved = async (req: Request, res: Response) => {

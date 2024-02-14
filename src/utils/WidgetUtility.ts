@@ -167,7 +167,7 @@ export const PublishedListDataLoader = async (params: any) => {
     try {
         let publishedWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            await fetch(configData.LOC.SPW_EMP_ENTRIES_PUBLISHED)
+            await fetch(configData.LOC.SPW_EMP_ENTRIES_PUBLISHED_LIST)
                 .then(response => response.json())
                 .then(data => { publishedWorkFlowDetails = data; })
         }
@@ -186,7 +186,7 @@ export const SavedListDataLoader = async (params: any) => {
     try {
         let savedWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED)
+            await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED_LIST)
                 .then(response => response.json())
                 .then(data => { savedWorkFlowDetails = data; })
         }
@@ -205,7 +205,7 @@ export const TemplateListDataLoader = async (params: any) => {
     try {
         let templateWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            await fetch(configData.LOC.SPW_EMP_ENTRIES_TEMPLATE)
+            await fetch(configData.LOC.SPW_EMP_ENTRIES_TEMPLATE_LIST)
                 .then(response => response.json())
                 .then(data => { templateWorkFlowDetails = data; })
         }
@@ -265,7 +265,52 @@ export const submitData = async (workFlowData: any) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(workFlowData)
     };
-    fetch('http://127.0.0.1:8001/empiar/api/api/spw/entry/published/', requestOptions)
+    if (configData.ENV == "LOC") {
+        fetch( configData.LOC.SPW_EMP_ENTRY + 'published/', requestOptions)
         .then(response => response.json())
         .then(data => { result = data; return result });
+    }
+    else{
+        fetch('http://127.0.0.1:8001/empiar/api/api/spw/entry/published/', requestOptions)
+        .then(response => response.json())
+        .then(data => { result = data; return result });
+    }
+}
+
+export const saveData = async (workFlowData: any) => {
+    let result: any = {}
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(workFlowData)
+    };
+    if (configData.ENV == "LOC") {
+        fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/', requestOptions)
+        .then(response => response.json())
+        .then(data => { result = data; return result });
+    }
+    else{
+        fetch('http://127.0.0.1:8001/empiar/api/api/spw/entry/published/', requestOptions)
+        .then(response => response.json())
+        .then(data => { result = data; return result });
+    }
+}
+
+export const updateSaved = async (params: any) => {
+    let result: any = {}
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(params.params.workFlowData)
+    };
+    if (configData.ENV == "LOC") {
+        fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/' + params.params.workflowid, requestOptions)
+        .then(response => response.json())
+        .then(data => { result = data; return result });
+    }
+    else{
+        fetch('http://127.0.0.1:8001/empiar/api/api/spw/entry/published/', requestOptions)
+        .then(response => response.json())
+        .then(data => { result = data; return result });
+    }
 }

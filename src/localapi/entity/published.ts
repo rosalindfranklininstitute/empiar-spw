@@ -1,6 +1,7 @@
 import * as mongoose from "mongoose";
+import configData from "../../static/config.json"  assert { type: "json" };
 
-const uri: string = "mongodb://127.0.0.1:27017/admin"
+const uri: string = configData.MONGO.CONNECTION_STRING + configData.MONGO.DB_NAME;
 
 mongoose.connect(uri);
 

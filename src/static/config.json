@@ -1,5 +1,9 @@
 {
     "ENV": "LOC",
+    "MONGO":{
+        "CONNECTION_STRING": "mongodb://127.0.0.1:27017/",
+        "DB_NAME":  "admin"
+    },
     "DEV": {
         "SPW_ENTRIES_PUBLISHED": "http://127.0.0.1:8001/empiar/api/spw/entries/published/",
         "SPW_ENTRIES_SAVED": "http://127.0.0.1:8001/empiar/api/spw/entries/saved/",
@@ -7,9 +11,13 @@
         "SPW_ENTRY": "http://127.0.0.1:8001/empiar/api/spw/entry/"
     },
     "LOC": {
-        "SPW_EMP_ENTRIES_PUBLISHED": "http://localhost:5000/publishedlist/",
-        "SPW_EMP_ENTRIES_SAVED": "http://localhost:5000/savedlist/",
-        "SPW_EMP_ENTRIES_TEMPLATE": "http://localhost:5000/templatelist/",
+        "SPW_EMP_ENTRIES_PUBLISHED_LIST": "http://localhost:5000/publishedlist/",
+        "SPW_EMP_ENTRIES_SAVED_LIST": "http://localhost:5000/savedlist/",
+        "SPW_EMP_ENTRIES_TEMPLATE_LIST": "http://localhost:5000/templatelist/",
         "SPW_EMP_ENTRY": "http://localhost:5000/"
+    },
+    "TESTUSER":{
+        "USER_EMAIL": "testuser@gmail.com",
+        "USER_NAME": "Test User"
     }
 }

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Published from '../entity/published.js'
 import { PublisedWorkFLowItem } from '../../utils/WidgetDataUtility.js'
+import { config } from "process";
 
 async function getItems() {
     const Items = await Published.find();
@@ -28,9 +29,11 @@ async function updateItem(id: any, reqBody: any) {
 }
 
 async function addItem(reqBody: any) {
+    const randomId = Math.floor(Math.random()*90000) + 10000;
+    reqBody["entryid"] = "SPW - " +  randomId;
     var newItem = new Published(reqBody);
     await newItem.save();
-    return newItem;
+    return {"code": 1, "entryid": newItem.entryid, "entry": newItem, "doi": "http://localhost:3000/view/published/" + newItem._id};;
 }
 
 export let allPublished = async (req: Request, res: Response) => {
