@@ -12,6 +12,9 @@ function WorkFlowMetaDataPage() {
     let workFlowDataToLoad: any = {};
     if (state){
         metaDataToLoad = state.metadata;
+        if (state.entrydata !== undefined){
+            entryData =  state.entrydata;
+        }
     }
     else{
         entryData = useLoaderData();

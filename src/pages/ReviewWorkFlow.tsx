@@ -43,6 +43,10 @@ function ReviewWorkFlow() {
     }
 
     const saveData = () => {
+        if ('_id' in workFlowData)
+        {
+          delete workFlowData._id;
+        }
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -53,7 +57,7 @@ function ReviewWorkFlow() {
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
-                setMessage(data["entryid"] + " created succesfuly with DOI:" + data["message"]);
+                setMessage(data["entryid"] + " created succesfuly. Saved entry can be accessed at:" + data["savedurl"]);
                 setOpenSuccess(!openSuccess);
                 }
                 else{

@@ -32,7 +32,7 @@ async function addItem(reqBody: any) {
     reqBody["entryid"] = Math.floor(Math.random()*90000) + 10000;
     var newItem = new Saved(reqBody);
     await newItem.save();
-    return {"code": 1, "entryid": newItem.entryid, "entry": newItem};
+    return {"code": 1, "entryid": newItem.entryid, "entry": newItem, "savedurl": "http://localhost:3000/view/saved/" + newItem._id};;
 }
 
 export let allSaved = async (req: Request, res: Response) => {

@@ -140,7 +140,7 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
     }
     
     function navigateBack() {
-        navigate("../metadata/" + workFlowType, { state: { metadata: state.metadata } });
+        navigate("../metadata/" + workFlowType, { state: { metadata: state.metadata, entrydata: state.entrydata } });
     }
 
 
