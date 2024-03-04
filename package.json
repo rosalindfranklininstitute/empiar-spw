@@ -41,7 +41,7 @@
   },
   "scripts": {
     "start:frontend": "react-scripts start",
-    "start:backend": "ts-node-esm server/index.ts",
+    "start:backend": "node --loader ts-node/esm server/index.ts",
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
