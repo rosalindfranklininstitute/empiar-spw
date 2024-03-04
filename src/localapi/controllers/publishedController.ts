@@ -33,7 +33,7 @@ async function addItem(reqBody: any) {
     reqBody["entryid"] = "SPW - " +  randomId;
     var newItem = new Published(reqBody);
     await newItem.save();
-    return {"code": 1, "entryid": newItem.entryid, "entry": newItem, "doi": "http://localhost:3000/view/published/" + newItem._id};;
+    return {"code": 1, "entryid": newItem.entryid, "entry": newItem, "doi": "http://localhost:3001/view/published/" + newItem._id};;
 }
 
 export let allPublished = async (req: Request, res: Response) => {
