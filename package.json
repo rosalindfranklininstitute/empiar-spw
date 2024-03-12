@@ -37,12 +37,11 @@
     "react-router-dom": "^6.19.0",
     "react-scripts": "^5.0.1",
     "seamless-scroll-polyfill": "^2.3.4",
-    "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start:frontend": "react-scripts start",
-    "start:backend": "ts-node-esm server/index.ts",
+    "start:backend": "node --loader ts-node/esm server/index.ts",
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -65,5 +64,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }
