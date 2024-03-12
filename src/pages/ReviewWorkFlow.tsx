@@ -31,6 +31,9 @@ function ReviewWorkFlow() {
     const workFlowData = state.data;
     const navigate = useNavigate();
 
+    let params = useParams();
+    const workFlowType = params.workflowtype;
+
     const downloadJson = () => {
         exportToJson(workFlowData, workFlowData.id);
     }
@@ -40,12 +43,28 @@ function ReviewWorkFlow() {
     }
 
     const saveData = () => {
+        if ('_id' in workFlowData)
+        {
+          delete workFlowData._id;
+        }
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
+            fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if(data["code"] == 1){
+                setMessage(data["entryid"] + " created succesfuly. Saved entry can be accessed at:" + data["savedurl"]);
+                setOpenSuccess(!openSuccess);
+                }
+                else{
+                    setMessage(data["entryid"] + "SPW submission failed with error message:" + data["message"]);
+                    setOpenSuccess(!openSuccess);
+                }
+            });
             setMessage("Test SPW entry saved as a draft succesfuly with DOI: TEST DOI");
             setOpenSuccess(!openSuccess);
         }
@@ -54,24 +73,99 @@ function ReviewWorkFlow() {
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
-                setMessage(data["spwid"] + " created succesfuly");
+                setMessage(data["entryid"] + " created succesfuly");
                 setOpenSuccess(!openSuccess);
                 }
                 else{
-                    setMessage(data["spwid"] + "SPW submission failed with error message:" + data["message"]);
+                    setMessage(data["entryid"] + "SPW submission failed with error message:" + data["message"]);
                     setOpenSuccess(!openSuccess);
                 }
             });
         }
     }
 
+    const updateData = () => {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(workFlowData)
+        };
+        if (configData.ENV == "LOC") {
+            fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/' + workFlowData["_id"], requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if(data["code"] == 1){
+                setMessage(data["entryid"] + " created succesfuly with DOI:" + data["message"]);
+                setOpenSuccess(!openSuccess);
+                }
+                else{
+                    setMessage(data["entryid"] + "SPW submission failed with error message:" + data["message"]);
+                    setOpenSuccess(!openSuccess);
+                }
+            });
+            setMessage("Test SPW entry saved as a draft succesfuly with DOI: TEST DOI");
+            setOpenSuccess(!openSuccess);
+        }
+        else{
+        fetch('http://127.0.0.1:8001/empiar/api/api/spw/entry/saved/', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if(data["code"] == 1){
+                setMessage(data["entryid"] + " created succesfuly");
+                setOpenSuccess(!openSuccess);
+                }
+                else{
+                    setMessage(data["entryid"] + "SPW submission failed with error message:" + data["message"]);
+                    setOpenSuccess(!openSuccess);
+                }
+            });
+        }
+    }
+
+    const handleSubmitData = async() => {
+        if (workFlowType == "saved"){
+            fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/' + workFlowData._id, {
+                method: 'DELETE',
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // this is the data we get after doing the delete request, do whatever you want with this data
+                if (data["code"] == 1){
+                    submitWfData();
+                }
+            });
+        }
+        else{
+            submitWfData();
+        }
+    }
+
     const submitWfData = async () => {
+          if ('_id' in workFlowData)
+          {
+            delete workFlowData._id;
+          }
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
+            fetch(configData.LOC.SPW_EMP_ENTRY + 'published/', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if(data["code"] == 1){
+                setMessage(data["entryid"] + " created succesfuly with DOI:" + data["doi"]);
+                setOpenSuccess(!openSuccess);
+                }
+                else{
+                    setMessage(data["entryid"] + "SPW submission failed with error message:" + data["message"]);
+                    setOpenSuccess(!openSuccess);
+                }
+            });
             setMessage("Test SPW entry created succesfuly with DOI: TEST DOI");
             setOpenSuccess(!openSuccess);
         }
@@ -80,11 +174,11 @@ function ReviewWorkFlow() {
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
-                setMessage(data["spwid"] + " created succesfuly with DOI:" + data["message"]);
+                setMessage(data["entryid"] + " created succesfuly with DOI:" + data["doi"]);
                 setOpenSuccess(!openSuccess);
                 }
                 else{
-                    setMessage(data["spwid"] + "SPW submission failed with error message:" + data["message"]);
+                    setMessage(data["entryid"] + "SPW submission failed with error message:" + data["message"]);
                     setOpenSuccess(!openSuccess);
                 }
             });
@@ -92,7 +186,7 @@ function ReviewWorkFlow() {
     }
 
     function navigateBack() {
-        navigate("../workflow", { state: { metadata: workFlowData.metadata, data: workFlowData.data } });
+        navigate("../workflow/" + workFlowType, { state: { metadata: workFlowData.metadata, entrydata: workFlowData } });
     }
 
     return (
@@ -144,10 +238,16 @@ function ReviewWorkFlow() {
                                         </AccordionSummary>
                                         <AccordionDetails>
                                             <Stack direction="column" spacing={2}>
-                                                <Button variant="contained" onClick={saveData}>
-                                                    Save Workflow
-                                                </Button>
-                                                <Button variant="contained" onClick={submitWfData}>
+                                                { workFlowType == "saved" ? 
+                                                    <Button variant="contained" onClick={updateData}>
+                                                        Update Workflow
+                                                    </Button>
+                                                    :
+                                                    <Button variant="contained" onClick={saveData}>
+                                                        Save Workflow
+                                                    </Button>
+                                                }
+                                                <Button variant="contained" onClick={handleSubmitData}>
                                                     Submit Workflow
                                                 </Button>
                                             </Stack>

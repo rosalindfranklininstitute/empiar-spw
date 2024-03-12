@@ -25,10 +25,10 @@ export default function Widget() {
         <Route path="/template" element={<TemplateWorkFlows />} loader={TemplateListDataLoader}/>
         <Route path="/view/:workflowtype/:workflowid" element={<ViewWorkFlow />} loader={ViewWorkFlowDataLoader}/>
         <Route path="build" element={<BuildLayout />} errorElement={<WorkFlowError /> }>
-          <Route path="new" element={<WorkFlowMetaData />} />
+          <Route path="metadata/:workflowtype" element={<WorkFlowMetaData />} />
           <Route path="metadata/:workflowtype/:workflowid" element={<WorkFlowMetaData />} loader={MetaDataLoader} />
-          <Route path="workflow" element={<WorkFlowSteps />} />
-          <Route path="review" element={<ReviewWorkFlow />} />
+          <Route path="workflow/:workflowtype" element={<WorkFlowSteps />} />
+          <Route path="review/:workflowtype" element={<ReviewWorkFlow />} />
         </Route>
         {/* <Route path="/help" element={<Help />} /> */}
         <Route path="/faq" element={<Faq />} />

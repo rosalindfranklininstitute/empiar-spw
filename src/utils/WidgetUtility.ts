@@ -114,7 +114,7 @@ function stepKeyToTitleConverter(searchValue: string, isKeyRequired: boolean = t
     return convertedValue;
 }
 
-export async function exportImage(elementId: string, fileName:string) {
+export async function exportImage(elementId: string, fileName: string) {
     const element = document.getElementById(elementId)
     if (element) {
         let canvas = await html2canvas(element),
@@ -167,9 +167,9 @@ export const PublishedListDataLoader = async (params: any) => {
     try {
         let publishedWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            const path = configData.LOC.SPW_EMP_ENTRIES_PUBLISHED
-            const publisedJsonData = await import('../static/sampledata/published.json');
-            publishedWorkFlowDetails = publisedJsonData.publishedentries;
+            await fetch(configData.LOC.SPW_EMP_ENTRIES_PUBLISHED_LIST)
+                .then(response => response.json())
+                .then(data => { publishedWorkFlowDetails = data; })
         }
         else {
             await fetch(configData.DEV.SPW_ENTRIES_PUBLISHED)
@@ -186,8 +186,9 @@ export const SavedListDataLoader = async (params: any) => {
     try {
         let savedWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            let savedJsonData = await import('../static/sampledata/saved.json')
-            savedWorkFlowDetails = savedJsonData.savedentries
+            await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED_LIST)
+                .then(response => response.json())
+                .then(data => { savedWorkFlowDetails = data; })
         }
         else {
             await fetch(configData.DEV.SPW_ENTRIES_SAVED)
@@ -204,8 +205,9 @@ export const TemplateListDataLoader = async (params: any) => {
     try {
         let templateWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            const templateJsonData = await import('../static/sampledata/template.json');
-            templateWorkFlowDetails = templateJsonData.templateentries;
+            await fetch(configData.LOC.SPW_EMP_ENTRIES_TEMPLATE_LIST)
+                .then(response => response.json())
+                .then(data => { templateWorkFlowDetails = data; })
         }
         else {
             await fetch(configData.DEV.SPW_ENTRIES_TEMPLATE)
@@ -222,8 +224,9 @@ export const ViewWorkFlowDataLoader = async (params: any) => {
     try {
         let publishedWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            const publisedJsonData = await import('../static/sampledata/' + params.params.workflowtype + 'jsons/' + params.params.workflowid + '.json')
-            publishedWorkFlowDetails = publisedJsonData;
+            await fetch(configData.LOC.SPW_EMP_ENTRY + params.params.workflowtype + "/" + params.params.workflowid + "/")
+                .then(response => response.json())
+                .then(data => { publishedWorkFlowDetails = data; })
         }
         else {
             await fetch(configData.DEV.SPW_ENTRY + params.params.workflowtype + "/" + params.params.workflowid + "/")
@@ -240,7 +243,9 @@ export const MetaDataLoader = async (params: any) => {
     try {
         let workFlowData: any = {}
         if (configData.ENV == "LOC") {
-            workFlowData = await import('../static/sampledata/' + params.params.workflowtype + 'jsons/' + params.params.workflowid + '.json')
+            await fetch(configData.LOC.SPW_EMP_ENTRY + params.params.workflowtype + "/" + params.params.workflowid + "/")
+            .then(response => response.json())
+            .then(data => { workFlowData = data; })
         }
         else {
             await fetch(configData.DEV.SPW_ENTRY + params.params.workflowtype + "/" + params.params.workflowid + "/")
@@ -253,14 +258,59 @@ export const MetaDataLoader = async (params: any) => {
     }
 }
 
-export const submitData = async (workFlowData:any) => {
+export const submitData = async (workFlowData: any) => {
     let result: any = {}
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(workFlowData)
     };
-    fetch('http://127.0.0.1:8001/empiar/api/api/spw/entry/published/', requestOptions)
+    if (configData.ENV == "LOC") {
+        fetch( configData.LOC.SPW_EMP_ENTRY + 'published/', requestOptions)
         .then(response => response.json())
         .then(data => { result = data; return result });
+    }
+    else{
+        fetch('http://127.0.0.1:8001/empiar/api/api/spw/entry/published/', requestOptions)
+        .then(response => response.json())
+        .then(data => { result = data; return result });
+    }
+}
+
+export const saveData = async (workFlowData: any) => {
+    let result: any = {}
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(workFlowData)
+    };
+    if (configData.ENV == "LOC") {
+        fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/', requestOptions)
+        .then(response => response.json())
+        .then(data => { result = data; return result });
+    }
+    else{
+        fetch('http://127.0.0.1:8001/empiar/api/api/spw/entry/published/', requestOptions)
+        .then(response => response.json())
+        .then(data => { result = data; return result });
+    }
+}
+
+export const updateSaved = async (params: any) => {
+    let result: any = {}
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(params.params.workFlowData)
+    };
+    if (configData.ENV == "LOC") {
+        fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/' + params.params.workflowid, requestOptions)
+        .then(response => response.json())
+        .then(data => { result = data; return result });
+    }
+    else{
+        fetch('http://127.0.0.1:8001/empiar/api/api/spw/entry/published/', requestOptions)
+        .then(response => response.json())
+        .then(data => { result = data; return result });
+    }
 }

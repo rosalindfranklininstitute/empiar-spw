@@ -7,8 +7,11 @@ import { LoadWidgetReferenceList } from '../utils/WidgetUtility';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import "../widget/Widget.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BasicCardHeader from "../components/BasicCardHeader";
+import Button from '@mui/material/Button';
+import { metaDataObject } from "../schema/WorkFlowStepSchemas";
+import configData from "../static/config.json";
 
 interface SamplePrepWidgetProps {
     workFlowData?: any;
@@ -28,9 +31,16 @@ let formData: any = {}
 function WorkFlowSteps(props: SamplePrepWidgetProps) {
     const [listReference, setListReference] = useState<ListItemReferenceProps[]>([]);
     const { state } = useLocation();
-    let workFlowStepsData: any = state.data;
     formData['metadata'] = state.metadata;
+    let workFlowStepsData: any = {};
+    if (state.entrydata !== undefined){
+        workFlowStepsData =  state.entrydata.data;
+    }
+    
     const navigate = useNavigate();
+
+    let params = useParams();
+    const workFlowType = params.workflowtype;
 
     useEffect(() => {
         let isInitialLoad = true;
@@ -107,7 +117,18 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
                 reorgWorkFlowData.push(formData[key]);
             }
         }
-        navigate("../review/", { state: { data: workFlowCollectedData } });
+        if (workFlowType == "new"){
+            workFlowCollectedData["user"] = {
+                "name": configData.TESTUSER.USER_NAME,
+                "email": configData.TESTUSER.USER_EMAIL
+            }
+        }
+        else{
+            workFlowCollectedData["user"] = state.entrydata["user"];
+            workFlowCollectedData["_id"] = state.entrydata["_id"];
+            workFlowCollectedData["entryid"] = state.entrydata["entryid"];
+        }
+        navigate("../review/" + workFlowType, { state: { data: workFlowCollectedData } });
     }
 
     function fetchWorkFlowTitle() {
@@ -117,10 +138,17 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
         }
         return name;
     }
+    
+    function navigateBack() {
+        navigate("../metadata/" + workFlowType, { state: { metadata: state.metadata, entrydata: state.entrydata } });
+    }
 
 
     return (
         <>
+            <div>
+            <Button variant="contained" onClick={navigateBack}>Go back</Button>
+            </div>
             <div>
                 <BasicCardHeader title={fetchWorkFlowTitle()} width="75%" />
                 <MetaDataPaper square>
