@@ -1,7 +1,7 @@
 {
     "ENV": "LOC",
     "MONGO":{
-        "CONNECTION_STRING": "mongodb://172.17.0.2:27017/",
+        "CONNECTION_STRING": "mongodb://localhost:27017/",
         "DB_NAME":  "admin"
     },
     "DEV": {
