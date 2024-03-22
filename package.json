@@ -42,7 +42,7 @@
   },
   "scripts": {
     "start:frontend": "react-scripts start",
-    "start:backend": "node --loader ts-node/esm server/index.ts",
+    "start:backend": "ts-node-esm server/index.ts",
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -65,9 +65,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
   }
 }
