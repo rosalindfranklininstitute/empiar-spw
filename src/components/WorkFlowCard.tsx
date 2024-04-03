@@ -1,4 +1,4 @@
-import { RJSFSchema, UiSchema, WidgetProps } from "@rjsf/utils";
+import { RJSFSchema, UiSchema, WidgetProps, getSubmitButtonOptions, SubmitButtonProps } from "@rjsf/utils";
 import validator from "@rjsf/validator-ajv8";
 import { Form } from "@rjsf/mui";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -67,6 +67,19 @@ export default function WorkFlowCard(props: WorkFlowCardProps) {
     </React.Fragment>
   );
 
+  function SubmitButton(props: SubmitButtonProps) {
+    const { uiSchema } = props;
+    const { norender } = getSubmitButtonOptions(uiSchema);
+    if (norender) {
+      return null;
+    }
+    return (
+      <Button type='submit' variant="contained">
+        Save Method
+      </Button>
+    );
+  }
+
   const log = (type: string) => console.log.bind(console, type);
   const onSubmit = (data: any) => {
     let cardData: any = {};
@@ -88,6 +101,7 @@ export default function WorkFlowCard(props: WorkFlowCardProps) {
           onError={log("errors")}
           uiSchema={uiSchema}
           formData={props.data}
+          templates={{ ButtonTemplates: { SubmitButton } }}
         ></Form>
         <Stack direction="row" spacing={2} alignContent="center">
           <Button variant="contained" onClick={() => props.onCopyStep(props.stepKey, props.stepTitle, props.data)}>Copy</Button>
