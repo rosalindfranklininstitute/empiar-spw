@@ -75,7 +75,7 @@ export default function WorkFlowCard(props: WorkFlowCardProps) {
     }
     return (
       <Button type='submit' variant="contained">
-        Save Method
+        Save Step
       </Button>
     );
   }
