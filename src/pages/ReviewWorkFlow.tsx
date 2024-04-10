@@ -248,7 +248,7 @@ function ReviewWorkFlow() {
                                                     </Button>
                                                 }
                                                 <Button variant="contained" onClick={handleSubmitData}>
-                                                    Submit Workflow
+                                                    Publish Workflow
                                                 </Button>
                                             </Stack>
                                         </AccordionDetails>
