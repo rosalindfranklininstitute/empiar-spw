@@ -323,7 +323,11 @@ const hpfSchema: RJSFSchema = {
       title: "Pressure",
       properties: {
         pressure: { type: "number", title: "Pressure" },
-        pressureunit: { type: "string", enum: pressureUnits },
+        pressureunit: {
+          type: "string",
+          enum: pressureUnits,
+          title: "Pressure Unit",
+        },
       },
     },
     duration: {
