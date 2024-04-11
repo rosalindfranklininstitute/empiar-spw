@@ -178,7 +178,7 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
                         <WorkFlowBuilderPh></WorkFlowBuilderPh>
                     )}
                     <div className="row">
-                        <button onClick={submitWorkFlow}>Submit</button>
+                        <Button variant="contained" onClick={submitWorkFlow}>Review Protocol</Button>
                     </div>
                 </MetaDataPaper>
             </div>

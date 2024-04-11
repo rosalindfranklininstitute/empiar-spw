@@ -106,7 +106,7 @@ const metaDataUiSchema: RJSFSchema = {
             props.onChange(newInputValue);
           }}
           renderInput={(params) => (
-            <TextField {...params} label="Reagent" />
+            <TextField {...params} label="Imaging Technique" />
           )}
         />
       );
@@ -320,13 +320,19 @@ const hpfSchema: RJSFSchema = {
   properties: {
     pressure: {
       type: "object",
+      title: "Pressure",
       properties: {
         pressure: { type: "number", title: "Pressure" },
-        pressureunit: { type: "string", enum: pressureUnits },
+        pressureunit: {
+          type: "string",
+          enum: pressureUnits,
+          title: "Pressure Unit",
+        },
       },
     },
     duration: {
       type: "object",
+      title: "Duration",
       properties: {
         duration: { type: "number", title: "Duration" },
         durationunit: {

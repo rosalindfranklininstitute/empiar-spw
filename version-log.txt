@@ -1,0 +1,4 @@
+v0.0.1
+    - Fixed capitalisation issues within schema
+    - Adjusted submit button layouts and labels within the workflow route.
+    - Added version-log file to store updates pre-release.
