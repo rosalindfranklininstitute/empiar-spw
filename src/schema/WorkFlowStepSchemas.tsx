@@ -118,9 +118,10 @@ const cfSchema: RJSFSchema = {
   type: "object",
   properties: {
     ph:
-      { type: "number", title: "pH" },
+      { type: "number", minimum: 0, maximum: 14, multipleOf: 0.1, title: "pH" },
     temperature: {
       type: "object",
+      title: "Temperature",
       properties: {
         temperature: { type: "number", title: "Temperature" },
         temperatureunit: {
@@ -132,8 +133,9 @@ const cfSchema: RJSFSchema = {
     },
     duration: {
       type: "object",
+      title: "Duration",
       properties: {
-        duration: { type: "number", title: "Duration" },
+        duration: { type: "number", minimum: 0, title: "Duration" },
         durationunit: {
           type: "string",
           enum: durationUnits,
@@ -141,11 +143,12 @@ const cfSchema: RJSFSchema = {
         },
       },
     },
-    repeats: { type: "number", title: "Repeats" },
+    repeats: { type: "number", minimum: 0, title: "Repeats" },
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
     instrument: {
       type: "object",
+      title: "Instrument",
       properties: {
         instrumentname: { type: "string", title: "Instrument" },
         instrumentwattage: { type: "string", title: "Instrument Wattage" },
@@ -322,7 +325,7 @@ const hpfSchema: RJSFSchema = {
       type: "object",
       title: "Pressure",
       properties: {
-        pressure: { type: "number", title: "Pressure" },
+        pressure: { type: "number", minimum: 0, title: "Pressure" },
         pressureunit: {
           type: "string",
           enum: pressureUnits,
@@ -334,7 +337,7 @@ const hpfSchema: RJSFSchema = {
       type: "object",
       title: "Duration",
       properties: {
-        duration: { type: "number", title: "Duration" },
+        duration: { type: "number", minimum: 0, title: "Duration" },
         durationunit: {
           type: "string",
           enum: durationUnits,
@@ -348,11 +351,13 @@ const hpfSchema: RJSFSchema = {
       properties: {
         borediameter: {
           type: "number",
+          minimum: 0, 
           title: "Bore Diameter",
           description: "Bore/ Planchetter Diameter (in mm)",
         },
         boredepth: {
           type: "number",
+          minimum: 0,
           title: "Bore Depth",
           description: "Bore depth (in um)",
         },
