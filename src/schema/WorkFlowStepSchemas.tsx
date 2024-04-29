@@ -151,11 +151,10 @@ const cfSchema: RJSFSchema = {
       title: "Instrument",
       properties: {
         instrumentname: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "string", title: "Instrument Wattage" },
+        instrumentwattage: { type: "number", title: "Instrument Wattage" },
       },
     },
     isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    instrumentwattage: { type: "string", title: "Instrument Wattage" },
     reagentlist: {
       title: "Reagent List",
       type: "array",
@@ -814,11 +813,10 @@ const riSchema: RJSFSchema = {
       type: "object",
       properties: {
         instrumentname: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "string", title: "Instrument Wattage" },
+        instrumentwattage: { type: "number", title: "Instrument Wattage" },
       },
     },
     isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    instrumentwattage: { type: "string", title: "Instrument Wattage" },
     reagentlist: {
       title: "Reagent List",
       type: "array",
@@ -1125,11 +1123,10 @@ const icSchema: RJSFSchema = {
       type: "object",
       properties: {
         instrumentname: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "string", title: "Instrument Wattage" },
+        instrumentwattage: { type: "number", title: "Instrument Wattage" },
       },
     },
     isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    instrumentwattage: { type: "string", title: "Instrument Wattage" },
     reagentlist: {
       title: "Reagent List",
       type: "array",
