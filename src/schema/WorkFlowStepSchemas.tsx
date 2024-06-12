@@ -292,6 +292,7 @@ const pfSchema: RJSFSchema = {
       title: "Cyogen Composition",
       type: "array",
       items: {
+        title: "",
         type: "object",
         properties: {
           material: {
