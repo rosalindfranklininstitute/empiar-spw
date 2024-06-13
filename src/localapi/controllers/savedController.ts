@@ -52,7 +52,8 @@ export let savedList = async (req: Request, res: Response) => {
                 authorname: value.user.name,
                 saveddate: "2023-01-01",
                 imagingmethod: value.metadata.imagingmethod,
-                title: value.metadata.name
+                title: value.metadata.name,
+                status: 'Test'
             }
             resultItems.push(resItem)
         });
