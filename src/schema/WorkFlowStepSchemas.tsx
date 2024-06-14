@@ -257,9 +257,6 @@ const pfSchema: RJSFSchema = {
       type: "object",
       properties: {
         instrument: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
-        instrumentramp: { type: "number", title: "Instrument Ramp" },
-        instrumentspeed: { type: "number", title: "Instrument Speed" },
       },
     },
     chamberhumidity: { type: "number", title: "Chamber Humidity (in%)" },
@@ -287,7 +284,6 @@ const pfSchema: RJSFSchema = {
     },
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
-    isundervaccum: { type: "boolean", title: "Under Vaccum" },
     reagentlist: {
       title: "Cyogen Composition",
       type: "array",
