@@ -187,13 +187,17 @@ export const PublishedListDataLoader = async (params: any) => {
 export const SavedListDataLoader = async (params: any) => {
     try {
         let savedWorkFlowDetails: any = {}
+        const requestOptions = {
+            method: 'GET',
+            // headers: { 'X-CSRFTOKEN': 'ZS9zGq2f0vyHxu00oJY9lqfN51qMizB0HPdxkIsinbpE6CW6TNDThdECGEzHkNHj' },
+        };
         if (configData.ENV == "LOC") {
             await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED_LIST)
                 .then(response => response.json())
                 .then(data => { savedWorkFlowDetails = data; })
         }
         else {
-            await fetch(configData.DEV.SPW_ENTRIES_SAVED + user.email)
+            await fetch(configData.DEV.SPW_ENTRIES_SAVED + user.email, requestOptions)
                 .then(response => response.json())
                 .then(data => { savedWorkFlowDetails = data; })
         }
@@ -363,7 +367,10 @@ export const submitData = async (workFlowData: any) => {
     let result: any = {}
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-CSRFTOKEN': user.csrftoken
+         },
         body: JSON.stringify(workFlowData)
     };
     if (configData.ENV == "LOC") {
@@ -382,7 +389,9 @@ export const saveData = async (workFlowData: any) => {
     let result: any = {}
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-CSRFTOKEN': user.csrftoken },
         body: JSON.stringify(workFlowData)
     };
     if (configData.ENV == "LOC") {
@@ -401,7 +410,10 @@ export const updateSaved = async (params: any) => {
     let result: any = {}
     const requestOptions = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-CSRFTOKEN': user.csrftoken
+         },
         body: JSON.stringify(params.params.workFlowData)
     };
     if (configData.ENV == "LOC") {

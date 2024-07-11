@@ -22,10 +22,13 @@ import AlertTitle from '@mui/material/AlertTitle';
 import { useState } from 'react';
 import configData from "../static/config.json";
 import ReactDiffViewer from 'react-diff-viewer';
+import { UserContext } from '../utils/UserContext';
+import { useContext } from 'react';
 
 
 
 function AnnotationReviewWorkFlow() {
+    const userContext = useContext(UserContext);
     const { state } = useLocation();
     const [openSuccess, setOpenSuccess] = useState<boolean>(false)
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
@@ -54,7 +57,10 @@ function AnnotationReviewWorkFlow() {
     const updateAnnotationReview = () => {
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-CSRFTOKEN': userContext.csrftoken
+             },
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
@@ -103,7 +109,10 @@ function AnnotationReviewWorkFlow() {
         workFlowData.is_curated = 1
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-CSRFTOKEN': userContext.csrftoken
+             },
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
@@ -140,9 +149,13 @@ function AnnotationReviewWorkFlow() {
 
     const handleApproval = () => {
         workFlowData.is_approved = 1
+        alert('test');
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-CSRFTOKEN': userContext.csrftoken
+             },
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {

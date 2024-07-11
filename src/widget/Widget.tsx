@@ -26,7 +26,7 @@ import { useContext } from 'react';
 
 export default function Widget() {
   const userContext = useContext(UserContext);
-  setUser({username: userContext.username, name: userContext.name, email:userContext.email});
+  setUser({username: userContext.username, name: userContext.name, email:userContext.email, csrftoken:userContext.csrftoken});
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<BaseLayout />} errorElement={<WorkFlowError /> }>

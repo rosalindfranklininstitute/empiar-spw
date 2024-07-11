@@ -22,20 +22,25 @@ import AlertTitle from '@mui/material/AlertTitle';
 import { useState } from 'react';
 import configData from "../static/config.json";
 import ReactDiffViewer from 'react-diff-viewer';
+import { UserContext } from '../utils/UserContext';
+import { useContext } from 'react';
 import { LoadWidgetReferenceList, check_worflowdata_changes } from '../utils/WidgetUtility';
 
 
 
 function ApproveReviewWorkFlow() {
+    const userContext = useContext(UserContext);
     let data: any = useLoaderData();
     let entryData: any = data['annotateddata']
     let comparedData: any = data['saveddata']
 
+
     const [workFlowData, setWorkFlowData] = useState<any>(entryData)
+
     const navigate = useNavigate();
-    
     const [message, setMessage] = useState<string>("")
     const [openSuccess, setOpenSuccess] = useState<boolean>(false)
+    const [requestForChange, setRequestForChange] = useState<boolean>(false)
 
 
 
@@ -50,11 +55,15 @@ function ApproveReviewWorkFlow() {
         exportImage('workflow-vis', workFlowData.entryid);
     }
 
+    
     const handleApprovalRequest = () => {
         workFlowData.is_curated = 1
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-CSRFTOKEN': userContext.csrftoken
+             },
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
@@ -92,7 +101,10 @@ function ApproveReviewWorkFlow() {
     const handleApproval = () => {
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-CSRFTOKEN': userContext.csrftoken
+             },
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {

@@ -21,11 +21,14 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { useState } from 'react';
 import configData from "../static/config.json";
+import { UserContext } from '../utils/UserContext';
+import { useContext } from 'react';
 const _ = require('lodash');
 
 
 
 function ReviewWorkFlow() {
+    const userContext = useContext(UserContext);
     const { state } = useLocation();
     const [openSuccess, setOpenSuccess] = useState<boolean>(false)
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
@@ -58,7 +61,10 @@ function ReviewWorkFlow() {
         workFlowData.is_curated = 0;
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-CSRFTOKEN': userContext.csrftoken
+            },
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
@@ -112,7 +118,10 @@ function ReviewWorkFlow() {
     const updateData = () => {
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-CSRFTOKEN': userContext.csrftoken
+             },
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
@@ -166,7 +175,10 @@ function ReviewWorkFlow() {
         workFlowData.is_approved = 0
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-CSRFTOKEN': userContext.csrftoken
+             },
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
@@ -215,7 +227,10 @@ function ReviewWorkFlow() {
         delete workFlowData.is_approved
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-CSRFTOKEN': userContext.csrftoken
+             },
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {

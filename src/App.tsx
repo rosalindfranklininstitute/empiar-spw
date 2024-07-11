@@ -7,15 +7,25 @@ interface AppProps {
   username?: any,
   name?: any,
   email?: any,
-  role?: any
+  role?: any,
+  csrftoken?: any
+}
+
+function getCookie(name:string) {
+  let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : '';
 }
 
 function App(props:AppProps) {
+  const csrftoken = getCookie('csrftoken')
   const user = {
     username:props.username, 
     name:props.name, 
     email: props.email, 
-    role:props.role
+    role:props.role,
+    csrftoken:csrftoken
   };
   return (
     <>
