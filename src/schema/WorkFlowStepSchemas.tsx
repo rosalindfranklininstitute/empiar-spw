@@ -261,6 +261,7 @@ const pfSchema: RJSFSchema = {
     },
     chamberhumidity: { type: "number", title: "Chamber Humidity (in%)" },
     chambertemperature: {
+      title: "Chamber Temperature", 
       type: "object",
       properties: {
         temperature: { type: "number", title: "Chamber Temperature" },
@@ -272,6 +273,7 @@ const pfSchema: RJSFSchema = {
       },
     },
     cryogentemperature: {
+      title: "Cryogen Temperature",
       type: "object",
       properties: {
         temperature: { type: "number", title: "Cryogen Temperature" },
@@ -288,6 +290,7 @@ const pfSchema: RJSFSchema = {
       title: "Cyogen Composition",
       type: "array",
       items: {
+        title: "",
         type: "object",
         properties: {
           material: {
