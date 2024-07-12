@@ -67,7 +67,7 @@ function ApproveReviewWorkFlow() {
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
-            fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/', requestOptions)
+            fetch(configData.LOC.SPW_EMP_ENTRY + 'requestapproval/' + workFlowData['entryid'], requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
@@ -108,7 +108,7 @@ function ApproveReviewWorkFlow() {
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
-            fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/', requestOptions)
+            fetch(configData.LOC.SPW_EMP_ENTRY + "approve/" + workFlowData['entryid'], requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){

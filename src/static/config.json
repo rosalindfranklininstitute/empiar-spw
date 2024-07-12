@@ -1,24 +1,57 @@
 {
-    "ENV": "DEV",
+    "ENV": "LOC",
     "MONGO":{
         "CONNECTION_STRING": "mongodb://localhost:27017/",
         "DB_NAME":  "admin"
     },
     "DEV": {
-        "SPW_ENTRIES_PUBLISHED": "http://127.0.0.1:8001/empiar/spw/entries/published/",
-        "SPW_ENTRIES_TEMPLATE": "http://127.0.0.1:8001/empiar/spw/entries/template/",
-        "SPW_ENTRY": "http://127.0.0.1:8001/empiar/spw/entry/",
-        "SPW_ENTRIES_SAVED": "http://127.0.0.1:8001/empiar/deposition/spw/entries/saved/user_email=",
-        "SPW_ENTRY_DEPOSITION": "http://127.0.0.1:8001/empiar/deposition/spw/entry/",
-        "SPW_ENTRIES_ANNOTATION": "http://127.0.0.1:8001/empiar/annotation/spw/entries/annotation",
-        "SPW_ENTRIES_RELEASE": "http://127.0.0.1:8001/empiar/annotation/spw/entries/release",
-        "SPW_ENTRIES_APPROVED": "http://127.0.0.1:8001/empiar/deposition/spw/entries/approved/user_email=",
-        "SPW_ENTRY_ANNOTATION": "http://127.0.0.1:8001/empiar/annotation/spw/entry/"
+        "SPW_ENTRIES_PUBLISHED": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/spw/entries/published/",
+        "SPW_ENTRIES_TEMPLATE": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/spw/entries/template/",
+        "SPW_ENTRY": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/spw/entry/",
+        "SPW_ENTRIES_SAVED": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/deposition/spw/entries/saved/user_email=",
+        "SPW_ENTRY_DEPOSITION": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/deposition/spw/entry/",
+        "SPW_ENTRIES_ANNOTATION": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/annotation/spw/entries/annotation",
+        "SPW_ENTRIES_RELEASE": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/annotation/spw/entries/release",
+        "SPW_ENTRIES_APPROVED": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/deposition/spw/entries/approved/user_email=",
+        "SPW_ENTRY_ANNOTATION": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/annotation/spw/entry/"
+    },
+    "PROD": {
+        "SPW_ENTRIES_PUBLISHED": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/spw/entries/published/",
+        "SPW_ENTRIES_TEMPLATE": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/spw/entries/template/",
+        "SPW_ENTRY": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/spw/entry/",
+        "SPW_ENTRIES_SAVED": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/deposition/spw/entries/saved/user_email=",
+        "SPW_ENTRY_DEPOSITION": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/deposition/spw/entry/",
+        "SPW_ENTRIES_ANNOTATION": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/annotation/spw/entries/annotation",
+        "SPW_ENTRIES_RELEASE": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/annotation/spw/entries/release",
+        "SPW_ENTRIES_APPROVED": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/deposition/spw/entries/approved/user_email=",
+        "SPW_ENTRY_ANNOTATION": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/annotation/spw/entry/"
     },
     "LOC": {
         "SPW_EMP_ENTRIES_PUBLISHED_LIST": "http://localhost:5000/publishedlist/",
-        "SPW_EMP_ENTRIES_SAVED_LIST": "http://localhost:5000/savedlist/",
         "SPW_EMP_ENTRIES_TEMPLATE_LIST": "http://localhost:5000/templatelist/",
-        "SPW_EMP_ENTRY": "http://localhost:5000/"
+        "SPW_EMP_ENTRY": "http://localhost:5000/",
+        "SPW_EMP_ENTRIES_SAVED_LIST": "http://localhost:5000/savedlist/",
+        "SPW_ENTRY_DEPOSITION": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/deposition/spw/entry/",
+        "SPW_ENTRIES_ANNOTATION": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/annotation/spw/entries/annotation",
+        "SPW_ENTRIES_RELEASE": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/annotation/spw/entries/release",
+        "SPW_ENTRIES_APPROVED": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/deposition/spw/entries/approved/user_email=",
+        "SPW_ENTRY_ANNOTATION": "https://wwwdev.ebi.ac.uk/empiar/andrii/empiar/annotation/spw/entry/"
+    },
+    "LOCUSER":{
+        "DEP":{
+            "USER_NAME": "test-depositor",
+            "NAME": "TEST DESPOSITOR",
+            "USER_EMAIL": "test-depositor@test.com",
+            "USER_ROLE": "depositor"
+        },
+        "ANNOT":{
+            "USER_NAME": "test-annotator",
+            "NAME": "TEST ANNOTATOR",
+            "USER_EMAIL": "test-annotator@test.com",
+            "USER_ROLE": "annotator"
+        }
+    },
+    "LOCCURRENTUSER":{
+        "TYPE": "annotator"
     }
 }

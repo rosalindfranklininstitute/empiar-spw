@@ -17,15 +17,18 @@ type metaDataDetails = {
     biologicalentity:string
 }
 
-export interface ISaved extends mongoose.Document {
+export interface IAnnotation extends mongoose.Document {
   user: userDetails;
   metadata: metaDataDetails;
   data:any,
   entryid:string,
-  status:string,
+  is_curated:{type: Number, required: false},
+  is_aproved:{type: Number, required: false},
+  is_approval_requested:{type: Number, required: false},
+  status:{type: string, required: false},
 }
 
-export const SavedSchema = new mongoose.Schema({
+export const AnnotationSchema = new mongoose.Schema({
   user:{
     name:{type: String, required: true},
     email:{type: String, required: true}
@@ -38,8 +41,11 @@ export const SavedSchema = new mongoose.Schema({
   },
   data: {type:mongoose.Schema.Types.Mixed},
   entryid:{type: String, required: true},
+  is_curated:{type: Number, required: false},
+  is_aproved:{type: Number, required: false},
+  is_approval_requested:{type: Number, required: false},
   status:{type: String, required: false},
 });
 
-const Saved = mongoose.model<ISaved>("Saved", SavedSchema);
-export default Saved;
+const Annotation = mongoose.model<IAnnotation>("Annotation", AnnotationSchema);
+export default Annotation;

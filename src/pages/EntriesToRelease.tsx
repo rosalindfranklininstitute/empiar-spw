@@ -261,7 +261,7 @@ export default function EntriesToRelease() {
     try {
       let annotationWorkFlowDetails: any = {}
       if (configData.ENV == "LOC") {
-          await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED_LIST)
+          await fetch(configData.LOC.SPW_EMP_ENTRY + "annotation/" + entryid)
               .then(response => response.json())
               .then(data => { annotationWorkFlowDetails = data; })
       }
@@ -332,7 +332,7 @@ export default function EntriesToRelease() {
                       scope="row"
                     >
                       <div onClick={() => navigate('../annotate/metadata/annotation/'+row.entryid)}>
-                        {row.id}
+                        {row.entryid}
                       </div>
                     </TableCell>
                     <TableCell align="right">{row.title}</TableCell>

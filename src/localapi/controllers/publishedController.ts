@@ -30,7 +30,7 @@ async function updateItem(id: any, reqBody: any) {
 
 async function addItem(reqBody: any) {
     const randomId = Math.floor(Math.random()*90000) + 10000;
-    reqBody["entryid"] = "SPW - " +  randomId;
+    reqBody["entryid"] = "SPW-" +  randomId;
     var newItem = new Published(reqBody);
     await newItem.save();
     return {"code": 1, "entryid": newItem.entryid, "entry": newItem, "doi": "http://localhost:3000/view/published/" + newItem._id};;

@@ -192,7 +192,7 @@ export const SavedListDataLoader = async (params: any) => {
             // headers: { 'X-CSRFTOKEN': 'ZS9zGq2f0vyHxu00oJY9lqfN51qMizB0HPdxkIsinbpE6CW6TNDThdECGEzHkNHj' },
         };
         if (configData.ENV == "LOC") {
-            await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED_LIST)
+            await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED_LIST + user.email)
                 .then(response => response.json())
                 .then(data => { savedWorkFlowDetails = data; })
         }
@@ -230,7 +230,7 @@ export const AnnotationListDataLoader = async (params: any) => {
     try {
         let annotationWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED_LIST)
+            await fetch(configData.LOC.SPW_EMP_ENTRY + 'AnnotationList/')
                 .then(response => response.json())
                 .then(data => { annotationWorkFlowDetails = data; })
         }
@@ -249,7 +249,7 @@ export const EntriesToReleaseDataLoader = async (params: any) => {
     try {
         let annotationWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED_LIST)
+            await fetch(configData.LOC.SPW_EMP_ENTRY + "approvedlist")
                 .then(response => response.json())
                 .then(data => { annotationWorkFlowDetails = data; })
         }
@@ -268,7 +268,7 @@ export const ApprovedListDataLoader = async (params: any) => {
     try {
         let annotationWorkFlowDetails: any = {}
         if (configData.ENV == "LOC") {
-            await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED_LIST)
+            await fetch(configData.LOC.SPW_EMP_ENTRY + "approvallist/")
                 .then(response => response.json())
                 .then(data => { annotationWorkFlowDetails = data; })
         }
@@ -314,19 +314,33 @@ export const ViewWorkFlowDataLoader = async (params: any) => {
 }
 
 export const AnnotationWorkFLowDataLoader = async (params: any) => {
-    let data:any = {}
+    let data: any = {}
     try {
         let annotatedWorkFlowDetails: any = {}
-        await fetch(configData.DEV.SPW_ENTRY_ANNOTATION + "fetch/" + params.params.workflowid + "/")
-        .then(response => response.json())
-        .then(data => { annotatedWorkFlowDetails = data; }) 
-        data['annotateddata'] = annotatedWorkFlowDetails
+        if (configData.ENV == "LOC") {
+            await fetch(configData.LOC.SPW_EMP_ENTRY + "annotation/" + params.params.workflowid + "/")
+                .then(response => response.json())
+                .then(data => { annotatedWorkFlowDetails = data; })
+            data['annotateddata'] = annotatedWorkFlowDetails
 
-        let savedWorkFlowDetails: any = {}
-        await fetch(configData.DEV.SPW_ENTRY_DEPOSITION + "fetch/" + params.params.workflowid.replace("ANNOTATION", "DRAFT") + "/")
-        .then(response => response.json())
-        .then(data => { savedWorkFlowDetails = data; })
-        data['saveddata'] = savedWorkFlowDetails
+            let savedWorkFlowDetails: any = {}
+            await fetch(configData.LOC.SPW_EMP_ENTRY + "saved/" + params.params.workflowid.replace("ANNOTATION", "DRAFT") + "/")
+                .then(response => response.json())
+                .then(data => { savedWorkFlowDetails = data; })
+            data['saveddata'] = savedWorkFlowDetails
+        }
+        else {
+            await fetch(configData.DEV.SPW_ENTRY_ANNOTATION + "fetch/" + params.params.workflowid + "/")
+                .then(response => response.json())
+                .then(data => { annotatedWorkFlowDetails = data; })
+            data['annotateddata'] = annotatedWorkFlowDetails
+
+            let savedWorkFlowDetails: any = {}
+            await fetch(configData.DEV.SPW_ENTRY_DEPOSITION + "fetch/" + params.params.workflowid.replace("ANNOTATION", "DRAFT") + "/")
+                .then(response => response.json())
+                .then(data => { savedWorkFlowDetails = data; })
+            data['saveddata'] = savedWorkFlowDetails
+        }
 
         return data
     } catch (e) {
@@ -445,14 +459,29 @@ export const check_worflowdata_changes = async (workFlowData:any) => {
         }
         if (entryTypePrefixToCompare == "ANNOTATION")
             {
-                await fetch(configData.DEV.SPW_ENTRY_ANNOTATION + "fetch/" + (entryTypePrefixToCompare + "-" + entryId ) + "/")
-                .then(response => response.json())
-                .then(data => { workFlowDataToCompare = data; })
-            }
-            else{
-                await fetch(configData.DEV.SPW_ENTRY_DEPOSITION + "fetch/" + (entryTypePrefixToCompare + "-" + entryId ) + "/")
+                if(configData.ENV == "LOC"){
+                    await fetch(configData.LOC.SPW_EMP_ENTRY + "annotation/" + (entryTypePrefixToCompare + "-" + entryId ) + "/")
                     .then(response => response.json())
                     .then(data => { workFlowDataToCompare = data; })
+                }
+                else{
+                    await fetch(configData.DEV.SPW_ENTRY_ANNOTATION + "fetch/" + (entryTypePrefixToCompare + "-" + entryId ) + "/")
+                    .then(response => response.json())
+                    .then(data => { workFlowDataToCompare = data; })
+                }
+
+            }
+            else{
+                if(configData.ENV == "LOC"){
+                    await fetch(configData.LOC.SPW_EMP_ENTRY + "saved/" + (entryTypePrefixToCompare + "-" + entryId ) + "/")
+                    .then(response => response.json())
+                    .then(data => { workFlowDataToCompare = data; })
+                }
+                else{
+                    await fetch(configData.DEV.SPW_ENTRY_DEPOSITION + "fetch/" + (entryTypePrefixToCompare + "-" + entryId ) + "/")
+                    .then(response => response.json())
+                    .then(data => { workFlowDataToCompare = data; })
+                }
             }
         isDataEqual = _.isEqual(workFlowData.data, workFlowDataToCompare.data)
         if (isDataEqual){

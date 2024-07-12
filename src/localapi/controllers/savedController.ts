@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Saved from '../entity/saved.js';
+import { addAnnotationFromSaved } from "./annotationController.js";
 import { SavedWorkFLowItem } from '../../utils/WidgetDataUtility.js'
 
 
@@ -8,13 +9,13 @@ async function getItems() {
     return Items;
 }
 
-async function getItemsList() {
-    const Items = await Saved.find().select({ _id: 1, metadata: 1, user: 1 });
+async function getItemsList(useremail:any) {
+    const Items = await Saved.find({"user.email": useremail},).select({ entryid: 1, metadata: 1, user: 1, status: 1 });
     return Items;
 }
 
 async function getItem(id: any) {
-    const Item = await Saved.findOne({ _id: id });
+    const Item = await Saved.findOne({ "entryid": id });
     return Item;
 }
 
@@ -24,15 +25,21 @@ async function deleteItem(id: any) {
 }
 
 async function updateItem(id: any, reqBody: any) {
-    await Saved.findByIdAndUpdate(id, reqBody);
+    await Saved.findOneAndUpdate({entryid: id}, reqBody);
+    return {"code": 1 , "message": "Successfully Updated Item"}
+}
+
+export async function updateSaveStatus(reqBody: any) {
+    await Saved.findByIdAndUpdate(reqBody.id, reqBody);
     return {"code": 1 , "message": "Successfully Updated Item"}
 }
 
 async function addItem(reqBody: any) {
-    reqBody["entryid"] = Math.floor(Math.random()*90000) + 10000;
+    reqBody["entryid"] = "DRAFT-" + Math.floor(Math.random()*9000) + 1000;
+    reqBody["status"] = "Saved";
     var newItem = new Saved(reqBody);
     await newItem.save();
-    return {"code": 1, "entryid": newItem.entryid, "entry": newItem, "savedurl": "http://localhost:3000/view/saved/" + newItem._id};;
+    return {"code": 1, "entryid": newItem.entryid, "entry": newItem, "savedurl": "http://localhost:3000/view/saved/" + newItem.entryid};;
 }
 
 export let allSaved = async (req: Request, res: Response) => {
@@ -42,18 +49,18 @@ export let allSaved = async (req: Request, res: Response) => {
 };
 
 export let savedList = async (req: Request, res: Response) => {
-    getItemsList().then(function (FoundItems) {
+    getItemsList(req.params.useremail).then(function (FoundItems) {
         var resultItems: SavedWorkFLowItem[] = [];
         FoundItems.forEach(function (value, index) {
             var resItem: SavedWorkFLowItem = {
                 id: index + 1,
-                entryid: value._id,
+                entryid: value.entryid,
                 authoremail: value.user.email,
                 authorname: value.user.name,
                 saveddate: "2023-01-01",
                 imagingmethod: value.metadata.imagingmethod,
                 title: value.metadata.name,
-                status: 'Test'
+                status: value.status
             }
             resultItems.push(resItem)
         });

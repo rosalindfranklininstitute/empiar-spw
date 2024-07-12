@@ -130,7 +130,7 @@ function ReviewWorkFlow() {
             .then(data => {
                 if(data["code"] == 1){
                     setIsSuccess(true);
-                    setMessage(data["entryid"] + " created succesfuly with DOI:" + data["message"]);
+                    setMessage(data["entryid"] + " updated succesfuly");
                     setOpenSuccess(true);
                     setisSaveComplete(true);
                 }
@@ -169,7 +169,7 @@ function ReviewWorkFlow() {
     const handleSubmitData = async () => {
         if ('_id' in workFlowData)
         {
-        delete workFlowData._id;
+            delete workFlowData._id;
         }
         workFlowData.is_curated = 0
         workFlowData.is_approved = 0
@@ -182,7 +182,7 @@ function ReviewWorkFlow() {
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
-            fetch(configData.LOC.SPW_EMP_ENTRY + 'published/', requestOptions)
+            fetch(configData.LOC.SPW_EMP_ENTRY + 'submit', requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
