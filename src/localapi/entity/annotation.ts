@@ -23,7 +23,7 @@ export interface IAnnotation extends mongoose.Document {
   data:any,
   entryid:string,
   is_curated:{type: Number, required: false},
-  is_aproved:{type: Number, required: false},
+  is_approved:{type: Number, required: false},
   is_approval_requested:{type: Number, required: false},
   status:{type: string, required: false},
 }
@@ -42,7 +42,7 @@ export const AnnotationSchema = new mongoose.Schema({
   data: {type:mongoose.Schema.Types.Mixed},
   entryid:{type: String, required: true},
   is_curated:{type: Number, required: false},
-  is_aproved:{type: Number, required: false},
+  is_approved:{type: Number, required: false},
   is_approval_requested:{type: Number, required: false},
   status:{type: String, required: false},
 });

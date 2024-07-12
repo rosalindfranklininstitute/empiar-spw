@@ -52,6 +52,6 @@
         }
     },
     "LOCCURRENTUSER":{
-        "TYPE": "annotator"
+        "TYPE": "depositor"
     }
 }

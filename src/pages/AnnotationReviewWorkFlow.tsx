@@ -69,7 +69,7 @@ function AnnotationReviewWorkFlow() {
             .then(data => {
                 if(data["code"] == 1){
                     setIsSuccess(true);
-                    setMessage(data["entryid"] + " created succesfuly with DOI:" + data["message"]);
+                    setMessage(data["entryid"] + " updated succesfuly");
                     setOpenSuccess(true);
                     setisSaveComplete(true);
                 }
@@ -120,7 +120,7 @@ function AnnotationReviewWorkFlow() {
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
-                setMessage(data["entryid"] + " created succesfuly. Saved entry can be accessed at:" + data["savedurl"]);
+                setMessage("Request for approval of entry: " + workFlowData["entryid"] + " created succesfuly");
                 setOpenSuccess(!openSuccess);
                 }
                 else{

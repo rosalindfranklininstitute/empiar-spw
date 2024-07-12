@@ -125,7 +125,7 @@ function ReviewWorkFlow() {
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
-            fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/' + workFlowData["_id"], requestOptions)
+            fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/' + workFlowData["entryid"], requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
@@ -221,7 +221,7 @@ function ReviewWorkFlow() {
     const handlePublishData = async () => {
         if ('_id' in workFlowData)
         {
-        delete workFlowData._id;
+            delete workFlowData._id;
         }
         delete workFlowData.is_curated
         delete workFlowData.is_approved

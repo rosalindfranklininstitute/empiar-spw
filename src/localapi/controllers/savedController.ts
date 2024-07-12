@@ -26,7 +26,7 @@ async function deleteItem(id: any) {
 
 async function updateItem(id: any, reqBody: any) {
     await Saved.findOneAndUpdate({entryid: id}, reqBody);
-    return {"code": 1 , "message": "Successfully Updated Item"}
+    return {"code": 1, "entryid": id , "message": "Successfully Updated Item"}
 }
 
 export async function updateSaveStatus(reqBody: any) {

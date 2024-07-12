@@ -15,12 +15,12 @@ async function getItemsList() {
 }
 
 async function getApprovalItemsList() {
-    const Items = await Annotation.find({"is_curated":1}, {"is_approved":0}).select({ entryid: 1, metadata: 1, user: 1 });
+    const Items = await Annotation.find({$and: [{"is_curated":1}, {"is_approved":0}]}).select({ entryid: 1, metadata: 1, user: 1 });
     return Items;
 }
 
 async function getApprovedItemsList() {
-    const Items = await Annotation.find({"is_curated":1}, {"is_approved":1}).select({ entryid: 1, metadata: 1, user: 1 });
+    const Items = await Annotation.find({$and: [{"is_curated":1}, {"is_approved":1}, {"status": "Approved"}]}).select({ entryid: 1, metadata: 1, user: 1 });
     return Items;
 }
 
@@ -36,20 +36,25 @@ async function deleteItem(id: any) {
 
 async function updateItem(id: any, reqBody: any) {
     await Annotation.findOneAndUpdate({entryid: id}, reqBody);
-    return {"code": 1 , "message": "Successfully Updated Item"}
+    return {"code": 1, "entryid": id , "message": "Successfully Updated Item"}
 }
 
 async function updateApprovalItem(id: any, reqBody: any) {
+    let draftId = id.replace("ANNOTATION", "DRAFT");
+    await Saved.updateOne({entryid: draftId}, {  status: "Approved" });
     reqBody["is_approved"] = 1;
+    reqBody["status"] = "Approved";
     await Annotation.findOneAndUpdate({entryid: id}, reqBody);
-    return {"code": 1 , "message": "Successfully Updated Item"}
+    return {"code": 1, "entryid": id , "message": "Successfully Updated Item"}
 }
 
 async function updateRequestApprovalItem(id: any, reqBody: any) {
+    let draftId = id.replace("ANNOTATION", "DRAFT");
+    await Saved.updateOne({entryid: draftId}, {  status: "Approval Requested" });
     reqBody["is_curated"] = 1;
     reqBody["is_approval_requested"] = 1;
     await Annotation.findOneAndUpdate({entryid: id}, reqBody);
-    return {"code": 1 , "message": "Successfully Updated Item"}
+    return {"code": 1, "entryid": id , "message": "Successfully Updated Item"}
 }
 
 

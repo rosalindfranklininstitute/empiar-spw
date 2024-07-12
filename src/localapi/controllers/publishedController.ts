@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import Published from '../entity/published.js'
 import { PublisedWorkFLowItem } from '../../utils/WidgetDataUtility.js'
 import { config } from "process";
+import Saved from '../entity/saved.js';
+import Annotation from "../entity/annotation.js";
 
 async function getItems() {
     const Items = await Published.find();
@@ -9,12 +11,12 @@ async function getItems() {
 }
 
 async function getItemsList() {
-    const Items = await Published.find().select({ _id: 1, metadata: 1, user: 1 });
+    const Items = await Published.find().select({ entryid: 1, metadata: 1, user: 1 });
     return Items;
 }
 
 async function getItem(id: any) {
-    const Item = await Published.findOne({ _id: id });
+    const Item = await Published.findOne({ entryid: id });
     return Item;
 }
 
@@ -29,11 +31,14 @@ async function updateItem(id: any, reqBody: any) {
 }
 
 async function addItem(reqBody: any) {
-    const randomId = Math.floor(Math.random()*90000) + 10000;
-    reqBody["entryid"] = "SPW-" +  randomId;
+    await Annotation.updateOne({entryid:reqBody.entryid}, { is_curated: 1, status: "Released" });
+    let draftId = reqBody.entryid.replace("ANNOTATION", "DRAFT");
+    let spwId = reqBody.entryid.replace("ANNOTATION", "SPW");
+    await Saved.updateOne({entryid: draftId}, {  status: "Released" });
+    reqBody["entryid"] = spwId;
     var newItem = new Published(reqBody);
     await newItem.save();
-    return {"code": 1, "entryid": newItem.entryid, "entry": newItem, "doi": "http://localhost:3000/view/published/" + newItem._id};;
+    return {"code": 1, "entryid": newItem.entryid, "entry": newItem, "doi": "http://localhost:3000/view/published/" + newItem.entryid};;
 }
 
 export let allPublished = async (req: Request, res: Response) => {
@@ -48,7 +53,7 @@ export let publishedList = async (req: Request, res: Response) => {
         FoundItems.forEach(function (value, index) {
             var resItem: PublisedWorkFLowItem = {
                 id: index + 1,
-                entryid: value._id,
+                entryid: value.entryid,
                 authoremail: value.user.email,
                 authorname: value.user.name,
                 publisheddate: "2023-01-01",

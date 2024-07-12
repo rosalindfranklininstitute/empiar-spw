@@ -112,7 +112,7 @@ function ApproveReviewWorkFlow() {
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
-                setMessage(data["entryid"] + " created succesfuly. Saved entry can be accessed at:" + data["savedurl"]);
+                setMessage("Annotation changes for the entry: " + data["entryid"] + " has been approved for release succesfuly");
                 setOpenSuccess(!openSuccess);
                 }
                 else{
