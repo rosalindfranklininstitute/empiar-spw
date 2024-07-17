@@ -551,9 +551,10 @@ const stSchema: RJSFSchema = {
   type: "object",
   properties: {
     ph:
-      { type: "number", title: "pH" },
+      { type: "number", minimum: 0, maximum: 14, multipleOf: 0.1, title: "pH" },
     temperature: {
       type: "object",
+      title: "Temperature",
       properties: {
         temperature: { type: "number", title: "Temperature" },
         temperatureunit: {
@@ -565,8 +566,9 @@ const stSchema: RJSFSchema = {
     },
     duration: {
       type: "object",
+      title: "Duration",
       properties: {
-        duration: { type: "number", title: "Duration" },
+        duration: { type: "number", minimum: 0, title: "Duration" },
         durationunit: {
           type: "string",
           enum: durationUnits,
@@ -577,7 +579,7 @@ const stSchema: RJSFSchema = {
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
     instrument: { type: "string", title: "Instrument" },
-    instrumentwattage: { type: "number", title: "Instrument Wattage" },
+    instrumentwattage: { type: "number", minimum: 0, title: "Instrument Wattage" },
     reagentlist: {
       title: "Reagent List",
       type: "array",
