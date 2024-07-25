@@ -812,7 +812,6 @@ const riSchema: RJSFSchema = {
       title: "Instrument",
       properties: {
         instrumentname: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", minimum: 0, title: "Instrument Wattage" },
       },
     },
     isundervaccum: { type: "boolean", title: "Under Vaccum" },
