@@ -677,7 +677,6 @@ const dhSchema: RJSFSchema = {
     reagent1: { type: "string", title: "Reagent 1" },
     reagent2: { type: "string", title: "Reagent 2" },
     instrument: { type: "string", title: "Instrument" },
-    instrumentwattage: { type: "number", minimum: 0, title: "Instrument Wattage" },
     temperature: {
       type: "object",
       title: "Temperature",
