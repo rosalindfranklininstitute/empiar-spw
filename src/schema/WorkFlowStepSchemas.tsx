@@ -579,7 +579,6 @@ const stSchema: RJSFSchema = {
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
     instrument: { type: "string", title: "Instrument" },
-    instrumentwattage: { type: "number", minimum: 0, title: "Instrument Wattage" },
     reagentlist: {
       title: "Reagent List",
       type: "array",
