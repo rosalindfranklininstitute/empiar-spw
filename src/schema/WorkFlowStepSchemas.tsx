@@ -76,6 +76,11 @@ const reagentList: string[] = [
   "Uranyl Acetate",
   "NA",
 ];
+const blotTypeOptions: string[] = [
+  "Single sided - back",
+  "Single sided - front",
+  "Double sided"
+];
 
 const metaDataSchema: RJSFSchema = {
   type: "object",
@@ -280,6 +285,19 @@ const pfSchema: RJSFSchema = {
           type: "string",
           enum: temperatureUnits,
           title: "Temperature Unit",
+        },
+      },
+    },
+    blotting: {
+      title: "Blotting",
+      type: "object",
+      properties: {
+        blotforce: { type: "integer", title: "Blot Force" },
+        blotduration: { type: "number", minimum: 0, title: "Blot Duration" },
+        blottype: {
+          type: "string",
+          enum: blotTypeOptions,
+          title: "Blot Type",
         },
       },
     },
