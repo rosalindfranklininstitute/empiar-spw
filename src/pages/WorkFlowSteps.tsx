@@ -1,9 +1,9 @@
 import MenuScroller from "../components/MenuScroller";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SortableList } from "../components";
 import WorkFlowBuilderPh from "../static/components/WorkFlowBuilderPh";
 import { ListItemReferenceProps } from '../utils/WidgetDataUtility';
-import { LoadWidgetReferenceList } from '../utils/WidgetUtility';
+import { LoadWidgetReferenceList, check_worflowdata_changes } from '../utils/WidgetUtility';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import "../widget/Widget.css";
@@ -12,6 +12,7 @@ import BasicCardHeader from "../components/BasicCardHeader";
 import Button from '@mui/material/Button';
 import { metaDataObject } from "../schema/WorkFlowStepSchemas";
 import configData from "../static/config.json";
+import { UserContext } from "../utils/UserContext";
 
 interface SamplePrepWidgetProps {
     workFlowData?: any;
@@ -31,10 +32,15 @@ let formData: any = {}
 function WorkFlowSteps(props: SamplePrepWidgetProps) {
     const [listReference, setListReference] = useState<ListItemReferenceProps[]>([]);
     const { state } = useLocation();
+    const user = useContext(UserContext);
     formData['metadata'] = state.metadata;
     let workFlowStepsData: any = {};
+    let isNavLink = false
     if (state.entrydata !== undefined){
         workFlowStepsData =  state.entrydata.data;
+    }
+    if (state.isNavLink !== undefined){
+        isNavLink =  state.isNavLink;
     }
     
     const navigate = useNavigate();
@@ -49,9 +55,11 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
                 if (workFlowStepsData.length > 0 && isInitialLoad) {
                     let correctedListReference: Array<ListItemReferenceProps> = [];
                     correctedListReference = await LoadWidgetReferenceList(workFlowStepsData);
-                    correctedListReference.map((data: any) => {
-                        formData[data.id] = data.stepData;
-                    });
+                    if (!formData.data && !isNavLink){
+                        correctedListReference.map((data: any) => {
+                            formData[data.id] = data.stepData;
+                        });
+                    }
                     if (correctedListReference.length > 0) {
                         setListReference(correctedListReference);
                     }
@@ -103,7 +111,7 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
         formData[stepId] = stepData;
     }
 
-    function submitWorkFlow() {
+    async function submitWorkFlow() {
         let workFlowCollectedData: any = {};
         let reorgWorkFlowData: any[] = [];
 
@@ -117,10 +125,10 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
                 reorgWorkFlowData.push(formData[key]);
             }
         }
-        if (workFlowType == "new"){
+        if (workFlowType == "new" || workFlowType == "template"){
             workFlowCollectedData["user"] = {
-                "name": configData.TESTUSER.USER_NAME,
-                "email": configData.TESTUSER.USER_EMAIL
+                "name": user.name,
+                "email": user.email
             }
         }
         else{
@@ -128,7 +136,19 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
             workFlowCollectedData["_id"] = state.entrydata["_id"];
             workFlowCollectedData["entryid"] = state.entrydata["entryid"];
         }
-        navigate("../review/" + workFlowType, { state: { data: workFlowCollectedData } });
+        if(workFlowType == "annotation"){
+            const isDataEdited = await check_worflowdata_changes(workFlowCollectedData)
+            if (isDataEdited['isedited']){
+                navigate("../requestapproval/annotator", { state: { data: workFlowCollectedData, saveddata: isDataEdited['comapreddata']} });
+            }
+            else {
+                navigate("../review/" + workFlowType, { state: { data: workFlowCollectedData } });
+            }
+        }
+        else{
+            navigate("../review/" + workFlowType, { state: { data: workFlowCollectedData } });
+        }
+        
     }
 
     function fetchWorkFlowTitle() {
@@ -140,7 +160,7 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
     }
     
     function navigateBack() {
-        navigate("../metadata/" + workFlowType, { state: { metadata: state.metadata, entrydata: state.entrydata } });
+        navigate("../metadata/" + workFlowType, { state: { metadata: state.metadata, entrydata: state.entrydata, isNavLink: isNavLink } });
     }
 
 

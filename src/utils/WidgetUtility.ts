@@ -2,9 +2,19 @@ import { ListItemReferenceProps } from '../utils/WidgetDataUtility';
 import html2canvas from 'html2canvas';
 import configData from "../static/config.json";
 import { readFile } from "fs/promises";
+import { UserContext } from './UserContext';
+import { useContext } from 'react';
 
+const _ = require('lodash');
 
-export async function LoadWidgetReferenceList(widgetData: any): Promise<any> {
+export let user:any = {}
+
+export function setUser(userData:any){
+    user = userData
+}
+
+export async function 
+LoadWidgetReferenceList(widgetData: any): Promise<any> {
     let correctedListReference: Array<ListItemReferenceProps> = [];
     if (widgetData) {
         widgetData.map((workflowStepData: any, index: number) => {
@@ -17,7 +27,7 @@ export async function LoadWidgetReferenceList(widgetData: any): Promise<any> {
                 if (stepKey !== "") {
 
                     let correctedListReferenceItem: ListItemReferenceProps = {
-                        id: stepKey + workflowStepData["orderNnumber"],
+                        id: stepKey + workflowStepData["ordernumber"],
                         stepKey: stepKey,
                         stepTitle: workflowStepData["method"],
                         orderNumber: workflowStepData["ordernumber"],
@@ -155,14 +165,6 @@ export const exportToJson = (workFlowData: any, fileName: string) => {
     )
 }
 
-export function saveWfData(workFlowData: any) {
-
-}
-
-export function submitWfData(workFlowData: any) {
-
-}
-
 export const PublishedListDataLoader = async (params: any) => {
     try {
         let publishedWorkFlowDetails: any = {}
@@ -185,13 +187,17 @@ export const PublishedListDataLoader = async (params: any) => {
 export const SavedListDataLoader = async (params: any) => {
     try {
         let savedWorkFlowDetails: any = {}
+        const requestOptions = {
+            method: 'GET',
+            // headers: { 'X-CSRFTOKEN': 'ZS9zGq2f0vyHxu00oJY9lqfN51qMizB0HPdxkIsinbpE6CW6TNDThdECGEzHkNHj' },
+        };
         if (configData.ENV == "LOC") {
-            await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED_LIST)
+            await fetch(configData.LOC.SPW_EMP_ENTRIES_SAVED_LIST + user.email)
                 .then(response => response.json())
                 .then(data => { savedWorkFlowDetails = data; })
         }
         else {
-            await fetch(configData.DEV.SPW_ENTRIES_SAVED)
+            await fetch(configData.DEV.SPW_ENTRIES_SAVED + user.email, requestOptions)
                 .then(response => response.json())
                 .then(data => { savedWorkFlowDetails = data; })
         }
@@ -220,6 +226,64 @@ export const TemplateListDataLoader = async (params: any) => {
     }
 }
 
+export const AnnotationListDataLoader = async (params: any) => {
+    try {
+        let annotationWorkFlowDetails: any = {}
+        if (configData.ENV == "LOC") {
+            await fetch(configData.LOC.SPW_EMP_ENTRY + 'AnnotationList/')
+                .then(response => response.json())
+                .then(data => { annotationWorkFlowDetails = data; })
+        }
+        else {
+            await fetch(configData.DEV.SPW_ENTRIES_ANNOTATION)
+                .then(response => response.json())
+                .then(data => { annotationWorkFlowDetails = data; })
+        }
+        return annotationWorkFlowDetails
+    } catch (e) {
+        throw Error("Error could not load saved workflows");
+    }
+}
+
+export const EntriesToReleaseDataLoader = async (params: any) => {
+    try {
+        let annotationWorkFlowDetails: any = {}
+        if (configData.ENV == "LOC") {
+            await fetch(configData.LOC.SPW_EMP_ENTRY + "approvedlist")
+                .then(response => response.json())
+                .then(data => { annotationWorkFlowDetails = data; })
+        }
+        else {
+            await fetch(configData.DEV.SPW_ENTRIES_RELEASE)
+                .then(response => response.json())
+                .then(data => { annotationWorkFlowDetails = data; })
+        }
+        return annotationWorkFlowDetails
+    } catch (e) {
+        throw Error("Error could not load saved workflows");
+    }
+}
+
+export const ApprovedListDataLoader = async (params: any) => {
+    try {
+        let annotationWorkFlowDetails: any = {}
+        if (configData.ENV == "LOC") {
+            await fetch(configData.LOC.SPW_EMP_ENTRY + "approvallist/")
+                .then(response => response.json())
+                .then(data => { annotationWorkFlowDetails = data; })
+        }
+        else {
+            await fetch(configData.DEV.SPW_ENTRIES_APPROVED + user.email)
+                .then(response => response.json())
+                .then(data => { annotationWorkFlowDetails = data; })
+        }
+        return annotationWorkFlowDetails
+    } catch (e) {
+        throw Error("Error could not load saved workflows");
+    }
+}
+
+
 export const ViewWorkFlowDataLoader = async (params: any) => {
     try {
         let publishedWorkFlowDetails: any = {}
@@ -229,11 +293,56 @@ export const ViewWorkFlowDataLoader = async (params: any) => {
                 .then(data => { publishedWorkFlowDetails = data; })
         }
         else {
-            await fetch(configData.DEV.SPW_ENTRY + params.params.workflowtype + "/" + params.params.workflowid + "/")
-                .then(response => response.json())
-                .then(data => { publishedWorkFlowDetails = data; })
+            let fetchUrl:string  = "";
+            if (params.params.workflowtype == "annotation"){
+                fetchUrl = configData.DEV.SPW_ENTRY_ANNOTATION + "fetch/";
+            }
+            else if (params.params.workflowtype == "saved"){
+                fetchUrl = configData.DEV.SPW_ENTRY_DEPOSITION + "fetch/";
+            }
+            else {
+                fetchUrl = configData.DEV.SPW_ENTRY + params.params.workflowtype + "/";
+            }
+            await fetch(fetchUrl + params.params.workflowid + "/")
+            .then(response => response.json())
+            .then(data => { publishedWorkFlowDetails = data; }) 
         }
         return publishedWorkFlowDetails
+    } catch (e) {
+        throw Error("Error could not load  workflows");
+    }
+}
+
+export const AnnotationWorkFLowDataLoader = async (params: any) => {
+    let data: any = {}
+    try {
+        let annotatedWorkFlowDetails: any = {}
+        if (configData.ENV == "LOC") {
+            await fetch(configData.LOC.SPW_EMP_ENTRY + "annotation/" + params.params.workflowid + "/")
+                .then(response => response.json())
+                .then(data => { annotatedWorkFlowDetails = data; })
+            data['annotateddata'] = annotatedWorkFlowDetails
+
+            let savedWorkFlowDetails: any = {}
+            await fetch(configData.LOC.SPW_EMP_ENTRY + "saved/" + params.params.workflowid.replace("ANNOTATION", "DRAFT") + "/")
+                .then(response => response.json())
+                .then(data => { savedWorkFlowDetails = data; })
+            data['saveddata'] = savedWorkFlowDetails
+        }
+        else {
+            await fetch(configData.DEV.SPW_ENTRY_ANNOTATION + "fetch/" + params.params.workflowid + "/")
+                .then(response => response.json())
+                .then(data => { annotatedWorkFlowDetails = data; })
+            data['annotateddata'] = annotatedWorkFlowDetails
+
+            let savedWorkFlowDetails: any = {}
+            await fetch(configData.DEV.SPW_ENTRY_DEPOSITION + "fetch/" + params.params.workflowid.replace("ANNOTATION", "DRAFT") + "/")
+                .then(response => response.json())
+                .then(data => { savedWorkFlowDetails = data; })
+            data['saveddata'] = savedWorkFlowDetails
+        }
+
+        return data
     } catch (e) {
         throw Error("Error could not load  workflows");
     }
@@ -248,9 +357,19 @@ export const MetaDataLoader = async (params: any) => {
             .then(data => { workFlowData = data; })
         }
         else {
-            await fetch(configData.DEV.SPW_ENTRY + params.params.workflowtype + "/" + params.params.workflowid + "/")
-                .then(response => response.json())
-                .then(data => { workFlowData = data; })
+            let fetchUrl:string  = "";
+            if (params.params.workflowtype == "annotation"){
+                fetchUrl = configData.DEV.SPW_ENTRY_ANNOTATION + "fetch/";
+            }
+            else if (params.params.workflowtype == "saved"){
+                fetchUrl = configData.DEV.SPW_ENTRY_DEPOSITION + "fetch/";
+            }
+            else {
+                fetchUrl = configData.DEV.SPW_ENTRY + params.params.workflowtype + "/";
+            }
+            await fetch(fetchUrl + params.params.workflowid)
+            .then(response => response.json())
+            .then(data => { workFlowData = data; })
         }
         return workFlowData;
     } catch (e) {
@@ -262,7 +381,10 @@ export const submitData = async (workFlowData: any) => {
     let result: any = {}
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-CSRFTOKEN': user.csrftoken
+         },
         body: JSON.stringify(workFlowData)
     };
     if (configData.ENV == "LOC") {
@@ -281,7 +403,9 @@ export const saveData = async (workFlowData: any) => {
     let result: any = {}
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-CSRFTOKEN': user.csrftoken },
         body: JSON.stringify(workFlowData)
     };
     if (configData.ENV == "LOC") {
@@ -300,7 +424,10 @@ export const updateSaved = async (params: any) => {
     let result: any = {}
     const requestOptions = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-CSRFTOKEN': user.csrftoken
+         },
         body: JSON.stringify(params.params.workFlowData)
     };
     if (configData.ENV == "LOC") {
@@ -313,4 +440,56 @@ export const updateSaved = async (params: any) => {
         .then(response => response.json())
         .then(data => { result = data; return result });
     }
+}
+
+export const check_worflowdata_changes = async (workFlowData:any) => {
+    let resultObject:any = {}
+    let isDataEqual = false
+    if (workFlowData){
+        let entryDetails = workFlowData.entryid.split("-")
+        let entryTypePrefix = entryDetails[0]
+        let entryId = entryDetails[1]
+        let workFlowDataToCompare:any = {}
+        let entryTypePrefixToCompare:string = ''
+        if (entryTypePrefix == "ANNOTATION"){
+            entryTypePrefixToCompare = "DRAFT"
+        }
+        else{
+            entryTypePrefixToCompare = "ANNOTATION"
+        }
+        if (entryTypePrefixToCompare == "ANNOTATION")
+            {
+                if(configData.ENV == "LOC"){
+                    await fetch(configData.LOC.SPW_EMP_ENTRY + "annotation/" + (entryTypePrefixToCompare + "-" + entryId ) + "/")
+                    .then(response => response.json())
+                    .then(data => { workFlowDataToCompare = data; })
+                }
+                else{
+                    await fetch(configData.DEV.SPW_ENTRY_ANNOTATION + "fetch/" + (entryTypePrefixToCompare + "-" + entryId ) + "/")
+                    .then(response => response.json())
+                    .then(data => { workFlowDataToCompare = data; })
+                }
+
+            }
+            else{
+                if(configData.ENV == "LOC"){
+                    await fetch(configData.LOC.SPW_EMP_ENTRY + "saved/" + (entryTypePrefixToCompare + "-" + entryId ) + "/")
+                    .then(response => response.json())
+                    .then(data => { workFlowDataToCompare = data; })
+                }
+                else{
+                    await fetch(configData.DEV.SPW_ENTRY_DEPOSITION + "fetch/" + (entryTypePrefixToCompare + "-" + entryId ) + "/")
+                    .then(response => response.json())
+                    .then(data => { workFlowDataToCompare = data; })
+                }
+            }
+        isDataEqual = _.isEqual(workFlowData.data, workFlowDataToCompare.data)
+        if (isDataEqual){
+            resultObject =  {'isedited': false, 'comapreddata': workFlowDataToCompare}
+        }
+        else{
+            resultObject =  {'isedited': true, 'comapreddata': workFlowDataToCompare}
+        }
+    }
+    return resultObject;
 }
