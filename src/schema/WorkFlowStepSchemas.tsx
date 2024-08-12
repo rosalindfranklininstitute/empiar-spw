@@ -1243,9 +1243,6 @@ const ocSchema: RJSFSchema = {
       type: "object",
       properties: {
         instrument: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
-        instrumentramp: { type: "number", title: "Instrument Ramp" },
-        instrumentspeed: { type: "number", title: "Instrument Speed" },
       },
     },
     notes: { type: "string", title: "Notes" },
@@ -1283,8 +1280,9 @@ const ocSchema: RJSFSchema = {
           },
           duration: {
             type: "object",
+            title: "Duration",
             properties: {
-              duration: { type: "number", title: "Duration" },
+              duration: { type: "number", minimum: 0, title: "Duration" },
               durationunit: {
                 type: "string",
                 enum: durationUnits,
