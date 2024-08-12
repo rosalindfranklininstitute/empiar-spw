@@ -156,7 +156,6 @@ const cfSchema: RJSFSchema = {
       title: "Instrument",
       properties: {
         instrumentname: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
       },
     },
     isundervaccum: { type: "boolean", title: "Under Vaccum" },
