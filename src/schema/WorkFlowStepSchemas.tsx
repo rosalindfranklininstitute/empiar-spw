@@ -694,9 +694,9 @@ const dhSchema: RJSFSchema = {
     reagent1: { type: "string", title: "Reagent 1" },
     reagent2: { type: "string", title: "Reagent 2" },
     instrument: { type: "string", title: "Instrument" },
-    instrumentwattage: { type: "number", title: "Instrument Wattage" },
     temperature: {
       type: "object",
+      title: "Temperature",
       properties: {
         temperature: { type: "number", title: "Temperature" },
         temperatureunit: {
@@ -715,7 +715,6 @@ const dhSchema: RJSFSchema = {
       items: {
         type: "object",
         properties: {
-          repeats: { type: "number", title: "Count" },
           concentrationdetails: {
             title: "Final Concentration",
             type: "object",
@@ -733,8 +732,9 @@ const dhSchema: RJSFSchema = {
           },
           duration: {
             type: "object",
+            title: "Duration",
             properties: {
-              duration: { type: "number", title: "Duration" },
+              duration: { type: "number", minimum:0, title: "Duration" },
               durationunit: {
                 type: "string",
                 enum: durationUnits,
