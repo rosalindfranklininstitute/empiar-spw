@@ -1106,9 +1106,10 @@ const icSchema: RJSFSchema = {
   type: "object",
   properties: {
     ph:
-      { type: "number", title: "pH" },
+      { type: "number", minimum: 0, maximum: 14, multipleOf: 0.1, title: "pH" },
     temperature: {
       type: "object",
+      title: "Temperature",
       properties: {
         temperature: { type: "number", title: "Temperature" },
         temperatureunit: {
@@ -1120,8 +1121,9 @@ const icSchema: RJSFSchema = {
     },
     duration: {
       type: "object",
+      title: "Duration",
       properties: {
-        duration: { type: "number", title: "Duration" },
+        duration: { type: "number", minimum: 0, title: "Duration" },
         durationunit: {
           type: "string",
           enum: durationUnits,
@@ -1129,14 +1131,14 @@ const icSchema: RJSFSchema = {
         },
       },
     },
-    repeats: { type: "number", title: "Repeats" },
+    repeats: { type: "number", minimum: 0, title: "Repeats" },
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
     instrument: {
       type: "object",
+      title: "Instrument",
       properties: {
         instrumentname: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
       },
     },
     isundervaccum: { type: "boolean", title: "Under Vaccum" },
