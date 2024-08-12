@@ -1320,9 +1320,6 @@ const uvpSchema: RJSFSchema = {
       type: "object",
       properties: {
         instrument: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
-        instrumentramp: { type: "number", title: "Instrument Ramp" },
-        instrumentspeed: { type: "number", title: "Instrument Speed" },
       },
     },
     notes: { type: "string", title: "Notes" },
@@ -1397,8 +1394,9 @@ const uvpSchema: RJSFSchema = {
           },
           duration: {
             type: "object",
+            title: "Duration",
             properties: {
-              duration: { type: "number", title: "Duration" },
+              duration: { type: "number", minimum: 0, title: "Duration" },
               durationunit: {
                 type: "string",
                 enum: durationUnits,
@@ -1676,7 +1674,7 @@ export const stepMenus = [
     "color": "#2196F3"
   },
   {
-    "name": "Uv Polymerisation",
+    "name": "UV Polymerisation",
     "key": "10",
     "stepkey": "uvp",
     "color": "#2196F3"
