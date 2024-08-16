@@ -37,7 +37,7 @@ function Home() {
             <HomeTiles
               title="Build A Workflow"
               descritpion="Create a new workflow"
-              route="build"
+              route="build/metadata/new"
               entrycount={4}></HomeTiles>
           </Stack>
         </Stack>

@@ -76,6 +76,11 @@ const reagentList: string[] = [
   "Uranyl Acetate",
   "NA",
 ];
+const blotTypeOptions: string[] = [
+  "Single sided - back",
+  "Single sided - front",
+  "Double sided"
+];
 
 const metaDataSchema: RJSFSchema = {
   type: "object",
@@ -118,9 +123,10 @@ const cfSchema: RJSFSchema = {
   type: "object",
   properties: {
     ph:
-      { type: "number", title: "pH" },
+      { type: "number", minimum: 0, maximum: 14, multipleOf: 0.1, title: "pH" },
     temperature: {
       type: "object",
+      title: "Temperature",
       properties: {
         temperature: { type: "number", title: "Temperature" },
         temperatureunit: {
@@ -132,8 +138,9 @@ const cfSchema: RJSFSchema = {
     },
     duration: {
       type: "object",
+      title: "Duration",
       properties: {
-        duration: { type: "number", title: "Duration" },
+        duration: { type: "number", minimum: 0, title: "Duration" },
         durationunit: {
           type: "string",
           enum: durationUnits,
@@ -141,18 +148,17 @@ const cfSchema: RJSFSchema = {
         },
       },
     },
-    repeats: { type: "number", title: "Repeats" },
+    repeats: { type: "number", minimum: 0, title: "Repeats" },
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
     instrument: {
       type: "object",
+      title: "Instrument",
       properties: {
         instrumentname: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "string", title: "Instrument Wattage" },
       },
     },
     isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    instrumentwattage: { type: "string", title: "Instrument Wattage" },
     reagentlist: {
       title: "Reagent List",
       type: "array",
@@ -255,13 +261,11 @@ const pfSchema: RJSFSchema = {
       type: "object",
       properties: {
         instrument: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
-        instrumentramp: { type: "number", title: "Instrument Ramp" },
-        instrumentspeed: { type: "number", title: "Instrument Speed" },
       },
     },
     chamberhumidity: { type: "number", title: "Chamber Humidity (in%)" },
     chambertemperature: {
+      title: "Chamber Temperature", 
       type: "object",
       properties: {
         temperature: { type: "number", title: "Chamber Temperature" },
@@ -273,6 +277,7 @@ const pfSchema: RJSFSchema = {
       },
     },
     cryogentemperature: {
+      title: "Cryogen Temperature",
       type: "object",
       properties: {
         temperature: { type: "number", title: "Cryogen Temperature" },
@@ -283,13 +288,26 @@ const pfSchema: RJSFSchema = {
         },
       },
     },
+    blotting: {
+      title: "Blotting",
+      type: "object",
+      properties: {
+        blotforce: { type: "integer", title: "Blot Force" },
+        blotduration: { type: "number", minimum: 0, title: "Blot Duration" },
+        blottype: {
+          type: "string",
+          enum: blotTypeOptions,
+          title: "Blot Type",
+        },
+      },
+    },
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
-    isundervaccum: { type: "boolean", title: "Under Vaccum" },
     reagentlist: {
       title: "Cyogen Composition",
       type: "array",
       items: {
+        title: "",
         type: "object",
         properties: {
           material: {
@@ -322,7 +340,7 @@ const hpfSchema: RJSFSchema = {
       type: "object",
       title: "Pressure",
       properties: {
-        pressure: { type: "number", title: "Pressure" },
+        pressure: { type: "number", minimum: 0, title: "Pressure" },
         pressureunit: {
           type: "string",
           enum: pressureUnits,
@@ -334,7 +352,7 @@ const hpfSchema: RJSFSchema = {
       type: "object",
       title: "Duration",
       properties: {
-        duration: { type: "number", title: "Duration" },
+        duration: { type: "number", minimum: 0, title: "Duration" },
         durationunit: {
           type: "string",
           enum: durationUnits,
@@ -348,11 +366,13 @@ const hpfSchema: RJSFSchema = {
       properties: {
         borediameter: {
           type: "number",
+          minimum: 0, 
           title: "Bore Diameter",
           description: "Bore/ Planchetter Diameter (in mm)",
         },
         boredepth: {
           type: "number",
+          minimum: 0,
           title: "Bore Depth",
           description: "Bore depth (in um)",
         },
@@ -551,9 +571,10 @@ const stSchema: RJSFSchema = {
   type: "object",
   properties: {
     ph:
-      { type: "number", title: "pH" },
+      { type: "number", minimum: 0, maximum: 14, multipleOf: 0.1, title: "pH" },
     temperature: {
       type: "object",
+      title: "Temperature",
       properties: {
         temperature: { type: "number", title: "Temperature" },
         temperatureunit: {
@@ -565,8 +586,9 @@ const stSchema: RJSFSchema = {
     },
     duration: {
       type: "object",
+      title: "Duration",
       properties: {
-        duration: { type: "number", title: "Duration" },
+        duration: { type: "number", minimum: 0, title: "Duration" },
         durationunit: {
           type: "string",
           enum: durationUnits,
@@ -577,7 +599,6 @@ const stSchema: RJSFSchema = {
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
     instrument: { type: "string", title: "Instrument" },
-    instrumentwattage: { type: "number", title: "Instrument Wattage" },
     reagentlist: {
       title: "Reagent List",
       type: "array",
@@ -677,9 +698,9 @@ const dhSchema: RJSFSchema = {
     reagent1: { type: "string", title: "Reagent 1" },
     reagent2: { type: "string", title: "Reagent 2" },
     instrument: { type: "string", title: "Instrument" },
-    instrumentwattage: { type: "number", title: "Instrument Wattage" },
     temperature: {
       type: "object",
+      title: "Temperature",
       properties: {
         temperature: { type: "number", title: "Temperature" },
         temperatureunit: {
@@ -698,7 +719,6 @@ const dhSchema: RJSFSchema = {
       items: {
         type: "object",
         properties: {
-          repeats: { type: "number", title: "Count" },
           concentrationdetails: {
             title: "Final Concentration",
             type: "object",
@@ -716,8 +736,9 @@ const dhSchema: RJSFSchema = {
           },
           duration: {
             type: "object",
+            title: "Duration",
             properties: {
-              duration: { type: "number", title: "Duration" },
+              duration: { type: "number", minimum:0, title: "Duration" },
               durationunit: {
                 type: "string",
                 enum: durationUnits,
@@ -779,9 +800,10 @@ const riSchema: RJSFSchema = {
   type: "object",
   properties: {
     ph:
-      { type: "number", title: "pH" },
+      { type: "number", minimum: 0, maximum: 14, multipleOf: 0.1, title: "pH" },
     temperature: {
       type: "object",
+      title: "Temperature",
       properties: {
         temperature: { type: "number", title: "Temperature" },
         temperatureunit: {
@@ -793,8 +815,9 @@ const riSchema: RJSFSchema = {
     },
     duration: {
       type: "object",
+      title: "Duration",
       properties: {
-        duration: { type: "number", title: "Duration" },
+        duration: { type: "number", minimum: 0, title: "Duration" },
         durationunit: {
           type: "string",
           enum: durationUnits,
@@ -802,18 +825,17 @@ const riSchema: RJSFSchema = {
         },
       },
     },
-    repeats: { type: "number", title: "Repeats" },
+    repeats: { type: "number", minimum: 0, title: "Repeats" },
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
     instrument: {
       type: "object",
+      title: "Instrument",
       properties: {
         instrumentname: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "string", title: "Instrument Wattage" },
       },
     },
     isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    instrumentwattage: { type: "string", title: "Instrument Wattage" },
     reagentlist: {
       title: "Reagent List",
       type: "array",
@@ -919,7 +941,7 @@ const ifSchema: RJSFSchema = {
       type: "object",
       properties: {
         instrument: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
+        instrumentwattage: { type: "number", minimum: 0, title: "Instrument Wattage" },
         instrumentramp: { type: "number", title: "Instrument Ramp" },
         instrumentspeed: { type: "number", title: "Instrument Speed" },
       },
@@ -969,7 +991,6 @@ const ifSchema: RJSFSchema = {
       items: {
         type: "object",
         properties: {
-          count: { type: "number", title: "Count" },
           concentrationdetails: {
             title: "Final Concentration",
             type: "object",
@@ -987,8 +1008,9 @@ const ifSchema: RJSFSchema = {
           },
           duration: {
             type: "object",
+            title: "Duration",
             properties: {
-              duration: { type: "number", title: "Duration" },
+              duration: { type: "number", minimum: 0, title: "Duration" },
               durationunit: {
                 type: "string",
                 enum: durationUnits,
@@ -1090,9 +1112,10 @@ const icSchema: RJSFSchema = {
   type: "object",
   properties: {
     ph:
-      { type: "number", title: "pH" },
+      { type: "number", minimum: 0, maximum: 14, multipleOf: 0.1, title: "pH" },
     temperature: {
       type: "object",
+      title: "Temperature",
       properties: {
         temperature: { type: "number", title: "Temperature" },
         temperatureunit: {
@@ -1104,8 +1127,9 @@ const icSchema: RJSFSchema = {
     },
     duration: {
       type: "object",
+      title: "Duration",
       properties: {
-        duration: { type: "number", title: "Duration" },
+        duration: { type: "number", minimum: 0, title: "Duration" },
         durationunit: {
           type: "string",
           enum: durationUnits,
@@ -1113,18 +1137,17 @@ const icSchema: RJSFSchema = {
         },
       },
     },
-    repeats: { type: "number", title: "Repeats" },
+    repeats: { type: "number", minimum: 0, title: "Repeats" },
     notes: { type: "string", title: "Notes" },
     safetynotes: { type: "string", title: "Safety Notes" },
     instrument: {
       type: "object",
+      title: "Instrument",
       properties: {
         instrumentname: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "string", title: "Instrument Wattage" },
       },
     },
     isundervaccum: { type: "boolean", title: "Under Vaccum" },
-    instrumentwattage: { type: "string", title: "Instrument Wattage" },
     reagentlist: {
       title: "Reagent List",
       type: "array",
@@ -1227,9 +1250,6 @@ const ocSchema: RJSFSchema = {
       type: "object",
       properties: {
         instrument: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
-        instrumentramp: { type: "number", title: "Instrument Ramp" },
-        instrumentspeed: { type: "number", title: "Instrument Speed" },
       },
     },
     notes: { type: "string", title: "Notes" },
@@ -1267,8 +1287,9 @@ const ocSchema: RJSFSchema = {
           },
           duration: {
             type: "object",
+            title: "Duration",
             properties: {
-              duration: { type: "number", title: "Duration" },
+              duration: { type: "number", minimum: 0, title: "Duration" },
               durationunit: {
                 type: "string",
                 enum: durationUnits,
@@ -1304,9 +1325,6 @@ const uvpSchema: RJSFSchema = {
       type: "object",
       properties: {
         instrument: { type: "string", title: "Instrument" },
-        instrumentwattage: { type: "number", title: "Instrument Wattage" },
-        instrumentramp: { type: "number", title: "Instrument Ramp" },
-        instrumentspeed: { type: "number", title: "Instrument Speed" },
       },
     },
     notes: { type: "string", title: "Notes" },
@@ -1381,8 +1399,9 @@ const uvpSchema: RJSFSchema = {
           },
           duration: {
             type: "object",
+            title: "Duration",
             properties: {
-              duration: { type: "number", title: "Duration" },
+              duration: { type: "number", minimum: 0, title: "Duration" },
               durationunit: {
                 type: "string",
                 enum: durationUnits,
@@ -1660,7 +1679,7 @@ export const stepMenus = [
     "color": "#2196F3"
   },
   {
-    "name": "Uv Polymerisation",
+    "name": "UV Polymerisation",
     "key": "10",
     "stepkey": "uvp",
     "color": "#2196F3"

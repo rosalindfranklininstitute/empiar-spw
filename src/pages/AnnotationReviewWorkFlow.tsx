@@ -15,19 +15,19 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { exportImage, exportToJson, check_worflowdata_changes } from '../utils/WidgetUtility';
+import { exportImage, exportToJson } from '../utils/WidgetUtility';
 import { Collapse } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { useState } from 'react';
 import configData from "../static/config.json";
+import ReactDiffViewer from 'react-diff-viewer';
 import { UserContext } from '../utils/UserContext';
 import { useContext } from 'react';
-const _ = require('lodash');
 
 
 
-function ReviewWorkFlow() {
+function AnnotationReviewWorkFlow() {
     const userContext = useContext(UserContext);
     const { state } = useLocation();
     const [openSuccess, setOpenSuccess] = useState<boolean>(false)
@@ -35,10 +35,11 @@ function ReviewWorkFlow() {
     const [message, setMessage] = useState<string>("")
     const [isSaveComplete, setisSaveComplete] = useState<boolean>(false)
     const workFlowData = state.data;
+    const comparedData = state.saveddata;
     const navigate = useNavigate();
 
     let params = useParams();
-    const workFlowType = params.workflowtype;
+    const userType = params.usertype;
 
     const downloadJson = () => {
         exportToJson(workFlowData, workFlowData.id);
@@ -53,69 +54,7 @@ function ReviewWorkFlow() {
         setOpenSuccess(false);
     }
 
-    const saveData = () => {
-        if ('_id' in workFlowData)
-        {
-          delete workFlowData._id;
-        }
-        workFlowData.is_curated = 0;
-        const requestOptions = {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'X-CSRFTOKEN': userContext.csrftoken
-            },
-            body: JSON.stringify(workFlowData)
-        };
-        if (configData.ENV == "LOC") {
-            fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/', requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                if(data["code"] == 1){
-                    setIsSuccess(true);
-                    setMessage(data["entryid"] + " created succesfuly. Saved entry can be accessed at:" + data["savedurl"]);
-                    setOpenSuccess(true);
-                    setisSaveComplete(true);
-                    if(workFlowType == "new"){
-                        workFlowData["entryid"] = data["entryid"]
-                    }
-                }
-                else{
-                    setisSaveComplete(false);
-                    setMessage(data["entryid"] + "SPW submission failed with error message:" + data["message"]);
-                    setOpenSuccess(true);
-                    setisSaveComplete(false);
-                }
-            });
-            setIsSuccess(true);
-            setMessage("Test SPW entry saved as a draft succesfuly with DOI: TEST DOI");
-            setOpenSuccess(true);
-            setisSaveComplete(true);
-        }
-        else{
-        fetch(configData.DEV.SPW_ENTRY_DEPOSITION + 'save/', requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                if(data["code"] == 1){
-                    setIsSuccess(true);
-                    setMessage(data["entryid"] + " created succesfuly");
-                    setOpenSuccess(true);
-                    setisSaveComplete(true);
-                    if(workFlowType == "new"){
-                        workFlowData["entryid"] = data["entryid"]
-                    }
-                }
-                else{
-                    setIsSuccess(false);
-                    setMessage(data["entryid"] + "SPW submission failed with error message:" + data["message"]);
-                    setOpenSuccess(true);
-                    setisSaveComplete(false);
-                }
-            });
-        }
-    }
-  
-    const updateData = () => {
+    const updateAnnotationReview = () => {
         const requestOptions = {
             method: 'PUT',
             headers: { 
@@ -125,7 +64,7 @@ function ReviewWorkFlow() {
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
-            fetch(configData.LOC.SPW_EMP_ENTRY + 'saved/' + workFlowData["entryid"], requestOptions)
+            fetch(configData.LOC.SPW_EMP_ENTRY + 'annotation/update' + workFlowData["entryid"], requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
@@ -147,7 +86,7 @@ function ReviewWorkFlow() {
             setisSaveComplete(true);
         }
         else{
-            fetch(configData.DEV.SPW_ENTRY_DEPOSITION + 'update/' + workFlowData["entryid"] + "/", requestOptions)
+            fetch(configData.DEV.SPW_ENTRY_ANNOTATION + 'update/' + workFlowData["entryid"] + "/", requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
@@ -166,15 +105,10 @@ function ReviewWorkFlow() {
         }
     }
 
-    const handleSubmitData = async () => {
-        if ('_id' in workFlowData)
-        {
-            delete workFlowData._id;
-        }
-        workFlowData.is_curated = 0
-        workFlowData.is_approved = 0
+    const handleApprovalRequest = () => {
+        workFlowData.is_curated = 1
         const requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: { 
                 'Content-Type': 'application/json',
                 'X-CSRFTOKEN': userContext.csrftoken
@@ -182,51 +116,42 @@ function ReviewWorkFlow() {
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
-            fetch(configData.LOC.SPW_EMP_ENTRY + 'submit', requestOptions)
+            fetch(configData.LOC.SPW_EMP_ENTRY + 'requestapproval/' + workFlowData['entryid'], requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
-                    setIsSuccess(true);
-                    setMessage(data["entryid"] + " created succesfuly for the annotation of the entry " + data["entryid"].replace("ANNOTATION", "DRAFT"));
-                    setOpenSuccess(true);
+                setMessage("Request for approval of entry: " + workFlowData["entryid"] + " created succesfuly");
+                setOpenSuccess(!openSuccess);
                 }
                 else{
-                    setIsSuccess(false);
                     setMessage(data["entryid"] + "SPW submission failed with error message:" + data["message"]);
-                    setOpenSuccess(true);
+                    setOpenSuccess(!openSuccess);
                 }
             });
-            setIsSuccess(true);
-            setMessage("Test SPW entry created succesfuly with DOI: TEST DOI");
-            setOpenSuccess(true);
+            setMessage("Test SPW entry saved as a draft succesfuly with DOI: TEST DOI");
+            setOpenSuccess(!openSuccess);
         }
         else{
-            fetch(configData.DEV.SPW_ENTRY_DEPOSITION + "submit/" , requestOptions)
+        fetch(configData.DEV.SPW_ENTRY_ANNOTATION + "requestapproval/" + workFlowData['entryid'] + "/", requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
-                    setIsSuccess(true);
-                    setMessage(data["entryid"] + " created succesfuly for the annotation of the entry " + data["entryid"].replace("ANNOTATION", "DRAFT"));
-                    setOpenSuccess(true);
+                setMessage("Request for approval of entry: " + workFlowData["entryid"] + " created succesfuly");
+                setOpenSuccess(!openSuccess);
                 }
                 else{
-                    setIsSuccess(false);
-                    setMessage(data["entryid"] + "SPW submission failed with error message:" + data["message"]);
-                    setOpenSuccess(true);
+                    setMessage("Request for approval of entry: " + data["entryid"] + " failed with error message:" + data["message"]);
+                    setOpenSuccess(!openSuccess);
                 }
             });
         }
     }
 
-    const handlePublishData = async () => {
-        if ('_id' in workFlowData)
-        {
-            delete workFlowData._id;
-        }
-        delete workFlowData.is_curated
-        delete workFlowData.is_approved
+    const handleApproval = () => {
+        workFlowData.is_approved = 1
+        alert('test');
         const requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: { 
                 'Content-Type': 'application/json',
                 'X-CSRFTOKEN': userContext.csrftoken
@@ -234,50 +159,45 @@ function ReviewWorkFlow() {
             body: JSON.stringify(workFlowData)
         };
         if (configData.ENV == "LOC") {
-            fetch(configData.LOC.SPW_EMP_ENTRY + 'published/', requestOptions)
+            fetch(configData.LOC.SPW_EMP_ENTRY + "approve/" + workFlowData['entryid'], requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
-                setIsSuccess(true);
-                setMessage(data["entryid"] + " created succesfuly with DOI:" + data["doi"]);
-                setOpenSuccess(true);
+                setMessage(data["entryid"] + " created succesfuly. Saved entry can be accessed at:" + data["savedurl"]);
+                setOpenSuccess(!openSuccess);
                 }
                 else{
-                    setIsSuccess(false);
                     setMessage(data["entryid"] + "SPW submission failed with error message:" + data["message"]);
-                    setOpenSuccess(true);
+                    setOpenSuccess(!openSuccess);
                 }
             });
-            setIsSuccess(true);
-            setMessage("Test SPW entry created succesfuly with DOI: TEST DOI");
-            setOpenSuccess(true);
+            setMessage("Test SPW entry saved as a draft succesfuly with DOI: TEST DOI");
+            setOpenSuccess(!openSuccess);
         }
         else{
-            fetch(configData.DEV.SPW_ENTRY_ANNOTATION + "publish" , requestOptions)
+        fetch(configData.DEV.SPW_ENTRY_DEPOSITION + "approve/" + workFlowData['entryid'], requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data["code"] == 1){
-                    setIsSuccess(true);
-                    setMessage(data["entryid"] + " published succesfuly with DOI: " + data["doi"]);
-                    setOpenSuccess(true);
+                setMessage("Request for approval of entry: " + data["entryid"] + " created succesfuly");
+                setOpenSuccess(!openSuccess);
                 }
                 else{
-                    setIsSuccess(false);
-                    setMessage(data["entryid"] + "SPW submission failed with error message:" + data["message"]);
-                    setOpenSuccess(true);
+                    setMessage("Request for approval of entry: " + data["entryid"] + " failed with error message:" + data["message"]);
+                    setOpenSuccess(!openSuccess);
                 }
             });
         }
     }
 
     function navigateBack() {
-        navigate("../workflow/" + workFlowType, { state: { metadata: workFlowData.metadata, entrydata: workFlowData, isNavLink: true } });
+        navigate("../workflow/annotation", { state: { metadata: workFlowData.metadata, entrydata: workFlowData } });
     }
 
     return (
         <>
             <CssBaseline />
-            <Container maxWidth="md">
+            <Container maxWidth="xl">
                 <Stack direction='column' spacing={2}>
                 <Collapse in={openSuccess}>
                 { isSuccess == true ? 
@@ -291,13 +211,17 @@ function ReviewWorkFlow() {
                     </Alert>
                 }
                 </Collapse>
-                {Object.keys(workFlowData).length &&
-                    <Box sx={{ flexGrow: 1 }}>
+                <Box sx={{ flexGrow: 1 }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={8}>
-                                <WorkflowVisualisationCard stepData={workFlowData}></WorkflowVisualisationCard>
+                            <Grid item xs={9}>
+                                <ReactDiffViewer
+                                oldValue={JSON.stringify(comparedData.data, null, 2)} 
+                                newValue={JSON.stringify(workFlowData.data, null, 2)} 
+                                splitView={true}
+                                leftTitle={workFlowData['entryid'].replace("ANNOTATION", "DRAFT")}
+                                rightTitle={workFlowData['entryid']} />
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={3}>
                                 <Stack direction="column" spacing={2}>
                                     <Button variant="contained" onClick={navigateBack}>Go back</Button>
                                     <Accordion>
@@ -329,24 +253,19 @@ function ReviewWorkFlow() {
                                         </AccordionSummary>
                                         <AccordionDetails>
                                             <Stack direction="column" spacing={2}>
-                                                { workFlowType == "saved" &&
-                                                    <Button variant="contained" onClick={updateData}>
-                                                        Update Workflow
+                                                { userType == "annotator" &&
+                                                     <Button variant="contained" onClick={updateAnnotationReview}>
+                                                        Update
                                                     </Button>
                                                 }
-                                                { (workFlowType == "new" || workFlowType == "template") &&
-                                                    <Button variant="contained" onClick={saveData}>
-                                                        Save Workflow
+                                                { userType == "annotator" &&
+                                                     <Button variant="contained" onClick={handleApprovalRequest} disabled={!isSaveComplete}>
+                                                        Request Approval
                                                     </Button>
                                                 }
-                                                { (workFlowType == "new" ||  workFlowType == "saved") &&
-                                                    <Button variant="contained" onClick={handleSubmitData} disabled={!isSaveComplete}>
-                                                            Submit Workflow
-                                                    </Button>
-                                                }
-                                                { workFlowType == "annotation" &&
-                                                     <Button variant="contained" onClick={handlePublishData}>
-                                                        Publish Workflow
+                                                { userType == "depositor" &&
+                                                     <Button variant="contained" onClick={handleApproval}>
+                                                        Approve For Release
                                                     </Button>
                                                 }
                                             </Stack>
@@ -356,7 +275,6 @@ function ReviewWorkFlow() {
                             </Grid>
                         </Grid>
                     </Box>
-                }
                 </Stack>
             </Container>
         </>
@@ -364,4 +282,4 @@ function ReviewWorkFlow() {
 }
 
 
-export default ReviewWorkFlow;
+export default AnnotationReviewWorkFlow;

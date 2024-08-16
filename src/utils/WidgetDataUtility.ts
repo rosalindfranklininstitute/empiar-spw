@@ -24,6 +24,36 @@ export type SavedWorkFLowItem = {
   imagingmethod: string,
   authorname: string,
   authoremail: string,
+  saveddate: string,
+  status:string
+}
+
+export type ApproveWorkFLowItem = {
+  id: number,
+  entryid: string,
+  title:string,
+  authorname: string,
+  authoremail: string,
+  saveddate: string
+}
+
+export type AnnotationWorkFLowItem = {
+  id: number,
+  entryid: string,
+  title:string,
+  imagingmethod: string,
+  authorname: string,
+  authoremail: string,
+  saveddate: string
+}
+
+export type EntriesToReleaseItem = {
+  id: number,
+  entryid: string,
+  title:string,
+  imagingmethod: string,
+  authorname: string,
+  authoremail: string,
   saveddate: string
 }
 

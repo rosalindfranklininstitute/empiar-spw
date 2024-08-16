@@ -94,6 +94,12 @@ const headCells: readonly HeadCell[] = [
     label: 'Author',
   },
   {
+    id: 'status',
+    numeric: false,
+    disablePadding: false,
+    label: 'Status',
+  },
+  {
     id: 'saveddate',
     numeric: true,
     disablePadding: false,
@@ -204,6 +210,7 @@ export default function SavedWorkFlows() {
   const savedJsonData: any = useLoaderData();
   const rows: SavedWorkFLowItem[] = [];
   Object.assign(rows, savedJsonData)
+  
   
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof SavedWorkFLowItem>('saveddate');
@@ -320,6 +327,7 @@ export default function SavedWorkFlows() {
                     <TableCell align="right">{row.title}</TableCell>
                     <TableCell align="right">{row.imagingmethod}</TableCell>
                     <TableCell align="right">{row.authorname} ( {row.authoremail} )</TableCell>
+                    <TableCell align="right">{row.status}</TableCell>
                     <TableCell align="right">{row.saveddate}</TableCell>
                     <TableCell align="right">
                       <Stack direction="column" spacing={2}>

@@ -10,16 +10,20 @@ function WorkFlowMetaDataPage() {
     let entryData: any = {};
     let metaDataToLoad: any = {};
     let workFlowDataToLoad: any = {};
-    if (state){
-        metaDataToLoad = state.metadata;
-        if (state.entrydata !== undefined){
-            entryData =  state.entrydata;
-        }
+    let isNavLink = false;
+    entryData = useLoaderData();
+    if (entryData){
+        metaDataToLoad = entryData.metadata;
     }
     else{
-        entryData = useLoaderData();
-        if (entryData) {
-            metaDataToLoad = entryData.metadata;
+        if (state){
+            metaDataToLoad = state.metadata;
+            if (state.entrydata !== undefined){
+                entryData =  state.entrydata;
+            }
+            if (state.isNavLink !== undefined){
+                isNavLink = state.isNavLink;
+            }
         }
     }
     
@@ -30,7 +34,12 @@ function WorkFlowMetaDataPage() {
 
     function updateMetaData(metadata: any) {
         if (metaData) {
-            navigate("../workflow/" + workFlowType, { state: { metadata: metadata, entrydata: entryData } });
+            if (isNavLink){
+                navigate("../workflow/" + workFlowType, { state: { metadata: metadata, entrydata: entryData, isNavLink:isNavLink } });
+            }
+            else{
+                navigate("../workflow/" + workFlowType, { state: { metadata: metadata, entrydata: entryData } });
+            }
         }
         else {
             navigate("/");
