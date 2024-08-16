@@ -17,8 +17,7 @@ interface HomeTilesProperties {
 }
 
 export default function HomeTiles(props:HomeTilesProperties) {
-    const navigate = useNavigate();
-    const data = {'a':1, 'b':['a', 'b', 'c']};
+  
   return (
     <Grid alignItems="left" >
     <Card sx={{ minWidth:345, maxWidth: 345}}>
@@ -36,7 +35,7 @@ export default function HomeTiles(props:HomeTilesProperties) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => navigate((props.route), {state: data})}>Total Published Entries: {props.entrycount}</Button>
+        <Button size="small" onClick={() =>  window.open(props.route ,'_blank', 'rel=noopener noreferrer')}>Total Published Entries: {props.entrycount}</Button>
       </CardActions>
     </Card>
     </Grid>

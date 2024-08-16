@@ -15,7 +15,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Stack from "@mui/material/Stack";
-import { exportImage, exportToJson, saveWfData, submitWfData } from "../utils/WidgetUtility";
+import { exportImage, exportToJson } from "../utils/WidgetUtility";
 
 
 interface ViewWorkFlowType {
@@ -38,14 +38,6 @@ function ViewWorkFlow(props: ViewWorkFlowType) {
 
     const downloadImage = () => {
         exportImage('workflow-vis', workFlowData.entryid);
-    }
-
-    const saveData = () =>{
-        saveWfData(workFlowData);
-    }
-
-    const submitData = () =>{
-        submitWfData(workFlowData);
     }
 
     return (

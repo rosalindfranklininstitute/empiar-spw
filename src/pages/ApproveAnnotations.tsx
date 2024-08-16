@@ -18,31 +18,12 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { PublisedWorkFLowItem } from '../utils/WidgetDataUtility';
-import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
-// import publishedData from '../static/sampledata/published.json';
+import { ApproveWorkFLowItem, SavedWorkFLowItem } from '../utils/WidgetDataUtility';
+import savedData from '../static/sampledata/saved.json';
+import { useLoaderData, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
-import SaveCardConfirmation from "../components/SaveCardConfirmation";
+import Stack from '@mui/material/Stack';
 
-
-// export const PublishedListDataLoader = async (params: any) => {
-//   try {
-//     let publishedWorkFlowDetails: any = {}
-//     alert(process.env.NODE_ENV);
-//     if (process.env.NODE_ENV == "production"){
-//       const publisedJsonData = await import('../static/sampledata/published.json');
-//       publishedWorkFlowDetails = publisedJsonData.publishedentries;
-//     }
-//     else{
-//       await fetch("http://127.0.0.1:8001/empiar/api/spw/entries/published/")
-//       .then(response => response.json())
-//       .then(data => {publishedWorkFlowDetails = data;})
-//     }
-//     return publishedWorkFlowDetails
-//   } catch (e) {
-//       throw Error("Error could not load published workflows");
-//   }
-// }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -82,7 +63,7 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof PublisedWorkFLowItem;
+  id: keyof ApproveWorkFLowItem;
   label: string;
   numeric: boolean;
 }
@@ -95,22 +76,10 @@ const headCells: readonly HeadCell[] = [
     label: 'ID',
   },
   {
-    id: 'entryid',
-    numeric: true,
-    disablePadding: false,
-    label: 'Entry ID',
-  },
-  {
     id: 'title',
     numeric: true,
     disablePadding: false,
     label: 'Title',
-  },
-  {
-    id: 'imagingmethod',
-    numeric: true,
-    disablePadding: false,
-    label: 'Imaging Method',
   },
   {
     id: 'authorname',
@@ -119,16 +88,16 @@ const headCells: readonly HeadCell[] = [
     label: 'Author',
   },
   {
-    id: 'publisheddate',
+    id: 'saveddate',
     numeric: true,
     disablePadding: false,
-    label: 'Publised Date',
+    label: 'Saved Date',
   },
 ];
 
 interface EnhancedTableProps {
   numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof PublisedWorkFLowItem) => void;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof ApproveWorkFLowItem) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
@@ -139,7 +108,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
     props;
   const createSortHandler =
-    (property: keyof PublisedWorkFLowItem) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof ApproveWorkFLowItem) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
@@ -206,7 +175,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           id="tableTitle"
           component="div"
         >
-          Published Work Flows
+          Approve Work Flows
         </Typography>
       )}
       {numSelected > 0 ? (
@@ -225,21 +194,21 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     </Toolbar>
   );
 }
-function PublishedWorkFlows() {
-  const publishedJsonData: any = useLoaderData();
-  const rows: PublisedWorkFLowItem[] = [];
-  Object.assign(rows, publishedJsonData)
-
+export default function ApproveWorkFlows() {
+  const approvedJsonData: any = useLoaderData();
+  const rows: ApproveWorkFLowItem[] = [];
+  Object.assign(rows, approvedJsonData)
+  
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof PublisedWorkFLowItem>('publisheddate');
+  const [orderBy, setOrderBy] = React.useState<keyof ApproveWorkFLowItem>('saveddate');
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  
+
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof PublisedWorkFLowItem,
+    property: keyof ApproveWorkFLowItem,
   ) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -283,6 +252,7 @@ function PublishedWorkFlows() {
     setPage(0);
   };
 
+
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -297,9 +267,7 @@ function PublishedWorkFlows() {
       ),
     [order, orderBy, page, rowsPerPage],
   );
-
-  const navigate = useNavigate();
-  const { state } = useLocation();
+  const navigate = useNavigate(); 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -339,17 +307,17 @@ function PublishedWorkFlows() {
                       id={labelId}
                       scope="row"
                     >
-                      <div onClick={() => navigate('../view/published/' + row.entryid)}>
+                      <div onClick={() => navigate('../build/approvereview/depositor/'+row.entryid)}>
                         {row.id}
                       </div>
                     </TableCell>
-                    <TableCell align="right">{row.entryid}</TableCell>
                     <TableCell align="right">{row.title}</TableCell>
-                    <TableCell align="right">{row.imagingmethod}</TableCell>
                     <TableCell align="right">{row.authorname} ( {row.authoremail} )</TableCell>
-                    <TableCell align="right">{row.publisheddate}</TableCell>
+                    <TableCell align="right">{row.saveddate}</TableCell>
                     <TableCell align="right">
-                      <Button variant="outlined" onClick={() => navigate('../view/published/' + row.entryid)}>View</Button>
+                      <Stack direction="column" spacing={2}>
+                        <Button variant="outlined" onClick={() => navigate('../build/approvereview/depositor/'+row.entryid)}>View</Button>
+                      </Stack>
                     </TableCell>
                   </TableRow>
                 );
@@ -379,5 +347,3 @@ function PublishedWorkFlows() {
     </Box>
   );
 }
-
-export default PublishedWorkFlows;

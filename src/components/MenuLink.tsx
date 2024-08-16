@@ -5,7 +5,7 @@ import React, { FC } from "react";
 
 const MenuLink: FC<LinkProps> = props => {
   return (
-    <MuiLink {...props} component={ReactRouterLink} to={props.href ?? "#"} underline="none" />
+    <MuiLink {...props} component={ReactRouterLink} to={props.href ?? "#"} underline="none" target="_blank" />
   );
 };
 

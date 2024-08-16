@@ -8,9 +8,11 @@ import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+const appDiv = document.getElementById('root');
+const appData = appDiv ? appDiv.dataset : {}
 root.render(
   <React.StrictMode>
-    <App />
+    <App {...(appData)} />
   </React.StrictMode>
 );
 
