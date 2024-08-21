@@ -1,5 +1,5 @@
 {
-    "ENV": "LOC",
+    "ENV": "DEV",
     "MONGO":{
         "CONNECTION_STRING": "mongodb://localhost:27017/",
         "DB_NAME":  "admin"
@@ -53,5 +53,15 @@
     },
     "LOCCURRENTUSER":{
         "TYPE": "depositor"
+    },
+    "RELATIVEPATH":{
+        "LOC": "",
+        "DEV": "/empiar/andrii/empiar/deposition/widget",
+        "PROD": "/empiar/deposition/widget"
+    },
+    "LOGOUTURL":{
+        "LOC": "//wwwdev.ebi.ac.uk/empiar/andrii/empiar/deposition/logout/",
+        "DEV": "//wwwdev.ebi.ac.uk/empiar/andrii/empiar/deposition/logout/",
+        "PROD": "//www.ebi.ac.uk/empiar/deposition/logout/"
     }
 }

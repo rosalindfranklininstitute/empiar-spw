@@ -27,6 +27,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import React from 'react';
 import Button from '@mui/material/Button';
+import configData from "../static/config.json";
 
 
 const drawerWidth = 240;
@@ -34,6 +35,17 @@ const drawerWidth = 240;
 export default function BaseLayout() {
 
   const user = useContext(UserContext);
+  const env = configData.ENV;
+  let logoutUrl = ''
+  if (env == "PROD"){
+    logoutUrl = configData.LOGOUTURL['PROD'];
+  }
+  else if (env == "DEV"){
+    logoutUrl = configData.LOGOUTURL['DEV'];
+  }
+  else{
+    logoutUrl = configData.LOGOUTURL['LOC'];
+  }
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -50,7 +62,7 @@ export default function BaseLayout() {
   };
 
   const handleLogout = () => {
-    window.open('http://127.0.0.1:8001/empiar');
+    window.open(logoutUrl, '_self');
   }
 
   return (
