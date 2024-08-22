@@ -60,7 +60,7 @@
         "PROD": "/empiar/deposition/widget"
     },
     "LOGOUTURL":{
-        "LOC": "//wwwdev.ebi.ac.uk/empiar/andrii/empiar/deposition/logout/",
+        "LOC": "",
         "DEV": "//wwwdev.ebi.ac.uk/empiar/andrii/empiar/deposition/logout/",
         "PROD": "//www.ebi.ac.uk/empiar/deposition/logout/"
     }
