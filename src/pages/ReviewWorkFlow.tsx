@@ -299,7 +299,7 @@ function ReviewWorkFlow() {
                             </Grid>
                             <Grid item xs={4}>
                                 <Stack direction="column" spacing={2}>
-                                    <Button variant="contained" onClick={navigateBack}>Go back</Button>
+                                    <Button variant="contained" onClick={navigateBack}>Edit Protocol</Button>
                                     <Accordion>
                                         <AccordionSummary
                                             expandIcon={<ExpandMoreIcon />}
