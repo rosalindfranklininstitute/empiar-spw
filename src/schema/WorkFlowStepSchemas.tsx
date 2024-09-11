@@ -183,6 +183,7 @@ const cfSchema: RJSFSchema = {
             properties: {
               concentration: {
                 type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -415,6 +416,7 @@ const hpfSchema: RJSFSchema = {
             properties: {
               concentration: {
                 type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -451,6 +453,7 @@ const hpfSchema: RJSFSchema = {
             properties: {
               concentration: {
                 type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -623,6 +626,7 @@ const stSchema: RJSFSchema = {
             properties: {
               concentration: {
                 type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -725,6 +729,7 @@ const dhSchema: RJSFSchema = {
             properties: {
               concentration: {
                 type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -860,6 +865,7 @@ const riSchema: RJSFSchema = {
             properties: {
               concentration: {
                 type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -997,6 +1003,7 @@ const ifSchema: RJSFSchema = {
             properties: {
               concentration: {
                 type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -1172,6 +1179,7 @@ const icSchema: RJSFSchema = {
             properties: {
               concentration: {
                 type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -1354,6 +1362,7 @@ const uvpSchema: RJSFSchema = {
             properties: {
               concentration: {
                 type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -1512,6 +1521,7 @@ const fsSchema: RJSFSchema = {
           properties: {
             concentration: {
               type: "number",
+              minimum: 0,
               title: "Concentration",
             },
             concentrationunits: {
