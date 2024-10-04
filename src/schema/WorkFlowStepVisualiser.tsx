@@ -363,11 +363,6 @@ export function DehydrationDataCard(cardData: any) {
         if ('reagentconcentration' in cardData) {
             cardData["reagentconcentration"].map((data: any, index: number) => {
                 let listElement: any = [];
-                if ("repeats" in data) {
-                    listElement.push(<span>Repeats:
-                        <b>{data["repeats"]}</b>
-                    </span>)
-                }
                 if ("concentrationdetails" in data) {
                     if ("concentration" in data["concentrationdetails"]) {
                         listElement.push(<span>Concentration:
@@ -377,7 +372,7 @@ export function DehydrationDataCard(cardData: any) {
                 }
                 if ("duration" in data) {
                     if ("duration" in data["duration"]) {
-                        listElement.push(<span>Concentration:
+                        listElement.push(<span>Duration:
                             <b>{data["duration"]["duration"]} {data["duration"]["durationunit"]}</b>
                         </span>)
                     }
@@ -414,7 +409,7 @@ export function DehydrationDataCard(cardData: any) {
             {('instrument' in cardData) &&
                 <Stack direction="row" spacing={3}>
                     <span>Instrument:
-                        <b>{cardData["instrument"]["instrument"]} {cardData["instrument"]["instrumentwattage"]}</b>
+                        <b>{cardData["instrument"]}</b>
                     </span>
                 </Stack>
             }
