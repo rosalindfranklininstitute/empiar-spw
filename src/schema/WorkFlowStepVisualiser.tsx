@@ -454,7 +454,7 @@ export function RinsingDataCard(cardData: any) {
                 if ("concentrationdetails" in data) {
                     if ("concentration" in data["concentrationdetails"]) {
                         listElement.push(<span>Concentration:
-                            <b>{data["concentrationdetails"]["concentration"]}</b>
+                            <b>{data["concentrationdetails"]["concentration"]} {data["concentrationdetails"]["concentrationunits"]}</b>
                         </span>)
                     }
                 }
@@ -483,7 +483,7 @@ export function RinsingDataCard(cardData: any) {
                 <Stack direction="row" spacing={3}>
                     {('duration' in cardData) &&
                         <span>Duration:
-                            <b>{cardData["duration"]["duration"]} {cardData["duration"]["temperatureunit"]}</b>
+                            <b>{cardData["duration"]["duration"]} {cardData["duration"]["durationunit"]}</b>
                         </span>}
                     {('repeats' in cardData) && <span>Repeats: <b>{cardData["repeats"]}</b></span>}
                 </Stack>
@@ -491,7 +491,7 @@ export function RinsingDataCard(cardData: any) {
             {('instrument' in cardData) &&
                 <Stack direction="row" spacing={3}>
                     <span>Instrument:
-                        <b>{cardData["instrument"]["instrument"]} {cardData["instrument"]["instrumentwattage"]}</b>
+                        <b>{cardData["instrument"]["instrument"]} {cardData["instrument"]["instrumentname"]}</b>
                     </span>
                 </Stack>
             }
