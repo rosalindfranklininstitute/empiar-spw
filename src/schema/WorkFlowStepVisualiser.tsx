@@ -675,7 +675,7 @@ export function IncubationDataCard(cardData: any) {
             {('instrument' in cardData) &&
                 <Stack direction="row" spacing={3}>
                     <span>Instrument:
-                        <b>{cardData["instrument"]["instrument"]} {cardData["instrument"]["instrumentwattage"]}</b>
+                        <b>{cardData["instrument"]["instrumentname"]}</b>
                     </span>
                 </Stack>
             }
