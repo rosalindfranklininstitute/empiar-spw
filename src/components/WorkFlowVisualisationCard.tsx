@@ -117,7 +117,7 @@ export default function WorkFlowVisualisationCard(props: WorkFlowVisualisationCa
       else if (data["method"] == "Rinsingn") {
         cardData = RinsingDataCard(data);
       }
-      else if (data["method"] == "Infiltrationn") {
+      else if (data["method"] == "Infiltration") {
         cardData = InfiltrationDataCard(data);
       }
       else if (data["method"] == "Incubation") {
