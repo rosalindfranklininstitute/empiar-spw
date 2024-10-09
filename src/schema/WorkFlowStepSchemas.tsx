@@ -24,6 +24,7 @@ const reagentList: string[] = [
   "Aspartic acid",
   "BDMA",
   "Calcium Chloride",
+  "ddH2O",
   "DDSA",
   "DER 736",
   "Dimethylaminoethanol (DMAE)",
