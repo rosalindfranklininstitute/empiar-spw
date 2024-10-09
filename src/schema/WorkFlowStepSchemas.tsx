@@ -1285,7 +1285,7 @@ const ocSchema: RJSFSchema = {
             title: "End Temperature",
             type: "object",
             properties: {
-              starttemperature: { type: "number", title: "End Temperature" },
+              endtemperature: { type: "number", title: "End Temperature" },
               temperatureunit: {
                 type: "string",
                 enum: temperatureUnits,
