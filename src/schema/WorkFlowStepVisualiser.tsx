@@ -700,7 +700,11 @@ export function OvenCuringDataCard(cardData: any) {
         if ('warmingprocedure' in cardData) {
             cardData["warmingprocedure"].map((data: any, index: number) => {
                 let listElement: any = [];
-                if ("duration" in data) {
+                if ("temperature" in data) {                    
+                    listElement.push(<span>Temp Rump:
+                        <b>{data["temperature"]}</b>
+                    </span>)
+                    
                 if ("starttemperature" in data) {
                     if ("starttemperature" in data["starttemperature"]) {
                         listElement.push(<span>Start Temp:
@@ -736,16 +740,9 @@ export function OvenCuringDataCard(cardData: any) {
             {('instrumentdetails' in cardData) &&
                 <>
                     <Stack direction="row" spacing={3}>
-                        {('instrument' in cardData["instrumentdetails"]) && <span>Instrument: <b>{cardData["instrumentdetails"]["instrument"]}</b></span>}
-                        {('instrumentwattage' in cardData["instrumentdetails"]) &&
-                            <span>
-                                <b>{cardData["instrumentdetails"]["instrumentwattage"]} W</b>
-                            </span>}
-
-                        {('instrumentramp' in cardData["instrumentdetails"]) && <span>Instrument Ramp: <b>{cardData["instrumentdetails"]["instrumentramp"]}</b></span>}
-                        {('instrumentspeed' in cardData["instrumentdetails"]) &&
-                            <span>Instrument Speed:
-                                <b>{cardData["instrumentdetails"]["instrumentspeed"]} W</b>
+                        {('instrument' in cardData["instrumentdetails"]) && 
+                            <span>Instrument: 
+                                <b>{cardData["instrumentdetails"]["instrument"]}</b>
                             </span>}
                     </Stack>
                 </>
