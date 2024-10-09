@@ -112,16 +112,6 @@ export function PlungeFreezongDataCard(cardData: any) {
                 <>
                     <Stack direction="row" spacing={3}>
                         {('instrument' in cardData["instrumentdetails"]) && <span>Instrument: <b>{cardData["instrumentdetails"]["instrument"]}</b></span>}
-                        {('instrumentwattage' in cardData["instrumentdetails"]) &&
-                            <span>
-                                <b>{cardData["instrumentdetails"]["instrumentwattage"]} W</b>
-                            </span>}
-
-                        {('instrumentramp' in cardData["instrumentdetails"]) && <span>Instrument Ramp: <b>{cardData["instrumentdetails"]["instrumentramp"]}</b></span>}
-                        {('instrumentspeed' in cardData["instrumentdetails"]) &&
-                            <span>Instrument Speed:
-                                <b>{cardData["instrumentdetails"]["instrumentspeed"]} W</b>
-                            </span>}
                     </Stack>
                 </>
             }
@@ -130,7 +120,7 @@ export function PlungeFreezongDataCard(cardData: any) {
                     {('temperature' in cardData["chambertemperature"]) && <span>Chamber Temperature: <b>{cardData["chambertemperature"]["temperature"]}</b></span>}
                     {('temperatureunit' in cardData["chambertemperature"]) &&
                         <span>
-                            <b>{cardData["chambertemperature"]["temperatureunit"]} W</b>
+                            <b>{cardData["chambertemperature"]["temperatureunit"]} </b>
                         </span>}
                 </Stack>
             }
@@ -139,7 +129,7 @@ export function PlungeFreezongDataCard(cardData: any) {
                     {('temperature' in cardData["cryogentemperature"]) && <span>Chamber Temperature: <b>{cardData["cryogentemperature"]["temperature"]}</b></span>}
                     {('temperatureunit' in cardData["cryogentemperature"]) &&
                         <span>
-                            <b>{cardData["cryogentemperature"]["temperatureunit"]} W</b>
+                            <b>{cardData["cryogentemperature"]["temperatureunit"]} </b>
                         </span>}
                 </Stack>
             }
