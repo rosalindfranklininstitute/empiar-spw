@@ -102,7 +102,7 @@ export default function WorkFlowVisualisationCard(props: WorkFlowVisualisationCa
       if (data["method"] == "Chemical Fixation") {
         cardData = ChemicalFixationDataCard(data);
       }
-      else if (data["method"] == "Plunge Freex") {
+      else if (data["method"] == "Plunge Freezing") {
         cardData = PlungeFreezongDataCard(data);
       }
       else if (data["method"] == "High Pressure Freezing") {
