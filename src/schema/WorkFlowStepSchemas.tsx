@@ -24,6 +24,7 @@ const reagentList: string[] = [
   "Aspartic acid",
   "BDMA",
   "Calcium Chloride",
+  "ddH2O",
   "DDSA",
   "DER 736",
   "Dimethylaminoethanol (DMAE)",
@@ -63,6 +64,7 @@ const reagentList: string[] = [
   "Potassium permanganate",
   "Potassium Phosphate",
   "Propylene oxide",
+  "Quetol 651",
   "Resin",
   "Ruthenium Red",
   "Sodium cacodylate",
@@ -73,6 +75,7 @@ const reagentList: string[] = [
   "Sucrose",
   "Tannic acid",
   "Thiocarbohydrazide",
+  "Tween20",
   "Uranyl Acetate",
   "NA",
 ];
