@@ -786,7 +786,7 @@ export function UvPolymerisationCuringDataCard(cardData: any) {
                 if ("concentrationdetails" in data) {
                     if ("concentration" in data["concentrationdetails"]) {
                         listElement.push(<span>Concentration:
-                            <b>{data["concentrationdetails"]["concentration"]}</b>
+                            <b>{data["concentrationdetails"]["concentration"]} {data["concentrationdetails"]["concentrationunits"]}</b>
                         </span>)
                     }
                 }
@@ -796,14 +796,17 @@ export function UvPolymerisationCuringDataCard(cardData: any) {
         if ('warmingprocedure' in cardData) {
             cardData["warmingprocedure"].map((data: any, index: number) => {
                 let listElement: any = [];
-                if ("duration" in data) {
+                if("temperature" in data){
+                    listElement.push(<span>Temp Rump:
+                            <b>{data["temperature"]}</b>
+                    </span>)
+                }
                 if ("starttemperature" in data) {
                     if ("starttemperature" in data["starttemperature"]) {
                         listElement.push(<span>Start Temp:
                             <b>{data["starttemperature"]["starttemperature"]} {data["starttemperature"]["temperatureunit"]}</b>
                         </span>)
                     }
-                }
                 if ("endtemperature" in data) {
                     if ("endtemperature" in data["endtemperature"]) {
                         listElement.push(<span>End Temp:
@@ -812,7 +815,7 @@ export function UvPolymerisationCuringDataCard(cardData: any) {
                     }
                 }
                 if ("duration" in data["duration"]) {
-                    listElement.push(<span>Concentration:
+                    listElement.push(<span>Duration:
                         <b>{data["duration"]["duration"]} {data["duration"]["durationunit"]}</b>
                     </span>)
                 }
@@ -830,21 +833,12 @@ export function UvPolymerisationCuringDataCard(cardData: any) {
     return (
         <Box sx={{ flexGrow: 1 }}>
             {('instrumentdetails' in cardData) &&
-                <>
-                    <Stack direction="row" spacing={3}>
-                        {('instrument' in cardData["instrumentdetails"]) && <span>Instrument: <b>{cardData["instrumentdetails"]["instrument"]}</b></span>}
-                        {('instrumentwattage' in cardData["instrumentdetails"]) &&
-                            <span>
-                                <b>{cardData["instrumentdetails"]["instrumentwattage"]} W</b>
-                            </span>}
-
-                        {('instrumentramp' in cardData["instrumentdetails"]) && <span>Instrument Ramp: <b>{cardData["instrumentdetails"]["instrumentramp"]}</b></span>}
-                        {('instrumentspeed' in cardData["instrumentdetails"]) &&
-                            <span>Instrument Speed:
-                                <b>{cardData["instrumentdetails"]["instrumentspeed"]} W</b>
-                            </span>}
-                    </Stack>
-                </>
+                <Stack direction="row" spacing={3}>
+                    {('instrument' in cardData["instrumentdetails"]) && 
+                        <span>Instrument: 
+                            <b>{cardData["instrumentdetails"]["instrument"]}</b>
+                        </span>}
+                </Stack>
             }
             {('safetynotes' in cardData) &&
                 <Stack direction="row" spacing={3}>
