@@ -102,7 +102,7 @@ export default function WorkFlowVisualisationCard(props: WorkFlowVisualisationCa
       if (data["method"] == "Chemical Fixation") {
         cardData = ChemicalFixationDataCard(data);
       }
-      else if (data["method"] == "Plunge Freex") {
+      else if (data["method"] == "Plunge Freezing") {
         cardData = PlungeFreezongDataCard(data);
       }
       else if (data["method"] == "High Pressure Freezing") {
@@ -114,10 +114,10 @@ export default function WorkFlowVisualisationCard(props: WorkFlowVisualisationCa
       else if (data["method"] == "Dehydration") {
         cardData = DehydrationDataCard(data);
       }
-      else if (data["method"] == "Rinsingn") {
+      else if (data["method"] == "Rinsing") {
         cardData = RinsingDataCard(data);
       }
-      else if (data["method"] == "Infiltrationn") {
+      else if (data["method"] == "Infiltration") {
         cardData = InfiltrationDataCard(data);
       }
       else if (data["method"] == "Incubation") {

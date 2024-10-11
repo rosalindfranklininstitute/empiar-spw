@@ -24,6 +24,7 @@ const reagentList: string[] = [
   "Aspartic acid",
   "BDMA",
   "Calcium Chloride",
+  "ddH2O",
   "DDSA",
   "DER 736",
   "Dimethylaminoethanol (DMAE)",
@@ -63,6 +64,7 @@ const reagentList: string[] = [
   "Potassium permanganate",
   "Potassium Phosphate",
   "Propylene oxide",
+  "Quetol 651",
   "Resin",
   "Ruthenium Red",
   "Sodium cacodylate",
@@ -73,6 +75,7 @@ const reagentList: string[] = [
   "Sucrose",
   "Tannic acid",
   "Thiocarbohydrazide",
+  "Tween20",
   "Uranyl Acetate",
   "NA",
 ];
@@ -182,7 +185,8 @@ const cfSchema: RJSFSchema = {
             type: "object",
             properties: {
               concentration: {
-                type: "string",
+                type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -414,7 +418,8 @@ const hpfSchema: RJSFSchema = {
             type: "object",
             properties: {
               concentration: {
-                type: "string",
+                type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -450,7 +455,8 @@ const hpfSchema: RJSFSchema = {
             type: "object",
             properties: {
               concentration: {
-                type: "string",
+                type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -622,7 +628,8 @@ const stSchema: RJSFSchema = {
             type: "object",
             properties: {
               concentration: {
-                type: "string",
+                type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -724,7 +731,8 @@ const dhSchema: RJSFSchema = {
             type: "object",
             properties: {
               concentration: {
-                type: "string",
+                type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -859,7 +867,8 @@ const riSchema: RJSFSchema = {
             type: "object",
             properties: {
               concentration: {
-                type: "string",
+                type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -996,7 +1005,8 @@ const ifSchema: RJSFSchema = {
             type: "object",
             properties: {
               concentration: {
-                type: "string",
+                type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -1034,7 +1044,7 @@ const ifSchema: RJSFSchema = {
             title: "End Temperature",
             type: "object",
             properties: {
-              starttemperature: { type: "number", title: "End Temperature" },
+              endtemperature: { type: "number", title: "End Temperature" },
               temperatureunit: {
                 type: "string",
                 enum: temperatureUnits,
@@ -1171,7 +1181,8 @@ const icSchema: RJSFSchema = {
             type: "object",
             properties: {
               concentration: {
-                type: "string",
+                type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -1277,7 +1288,7 @@ const ocSchema: RJSFSchema = {
             title: "End Temperature",
             type: "object",
             properties: {
-              starttemperature: { type: "number", title: "End Temperature" },
+              endtemperature: { type: "number", title: "End Temperature" },
               temperatureunit: {
                 type: "string",
                 enum: temperatureUnits,
@@ -1353,7 +1364,8 @@ const uvpSchema: RJSFSchema = {
             type: "object",
             properties: {
               concentration: {
-                type: "string",
+                type: "number",
+                minimum: 0,
                 title: "Concentration",
               },
               concentrationunits: {
@@ -1389,7 +1401,7 @@ const uvpSchema: RJSFSchema = {
             title: "End Temperature",
             type: "object",
             properties: {
-              starttemperature: { type: "number", title: "End Temperature" },
+              endtemperature: { type: "number", title: "End Temperature" },
               temperatureunit: {
                 type: "string",
                 enum: temperatureUnits,
@@ -1511,7 +1523,8 @@ const fsSchema: RJSFSchema = {
           type: "object",
           properties: {
             concentration: {
-              type: "string",
+              type: "number",
+              minimum: 0,
               title: "Concentration",
             },
             concentrationunits: {

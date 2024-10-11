@@ -299,59 +299,39 @@ function ReviewWorkFlow() {
                             </Grid>
                             <Grid item xs={4}>
                                 <Stack direction="column" spacing={2}>
-                                    <Button variant="contained" onClick={navigateBack}>Go back</Button>
-                                    <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel1a-content"
-                                            id="panel1a-header"
-                                        >
-                                            <Typography>Export Options:</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Stack direction="column" spacing={2}>
-                                                <Button variant="contained" onClick={downloadImage}>
-                                                    Download Image
-                                                </Button>
-                                                <Button variant="contained" onClick={downloadJson}>
-                                                    Download JSON
-                                                </Button>
-                                            </Stack>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                    <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel1a-content"
-                                            id="panel1a-header"
-                                        >
-                                            <Typography>Workflow Actions:</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Stack direction="column" spacing={2}>
-                                                { workFlowType == "saved" &&
-                                                    <Button variant="contained" onClick={updateData}>
-                                                        Update Workflow
-                                                    </Button>
-                                                }
-                                                { (workFlowType == "new" || workFlowType == "template") &&
-                                                    <Button variant="contained" onClick={saveData}>
-                                                        Save Workflow
-                                                    </Button>
-                                                }
-                                                { (workFlowType == "new" ||  workFlowType == "saved") &&
-                                                    <Button variant="contained" onClick={handleSubmitData} disabled={!isSaveComplete}>
-                                                            Submit Workflow
-                                                    </Button>
-                                                }
-                                                { workFlowType == "annotation" &&
-                                                     <Button variant="contained" onClick={handlePublishData}>
-                                                        Publish Workflow
-                                                    </Button>
-                                                }
-                                            </Stack>
-                                        </AccordionDetails>
-                                    </Accordion>
+                                    <Button variant="contained" onClick={navigateBack}>Edit Protocol</Button>
+                                    <Stack direction="column" spacing={2}>
+                                        <Typography variant="h6">Export Options</Typography>
+                                        <Button variant="contained" onClick={downloadImage}>
+                                            Download Image
+                                        </Button>
+                                        <Button variant="contained" onClick={downloadJson}>
+                                            Download JSON
+                                        </Button>
+                                    </Stack>
+                                    <Stack direction="column" spacing={2}>
+                                        <Typography variant="h6">Workflow Actions</Typography>
+                                        { workFlowType == "saved" &&
+                                            <Button variant="contained" onClick={updateData}>
+                                                Update Workflow
+                                            </Button>
+                                        }
+                                        { (workFlowType == "new" || workFlowType == "template") &&
+                                            <Button variant="contained" onClick={saveData}>
+                                                Save Workflow
+                                            </Button>
+                                        }
+                                        { (workFlowType == "new" ||  workFlowType == "saved") &&
+                                            <Button variant="contained" onClick={handleSubmitData} disabled={!isSaveComplete}>
+                                                Submit Workflow
+                                            </Button>
+                                        }
+                                        { workFlowType == "annotation" &&
+                                            <Button variant="contained" onClick={handlePublishData}>
+                                                Publish Workflow
+                                            </Button>
+                                        }
+                                    </Stack>                              
                                 </Stack>
                             </Grid>
                         </Grid>

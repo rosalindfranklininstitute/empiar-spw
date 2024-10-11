@@ -24,7 +24,7 @@ export function ChemicalFixationDataCard(cardData: any) {
                 if ("concentrationdetails" in data) {
                     if ("concentration" in data["concentrationdetails"]) {
                         listElement.push(<span>Concentration:
-                            <b>{data["concentrationdetails"]["concentration"]}</b>
+                            <b>{data["concentrationdetails"]["concentration"]} {data["concentrationdetails"]["concentrationunits"]}</b>
                         </span>)
                     }
                 }
@@ -53,7 +53,7 @@ export function ChemicalFixationDataCard(cardData: any) {
                 <Stack direction="row" spacing={3}>
                     {('duration' in cardData) &&
                         <span>Duration:
-                            <b>{cardData["duration"]["duration"]} {cardData["duration"]["temperatureunit"]}</b>
+                            <b>{cardData["duration"]["duration"]} {cardData["duration"]["durationunit"]}</b>
                         </span>}
                     {('repeats' in cardData) && <span>Repeats: <b>{cardData["repeats"]}</b></span>}
                 </Stack>
@@ -61,7 +61,7 @@ export function ChemicalFixationDataCard(cardData: any) {
             {('instrument' in cardData) &&
                 <Stack direction="row" spacing={3}>
                     <span>Instrument:
-                        <b>{cardData["instrument"]["instrument"]} {cardData["instrument"]["instrumentwattage"]}</b>
+                        <b>{cardData["instrument"]["instrumentname"]}</b>
                     </span>
                 </Stack>
             }
@@ -112,16 +112,6 @@ export function PlungeFreezongDataCard(cardData: any) {
                 <>
                     <Stack direction="row" spacing={3}>
                         {('instrument' in cardData["instrumentdetails"]) && <span>Instrument: <b>{cardData["instrumentdetails"]["instrument"]}</b></span>}
-                        {('instrumentwattage' in cardData["instrumentdetails"]) &&
-                            <span>
-                                <b>{cardData["instrumentdetails"]["instrumentwattage"]} W</b>
-                            </span>}
-
-                        {('instrumentramp' in cardData["instrumentdetails"]) && <span>Instrument Ramp: <b>{cardData["instrumentdetails"]["instrumentramp"]}</b></span>}
-                        {('instrumentspeed' in cardData["instrumentdetails"]) &&
-                            <span>Instrument Speed:
-                                <b>{cardData["instrumentdetails"]["instrumentspeed"]} W</b>
-                            </span>}
                     </Stack>
                 </>
             }
@@ -130,7 +120,7 @@ export function PlungeFreezongDataCard(cardData: any) {
                     {('temperature' in cardData["chambertemperature"]) && <span>Chamber Temperature: <b>{cardData["chambertemperature"]["temperature"]}</b></span>}
                     {('temperatureunit' in cardData["chambertemperature"]) &&
                         <span>
-                            <b>{cardData["chambertemperature"]["temperatureunit"]} W</b>
+                            <b>{cardData["chambertemperature"]["temperatureunit"]} </b>
                         </span>}
                 </Stack>
             }
@@ -139,7 +129,7 @@ export function PlungeFreezongDataCard(cardData: any) {
                     {('temperature' in cardData["cryogentemperature"]) && <span>Chamber Temperature: <b>{cardData["cryogentemperature"]["temperature"]}</b></span>}
                     {('temperatureunit' in cardData["cryogentemperature"]) &&
                         <span>
-                            <b>{cardData["cryogentemperature"]["temperatureunit"]} W</b>
+                            <b>{cardData["cryogentemperature"]["temperatureunit"]} </b>
                         </span>}
                 </Stack>
             }
@@ -301,7 +291,7 @@ export function StainingDataCard(cardData: any) {
                 if ("concentrationdetails" in data) {
                     if ("concentration" in data["concentrationdetails"]) {
                         listElement.push(<span>Concentration:
-                            <b>{data["concentrationdetails"]["concentration"]}</b>
+                            <b>{data["concentrationdetails"]["concentration"]} {data["concentrationdetails"]["concentrationunits"]}</b>
                         </span>)
                     }
                 }
@@ -330,7 +320,7 @@ export function StainingDataCard(cardData: any) {
                 <Stack direction="row" spacing={3}>
                     {('duration' in cardData) &&
                         <span>Duration:
-                            <b>{cardData["duration"]["duration"]} {cardData["duration"]["temperatureunit"]}</b>
+                            <b>{cardData["duration"]["duration"]} {cardData["duration"]["durationunit"]}</b>
                         </span>}
                     {('repeats' in cardData) && <span>Repeats: <b>{cardData["repeats"]}</b></span>}
                 </Stack>
@@ -338,7 +328,7 @@ export function StainingDataCard(cardData: any) {
             {('instrument' in cardData) &&
                 <Stack direction="row" spacing={3}>
                     <span>Instrument:
-                        <b>{cardData["instrument"]["instrument"]} {cardData["instrument"]["instrumentwattage"]}</b>
+                        <b>{cardData["instrument"]}</b>
                     </span>
                 </Stack>
             }
@@ -363,11 +353,6 @@ export function DehydrationDataCard(cardData: any) {
         if ('reagentconcentration' in cardData) {
             cardData["reagentconcentration"].map((data: any, index: number) => {
                 let listElement: any = [];
-                if ("repeats" in data) {
-                    listElement.push(<span>Repeats:
-                        <b>{data["repeats"]}</b>
-                    </span>)
-                }
                 if ("concentrationdetails" in data) {
                     if ("concentration" in data["concentrationdetails"]) {
                         listElement.push(<span>Concentration:
@@ -377,7 +362,7 @@ export function DehydrationDataCard(cardData: any) {
                 }
                 if ("duration" in data) {
                     if ("duration" in data["duration"]) {
-                        listElement.push(<span>Concentration:
+                        listElement.push(<span>Duration:
                             <b>{data["duration"]["duration"]} {data["duration"]["durationunit"]}</b>
                         </span>)
                     }
@@ -414,7 +399,7 @@ export function DehydrationDataCard(cardData: any) {
             {('instrument' in cardData) &&
                 <Stack direction="row" spacing={3}>
                     <span>Instrument:
-                        <b>{cardData["instrument"]["instrument"]} {cardData["instrument"]["instrumentwattage"]}</b>
+                        <b>{cardData["instrument"]}</b>
                     </span>
                 </Stack>
             }
@@ -454,7 +439,7 @@ export function RinsingDataCard(cardData: any) {
                 if ("concentrationdetails" in data) {
                     if ("concentration" in data["concentrationdetails"]) {
                         listElement.push(<span>Concentration:
-                            <b>{data["concentrationdetails"]["concentration"]}</b>
+                            <b>{data["concentrationdetails"]["concentration"]} {data["concentrationdetails"]["concentrationunits"]}</b>
                         </span>)
                     }
                 }
@@ -483,7 +468,7 @@ export function RinsingDataCard(cardData: any) {
                 <Stack direction="row" spacing={3}>
                     {('duration' in cardData) &&
                         <span>Duration:
-                            <b>{cardData["duration"]["duration"]} {cardData["duration"]["temperatureunit"]}</b>
+                            <b>{cardData["duration"]["duration"]} {cardData["duration"]["durationunit"]}</b>
                         </span>}
                     {('repeats' in cardData) && <span>Repeats: <b>{cardData["repeats"]}</b></span>}
                 </Stack>
@@ -491,7 +476,7 @@ export function RinsingDataCard(cardData: any) {
             {('instrument' in cardData) &&
                 <Stack direction="row" spacing={3}>
                     <span>Instrument:
-                        <b>{cardData["instrument"]["instrument"]} {cardData["instrument"]["instrumentwattage"]}</b>
+                        <b>{cardData["instrument"]["instrument"]} {cardData["instrument"]["instrumentname"]}</b>
                     </span>
                 </Stack>
             }
@@ -555,7 +540,7 @@ export function InfiltrationDataCard(cardData: any) {
                 }
                 if ("duration" in data) {
                     if ("duration" in data["duration"]) {
-                        listElement.push(<span>Concentration:
+                        listElement.push(<span>Duration:
                             <b>{data["duration"]["duration"]} {data["duration"]["durationunit"]}</b>
                         </span>)
                     }
@@ -563,7 +548,7 @@ export function InfiltrationDataCard(cardData: any) {
                 if ("starttemperature" in data) {
                     if ("starttemperature" in data["starttemperature"]) {
                         listElement.push(<span>Start Temp:
-                            <b>{data["starttemperature"]["temperature"]} {data["starttemperature"]["temperatureunit"]}</b>
+                            <b>{data["starttemperature"]["starttemperature"]} {data["starttemperature"]["temperatureunit"]}</b>
                         </span>)
                     }
                 }
@@ -589,16 +574,21 @@ export function InfiltrationDataCard(cardData: any) {
             {('instrumentdetails' in cardData) &&
                 <>
                     <Stack direction="row" spacing={3}>
-                        {('instrument' in cardData["instrumentdetails"]) && <span>Instrument: <b>{cardData["instrumentdetails"]["instrument"]}</b></span>}
-                        {('instrumentwattage' in cardData["instrumentdetails"]) &&
-                            <span>
-                                <b>{cardData["instrumentdetails"]["instrumentwattage"]} W</b>
+                        {('instrument' in cardData["instrumentdetails"]) && 
+                            <span>Instrument: 
+                                <b>{cardData["instrumentdetails"]["instrument"]}</b>
                             </span>}
-
-                        {('instrumentramp' in cardData["instrumentdetails"]) && <span>Instrument Ramp: <b>{cardData["instrumentdetails"]["instrumentramp"]}</b></span>}
+                        {('instrumentwattage' in cardData["instrumentdetails"]) &&
+                            <span>Instrument Wattage: 
+                                <b>{cardData["instrumentdetails"]["instrumentwattage"]} </b>
+                            </span>}
+                        {('instrumentramp' in cardData["instrumentdetails"]) && 
+                            <span>Instrument Ramp: 
+                                <b>{cardData["instrumentdetails"]["instrumentramp"]}</b>
+                            </span>}
                         {('instrumentspeed' in cardData["instrumentdetails"]) &&
-                            <span>Instrument Speed:
-                                <b>{cardData["instrumentdetails"]["instrumentspeed"]} W</b>
+                            <span>Instrument Speed: 
+                                <b>{cardData["instrumentdetails"]["instrumentspeed"]} </b>
                             </span>}
                     </Stack>
                 </>
@@ -675,7 +665,7 @@ export function IncubationDataCard(cardData: any) {
             {('instrument' in cardData) &&
                 <Stack direction="row" spacing={3}>
                     <span>Instrument:
-                        <b>{cardData["instrument"]["instrument"]} {cardData["instrument"]["instrumentwattage"]}</b>
+                        <b>{cardData["instrument"]["instrumentname"]}</b>
                     </span>
                 </Stack>
             }
@@ -700,7 +690,11 @@ export function OvenCuringDataCard(cardData: any) {
         if ('warmingprocedure' in cardData) {
             cardData["warmingprocedure"].map((data: any, index: number) => {
                 let listElement: any = [];
-                if ("duration" in data) {
+                if ("temperature" in data) {                    
+                    listElement.push(<span>Temp Rump:
+                        <b>{data["temperature"]}</b>
+                    </span>)
+                    
                 if ("starttemperature" in data) {
                     if ("starttemperature" in data["starttemperature"]) {
                         listElement.push(<span>Start Temp:
@@ -736,16 +730,9 @@ export function OvenCuringDataCard(cardData: any) {
             {('instrumentdetails' in cardData) &&
                 <>
                     <Stack direction="row" spacing={3}>
-                        {('instrument' in cardData["instrumentdetails"]) && <span>Instrument: <b>{cardData["instrumentdetails"]["instrument"]}</b></span>}
-                        {('instrumentwattage' in cardData["instrumentdetails"]) &&
-                            <span>
-                                <b>{cardData["instrumentdetails"]["instrumentwattage"]} W</b>
-                            </span>}
-
-                        {('instrumentramp' in cardData["instrumentdetails"]) && <span>Instrument Ramp: <b>{cardData["instrumentdetails"]["instrumentramp"]}</b></span>}
-                        {('instrumentspeed' in cardData["instrumentdetails"]) &&
-                            <span>Instrument Speed:
-                                <b>{cardData["instrumentdetails"]["instrumentspeed"]} W</b>
+                        {('instrument' in cardData["instrumentdetails"]) && 
+                            <span>Instrument: 
+                                <b>{cardData["instrumentdetails"]["instrument"]}</b>
                             </span>}
                     </Stack>
                 </>
@@ -786,7 +773,7 @@ export function UvPolymerisationCuringDataCard(cardData: any) {
                 if ("concentrationdetails" in data) {
                     if ("concentration" in data["concentrationdetails"]) {
                         listElement.push(<span>Concentration:
-                            <b>{data["concentrationdetails"]["concentration"]}</b>
+                            <b>{data["concentrationdetails"]["concentration"]} {data["concentrationdetails"]["concentrationunits"]}</b>
                         </span>)
                     }
                 }
@@ -796,14 +783,17 @@ export function UvPolymerisationCuringDataCard(cardData: any) {
         if ('warmingprocedure' in cardData) {
             cardData["warmingprocedure"].map((data: any, index: number) => {
                 let listElement: any = [];
-                if ("duration" in data) {
+                if("temperature" in data){
+                    listElement.push(<span>Temp Rump:
+                            <b>{data["temperature"]}</b>
+                    </span>)
+                }
                 if ("starttemperature" in data) {
                     if ("starttemperature" in data["starttemperature"]) {
                         listElement.push(<span>Start Temp:
                             <b>{data["starttemperature"]["starttemperature"]} {data["starttemperature"]["temperatureunit"]}</b>
                         </span>)
                     }
-                }
                 if ("endtemperature" in data) {
                     if ("endtemperature" in data["endtemperature"]) {
                         listElement.push(<span>End Temp:
@@ -812,7 +802,7 @@ export function UvPolymerisationCuringDataCard(cardData: any) {
                     }
                 }
                 if ("duration" in data["duration"]) {
-                    listElement.push(<span>Concentration:
+                    listElement.push(<span>Duration:
                         <b>{data["duration"]["duration"]} {data["duration"]["durationunit"]}</b>
                     </span>)
                 }
@@ -830,21 +820,12 @@ export function UvPolymerisationCuringDataCard(cardData: any) {
     return (
         <Box sx={{ flexGrow: 1 }}>
             {('instrumentdetails' in cardData) &&
-                <>
-                    <Stack direction="row" spacing={3}>
-                        {('instrument' in cardData["instrumentdetails"]) && <span>Instrument: <b>{cardData["instrumentdetails"]["instrument"]}</b></span>}
-                        {('instrumentwattage' in cardData["instrumentdetails"]) &&
-                            <span>
-                                <b>{cardData["instrumentdetails"]["instrumentwattage"]} W</b>
-                            </span>}
-
-                        {('instrumentramp' in cardData["instrumentdetails"]) && <span>Instrument Ramp: <b>{cardData["instrumentdetails"]["instrumentramp"]}</b></span>}
-                        {('instrumentspeed' in cardData["instrumentdetails"]) &&
-                            <span>Instrument Speed:
-                                <b>{cardData["instrumentdetails"]["instrumentspeed"]} W</b>
-                            </span>}
-                    </Stack>
-                </>
+                <Stack direction="row" spacing={3}>
+                    {('instrument' in cardData["instrumentdetails"]) && 
+                        <span>Instrument: 
+                            <b>{cardData["instrumentdetails"]["instrument"]}</b>
+                        </span>}
+                </Stack>
             }
             {('safetynotes' in cardData) &&
                 <Stack direction="row" spacing={3}>
