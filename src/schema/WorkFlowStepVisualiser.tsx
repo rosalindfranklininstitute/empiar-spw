@@ -555,7 +555,7 @@ export function InfiltrationDataCard(cardData: any) {
                 }
                 if ("duration" in data) {
                     if ("duration" in data["duration"]) {
-                        listElement.push(<span>Concentration:
+                        listElement.push(<span>Duration:
                             <b>{data["duration"]["duration"]} {data["duration"]["durationunit"]}</b>
                         </span>)
                     }
@@ -563,7 +563,7 @@ export function InfiltrationDataCard(cardData: any) {
                 if ("starttemperature" in data) {
                     if ("starttemperature" in data["starttemperature"]) {
                         listElement.push(<span>Start Temp:
-                            <b>{data["starttemperature"]["temperature"]} {data["starttemperature"]["temperatureunit"]}</b>
+                            <b>{data["starttemperature"]["starttemperature"]} {data["starttemperature"]["temperatureunit"]}</b>
                         </span>)
                     }
                 }
@@ -589,16 +589,21 @@ export function InfiltrationDataCard(cardData: any) {
             {('instrumentdetails' in cardData) &&
                 <>
                     <Stack direction="row" spacing={3}>
-                        {('instrument' in cardData["instrumentdetails"]) && <span>Instrument: <b>{cardData["instrumentdetails"]["instrument"]}</b></span>}
-                        {('instrumentwattage' in cardData["instrumentdetails"]) &&
-                            <span>
-                                <b>{cardData["instrumentdetails"]["instrumentwattage"]} W</b>
+                        {('instrument' in cardData["instrumentdetails"]) && 
+                            <span>Instrument: 
+                                <b>{cardData["instrumentdetails"]["instrument"]}</b>
                             </span>}
-
-                        {('instrumentramp' in cardData["instrumentdetails"]) && <span>Instrument Ramp: <b>{cardData["instrumentdetails"]["instrumentramp"]}</b></span>}
+                        {('instrumentwattage' in cardData["instrumentdetails"]) &&
+                            <span>Instrument Wattage: 
+                                <b>{cardData["instrumentdetails"]["instrumentwattage"]} </b>
+                            </span>}
+                        {('instrumentramp' in cardData["instrumentdetails"]) && 
+                            <span>Instrument Ramp: 
+                                <b>{cardData["instrumentdetails"]["instrumentramp"]}</b>
+                            </span>}
                         {('instrumentspeed' in cardData["instrumentdetails"]) &&
-                            <span>Instrument Speed:
-                                <b>{cardData["instrumentdetails"]["instrumentspeed"]} W</b>
+                            <span>Instrument Speed: 
+                                <b>{cardData["instrumentdetails"]["instrumentspeed"]} </b>
                             </span>}
                     </Stack>
                 </>
