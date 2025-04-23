@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-
+import Tooltip from '@mui/material/Tooltip';
 
 
 function Home() {
@@ -15,6 +15,9 @@ function Home() {
       <Container maxWidth="md">
         <Stack direction="column" spacing={2}>
           <h2>Sample Preparation Widget (SPW)</h2>
+          <Tooltip title="This helper can be added to provide more information on hover for the user">
+            <a href="#">&#9072;</a>
+          </Tooltip>
           <Typography>Sample Preparation Widget (SPW) is an online tool available through the EMPIAR deposition system. SPW is an easy-to-use and re-usable web component that allows for the detailed and structured description of Sample Preparation (SP) protocols used for volume EM (vEM) experiments. The widget (working with a Mongo database) provides a repository of SP data that can be shared with other users and used for further analysis.</Typography>
           <Stack direction="row" spacing={5} sx={{padding: "0px 20px"}}>
             <HomeTiles

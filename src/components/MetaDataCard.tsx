@@ -7,7 +7,8 @@ import React from "react";
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import BasicCardHeader from "./BasicCardHeader";
-import Button from '@mui/material/Button'
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 
 const MetaDataPaper = styled(Paper)(({ theme }) => ({
   width: '75%',
@@ -31,7 +32,9 @@ function SubmitButton(props: SubmitButtonProps) {
   }
   return (
     <Button type='submit' variant="contained">
-      Create Protocol
+      <Tooltip title="This button will take you through to the input form for logging protocol steps">
+          <a>Create Protocol</a>
+      </Tooltip>
     </Button>
   );
 }
