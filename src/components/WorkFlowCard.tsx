@@ -14,6 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Snackbar from '@mui/material/Snackbar';
 import Stack from "@mui/material/Stack";
+import Tooltip from '@mui/material/Tooltip';
 
 
 
@@ -75,7 +76,9 @@ export default function WorkFlowCard(props: WorkFlowCardProps) {
     }
     return (
       <Button type='submit' variant="contained">
-        Save Step
+        <Tooltip title="This button will save the inputs for the current method and minimise the form to allow the user to begin capturing the next step">
+            <a>Save Step</a>
+        </Tooltip>
       </Button>
     );
   }
@@ -104,8 +107,16 @@ export default function WorkFlowCard(props: WorkFlowCardProps) {
           templates={{ ButtonTemplates: { SubmitButton } }}
         ></Form>
         <Stack direction="row" spacing={2} alignContent="center">
-          <Button variant="contained" onClick={() => props.onCopyStep(props.stepKey, props.stepTitle, props.data)}>Copy</Button>
-          <Button variant="contained" onClick={() => props.onRemove(props.id)}>Delete</Button>
+          <Button variant="contained" onClick={() => props.onCopyStep(props.stepKey, props.stepTitle, props.data)}>
+            <Tooltip title="This button will allow the user to dublicate the current step and all settings already captured">
+              <a>Copy</a>
+            </Tooltip>
+          </Button>
+          <Button variant="contained" onClick={() => props.onRemove(props.id)}>
+            <Tooltip title="This button will delete the current step being worked on.">
+              <a>Delete</a>
+            </Tooltip>
+          </Button>
         </Stack>
       </div>
       <Snackbar
