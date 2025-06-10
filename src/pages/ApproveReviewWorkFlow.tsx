@@ -25,6 +25,7 @@ import ReactDiffViewer from 'react-diff-viewer';
 import { UserContext } from '../utils/UserContext';
 import { useContext } from 'react';
 import { LoadWidgetReferenceList, check_worflowdata_changes } from '../utils/WidgetUtility';
+import Tooltip from '@mui/material/Tooltip';
 
 
 
@@ -179,10 +180,14 @@ function ApproveReviewWorkFlow() {
                                         <AccordionDetails>
                                             <Stack direction="column" spacing={2}>
                                                 <Button variant="contained" onClick={downloadImage}>
-                                                    Download Image
+                                                    <Tooltip title="This will download and image file of the summary for this protocol">
+                                                        <a>Download Image</a>
+                                                    </Tooltip>
                                                 </Button>
                                                 <Button variant="contained" onClick={downloadJson}>
-                                                    Download JSON
+                                                    <Tooltip title="This will download a json file containing the summarized data for this protocol">
+                                                        <a>Download Json</a>
+                                                    </Tooltip>
                                                 </Button>
                                             </Stack>
                                         </AccordionDetails>
