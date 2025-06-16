@@ -19,6 +19,7 @@ const pressureUnits: string[] = ["bar", "atm"];
 const weightUnits: string[] = ["mg", "g"];
 const reagentList: string[] = [
   "Acetone",
+  "Acetonitrile",
   "Acrolein",
   "Araldite 502",
   "Aspartic acid",

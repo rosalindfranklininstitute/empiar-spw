@@ -530,6 +530,7 @@
       "default": "Acetone",
       "options": [
         "Acetone",
+        "Acetonitrile",
         "Acrolein",
         "Araldite 502",
         "Aspartic acid",
