@@ -55,7 +55,7 @@ const reagentList: string[] = [
   "Malachite Green",
   "NMA",
   "Osmium Tetroxide",
-  "Paraformaldehyde",
+  "Formaldehyde",
   "PIPES",
   "PolyBed",
   "Potassium Chloride",
