@@ -530,11 +530,13 @@
       "default": "Acetone",
       "options": [
         "Acetone",
+        "Acetonitrile",
         "Acrolein",
         "Araldite 502",
         "Aspartic acid",
         "BDMA",
         "Calcium Chloride",
+        "ddH2O",
         "DDSA",
         "DER 736",
         "Dimethylaminoethanol (DMAE)",
@@ -565,7 +567,7 @@
         "Malachite Green",
         "NMA",
         "Osmium Tetroxide",
-        "Paraformaldehyde",
+        "Formaldehyde",
         "PIPES",
         "PolyBed",
         "Potassium Chloride",
@@ -574,6 +576,7 @@
         "Potassium permanganate",
         "Potassium Phosphate",
         "Propylene oxide",
+        "Quetol 651",
         "Resin",
         "Ruthenium Red",
         "Sodium cacodylate",
@@ -584,6 +587,7 @@
         "Sucrose",
         "Tannic acid",
         "Thiocarbohydrazide",
+        "Tween20",
         "Uranyl Acetate",
         "NA"
       ]
