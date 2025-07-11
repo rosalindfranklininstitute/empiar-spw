@@ -4,8 +4,10 @@ import configData from "../static/config.json";
 import { readFile } from "fs/promises";
 import { UserContext } from './UserContext';
 import { useContext } from 'react';
+import { json2csv } from 'json-2-csv';
 
 const _ = require('lodash');
+
 
 export let user:any = {}
 
@@ -122,6 +124,39 @@ function stepKeyToTitleConverter(searchValue: string, isKeyRequired: boolean = t
     }
 
     return convertedValue;
+}
+
+function jsonToCsv(jsonData: any) {
+    let JSONdata = JSON.parse(jsonData);
+    const csvData = json2csv(JSONdata['data'], {expandNestedObjects: true, unwindArrays: true})
+    return csvData
+}
+
+export async function exportToCsv(data: any, elementId: string, fileName: string) {
+    const jsonData = JSON.stringify(data, null, " ") // parse json here and pass in the
+    const csvData = jsonToCsv(jsonData).replace('ordernumber', 'stage')
+    const JSONdata = JSON.parse(jsonData)
+// at this point i'm able to play with the json so can i 
+    console.log('this is the csv:', csvData)
+    console.log('keys? :', Object.keys(JSONdata['data'][0]))
+// reformat the headers to contain only the last key? string replace in python
+
+// can I remove columns that are not needed
+
+// can I set an order for the columns
+
+    const blob = new Blob([csvData], { type: 'text/csv' })
+    
+    const a = document.createElement('a')
+    a.download = fileName
+    a.href = window.URL.createObjectURL(blob)
+    const clickEvt = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+    })
+    a.dispatchEvent(clickEvt)
+    a.remove()
 }
 
 export async function exportImage(elementId: string, fileName: string) {
