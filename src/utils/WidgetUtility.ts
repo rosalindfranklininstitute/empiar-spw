@@ -133,17 +133,8 @@ function jsonToCsv(jsonData: any) {
 }
 
 export async function exportToCsv(data: any, elementId: string, fileName: string) {
-    const jsonData = JSON.stringify(data, null, " ") // parse json here and pass in the
+    const jsonData = JSON.stringify(data, null, " ")
     const csvData = jsonToCsv(jsonData).replace('ordernumber', 'stage')
-    const JSONdata = JSON.parse(jsonData)
-// at this point i'm able to play with the json so can i 
-    console.log('this is the csv:', csvData)
-    console.log('keys? :', Object.keys(JSONdata['data'][0]))
-// reformat the headers to contain only the last key? string replace in python
-
-// can I remove columns that are not needed
-
-// can I set an order for the columns
 
     const blob = new Blob([csvData], { type: 'text/csv' })
     
