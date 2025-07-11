@@ -15,7 +15,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Stack from "@mui/material/Stack";
-import { exportImage, exportToJson } from "../utils/WidgetUtility";
+import { exportImage, exportToJson, exportToCsv } from "../utils/WidgetUtility";
+import Tooltip from '@mui/material/Tooltip';
 
 
 interface ViewWorkFlowType {
@@ -38,6 +39,10 @@ function ViewWorkFlow(props: ViewWorkFlowType) {
 
     const downloadImage = () => {
         exportImage('workflow-vis', workFlowData.entryid);
+    }
+
+    const downloadCsv = () => {
+        exportToCsv(workFlowData, 'workflow-vis', workFlowData.entryid);
     }
 
     return (
@@ -64,10 +69,19 @@ function ViewWorkFlow(props: ViewWorkFlowType) {
                                         <AccordionDetails>
                                             <Stack direction="column" spacing={2}>
                                                 <Button variant="contained" onClick={downloadImage}>
-                                                    Download Image
+                                                    <Tooltip title="This will download an image file of the summary for this protocol">
+                                                        <a>Download Image</a>
+                                                    </Tooltip>
+                                                </Button>
+                                                <Button variant="contained" onClick={downloadCsv}>
+                                                    <Tooltip title="This will download an csv file of the summary for this protocol">
+                                                        <a>Download csv</a>
+                                                    </Tooltip>
                                                 </Button>
                                                 <Button variant="contained" onClick={downloadJson}>
-                                                    Download JSON
+                                                    <Tooltip title="This will download a json file containing the summarized data for this protocol">
+                                                        <a>Download Json</a>
+                                                    </Tooltip>
                                                 </Button>
                                             </Stack>
                                         </AccordionDetails>

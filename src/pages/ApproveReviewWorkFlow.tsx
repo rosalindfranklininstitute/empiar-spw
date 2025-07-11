@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { exportImage, exportToJson } from '../utils/WidgetUtility';
+import { exportImage, exportToJson, exportToCsv} from '../utils/WidgetUtility';
 import { Collapse } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -25,6 +25,7 @@ import ReactDiffViewer from 'react-diff-viewer';
 import { UserContext } from '../utils/UserContext';
 import { useContext } from 'react';
 import { LoadWidgetReferenceList, check_worflowdata_changes } from '../utils/WidgetUtility';
+import Tooltip from '@mui/material/Tooltip';
 
 
 
@@ -55,6 +56,9 @@ function ApproveReviewWorkFlow() {
         exportImage('workflow-vis', workFlowData.entryid);
     }
 
+    const downloadCsv = () => {
+            exportToCsv(workFlowData, 'workflow-vis', workFlowData.entryid);
+        }
     
     const handleApprovalRequest = () => {
         workFlowData.is_curated = 1
@@ -179,10 +183,19 @@ function ApproveReviewWorkFlow() {
                                         <AccordionDetails>
                                             <Stack direction="column" spacing={2}>
                                                 <Button variant="contained" onClick={downloadImage}>
-                                                    Download Image
+                                                    <Tooltip title="This will download an image file of the summary for this protocol">
+                                                        <a>Download Image</a>
+                                                    </Tooltip>
+                                                </Button>
+                                                <Button variant="contained" onClick={downloadCsv}>
+                                                    <Tooltip title="This will download an csv file of the summary for this protocol">
+                                                        <a>Download csv</a>
+                                                    </Tooltip>
                                                 </Button>
                                                 <Button variant="contained" onClick={downloadJson}>
-                                                    Download JSON
+                                                    <Tooltip title="This will download a json file containing the summarized data for this protocol">
+                                                        <a>Download Json</a>
+                                                    </Tooltip>
                                                 </Button>
                                             </Stack>
                                         </AccordionDetails>

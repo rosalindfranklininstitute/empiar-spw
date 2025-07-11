@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import { metaDataObject } from "../schema/WorkFlowStepSchemas";
 import configData from "../static/config.json";
 import { UserContext } from "../utils/UserContext";
+import Tooltip from '@mui/material/Tooltip';
 
 interface SamplePrepWidgetProps {
     workFlowData?: any;
@@ -198,7 +199,11 @@ function WorkFlowSteps(props: SamplePrepWidgetProps) {
                         <WorkFlowBuilderPh></WorkFlowBuilderPh>
                     )}
                     <div className="row">
-                        <Button variant="contained" onClick={submitWorkFlow}>Review Protocol</Button>
+                        <Button variant="contained" onClick={submitWorkFlow}>
+                            <Tooltip title="This will take the user to a summary page where the protocol will be displayed in a suitable format for export or submission">
+                                <a>Review Protocol</a>
+                            </Tooltip>
+                        </Button>
                     </div>
                 </MetaDataPaper>
             </div>

@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { exportImage, exportToJson, check_worflowdata_changes } from '../utils/WidgetUtility';
+import { exportImage, exportToJson, exportToCsv, check_worflowdata_changes } from '../utils/WidgetUtility';
 import { Collapse } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -23,6 +23,7 @@ import { useState } from 'react';
 import configData from "../static/config.json";
 import { UserContext } from '../utils/UserContext';
 import { useContext } from 'react';
+import Tooltip from '@mui/material/Tooltip';
 const _ = require('lodash');
 
 
@@ -46,6 +47,10 @@ function ReviewWorkFlow() {
 
     const downloadImage = () => {
         exportImage('workflow-vis', workFlowData.entryid);
+    }
+
+    const downloadCsv = () => {
+            exportToCsv(workFlowData, 'workflow-vis', workFlowData.entryid);
     }
 
     const closeAlertDialog = () => {
@@ -299,36 +304,57 @@ function ReviewWorkFlow() {
                             </Grid>
                             <Grid item xs={4}>
                                 <Stack direction="column" spacing={2}>
-                                    <Button variant="contained" onClick={navigateBack}>Edit Protocol</Button>
+                                    <Button variant="contained" onClick={navigateBack}>
+                                        <Tooltip title="This button will take the user back to the previous page to edit or add to the protocol">
+                                            <a>Edit Protocol</a>
+                                        </Tooltip>
+                                    </Button>
                                     <Stack direction="column" spacing={2}>
                                         <Typography variant="h6">Export Options</Typography>
                                         <Button variant="contained" onClick={downloadImage}>
-                                            Download Image
+                                            <Tooltip title="This will download an image file of the summary for this protocol">
+                                                <a>Download Image</a>
+                                            </Tooltip>
+                                        </Button>
+                                        <Button variant="contained" onClick={downloadCsv}>
+                                            <Tooltip title="This will download an csv file of the summary for this protocol">
+                                                <a>Download csv</a>
+                                            </Tooltip>
                                         </Button>
                                         <Button variant="contained" onClick={downloadJson}>
-                                            Download JSON
+                                            <Tooltip title="This will download a json file containing the summarized data for this protocol">
+                                                <a>Download Json</a>
+                                            </Tooltip>
                                         </Button>
                                     </Stack>
                                     <Stack direction="column" spacing={2}>
                                         <Typography variant="h6">Workflow Actions</Typography>
                                         { workFlowType == "saved" &&
                                             <Button variant="contained" onClick={updateData}>
-                                                Update Workflow
+                                                <Tooltip title="This will update an already saved workflow.">
+                                                    <a>Update Workflow</a>
+                                                </Tooltip>
                                             </Button>
                                         }
                                         { (workFlowType == "new" || workFlowType == "template") &&
                                             <Button variant="contained" onClick={saveData}>
-                                                Save Workflow
+                                                <Tooltip title="This will save the current workflow as DRAFT to be edited or submitted if ready.">
+                                                    <a>Save Workflow</a>
+                                                </Tooltip>
                                             </Button>
                                         }
                                         { (workFlowType == "new" ||  workFlowType == "saved") &&
                                             <Button variant="contained" onClick={handleSubmitData} disabled={!isSaveComplete}>
-                                                Submit Workflow
+                                                <Tooltip title="This will save the workflow as ANNOTATION, indicating it is ready for peer review.">
+                                                    <a>Submit Workflow</a>
+                                                </Tooltip>
                                             </Button>
                                         }
                                         { workFlowType == "annotation" &&
                                             <Button variant="contained" onClick={handlePublishData}>
-                                                Publish Workflow
+                                                <Tooltip title="This will publish the protocol giving it a unique DOI for the user to reference.">
+                                                    <a>Publish Workflow</a>
+                                                </Tooltip>
                                             </Button>
                                         }
                                     </Stack>                              
