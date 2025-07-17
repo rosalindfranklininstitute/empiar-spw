@@ -15,7 +15,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Stack from "@mui/material/Stack";
-import { exportImage, exportToJson } from "../utils/WidgetUtility";
+import { exportImage, exportToJson, renderChart} from "../utils/WidgetUtility";
 
 
 interface ViewWorkFlowType {
@@ -38,6 +38,10 @@ function ViewWorkFlow(props: ViewWorkFlowType) {
 
     const downloadImage = () => {
         exportImage('workflow-vis', workFlowData.entryid);
+    }
+
+    const generateFlow = () => {
+        renderChart(workFlowData.entryid, 'test');
     }
 
     return (
@@ -63,6 +67,9 @@ function ViewWorkFlow(props: ViewWorkFlowType) {
                                         </AccordionSummary>
                                         <AccordionDetails>
                                             <Stack direction="column" spacing={2}>
+                                                <Button variant="contained" onClick={generateFlow}>
+                                                    generate flow
+                                                </Button>
                                                 <Button variant="contained" onClick={downloadImage}>
                                                     Download Image
                                                 </Button>

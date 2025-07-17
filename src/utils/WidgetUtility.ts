@@ -4,8 +4,12 @@ import configData from "../static/config.json";
 import { readFile } from "fs/promises";
 import { UserContext } from './UserContext';
 import { useContext } from 'react';
+import mermaid from "mermaid";
 
 const _ = require('lodash');
+mermaid.initialize({
+  startOnLoad: true
+});
 
 export let user:any = {}
 
@@ -124,7 +128,23 @@ function stepKeyToTitleConverter(searchValue: string, isKeyRequired: boolean = t
     return convertedValue;
 }
 
+export async function renderChart(prevProps: any, prevState: any) {
+    class Mermaid extends React.Component {
+      componentDidMount() {
+        mermaid.contentLoaded();
+      }
+    
+      componentDidUpdate(prevProps, prevState) {
+        if (prevProps.chart !== this.props.chart) {
+          const doc = document.getElementById("mermaid-chart")
+            .removeAttribute("data-processed");
+          mermaid.contentLoaded();
+        }
+      }
+}}
+
 export async function exportImage(elementId: string, fileName: string) {
+    
     const element = document.getElementById(elementId)
     if (element) {
         let canvas = await html2canvas(element),

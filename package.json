@@ -39,7 +39,8 @@
     "react-router-dom": "^6.19.0",
     "react-scripts": "5.0.1",
     "seamless-scroll-polyfill": "^2.3.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "mermaid": "^11.8.1"
   },
   "scripts": {
     "start:frontend": "react-scripts start",
